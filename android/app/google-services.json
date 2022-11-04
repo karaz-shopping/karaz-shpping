@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "525398410401",
+    "project_id": "karaz-app",
+    "storage_bucket": "karaz-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525398410401:android:b9869abe5eea118b075ce0",
+        "android_client_info": {
+          "package_name": "com.example.karaz_shopping_organization"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "525398410401-2l8l3ajc6kf7d3hojplpt8mhr0m8c6qb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSdi3wmjQPt95ABHhUtTFu2ybw8qR6eVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "525398410401-2l8l3ajc6kf7d3hojplpt8mhr0m8c6qb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
