@@ -13,8 +13,9 @@ class _SignUpState extends State<SignUp> {
   TextEditingController userName = TextEditingController();
   TextEditingController Email = TextEditingController();
   TextEditingController Password = TextEditingController();
-  TextEditingController SelectedController = TextEditingController();
-  Map<String, dynamic> userData = {};
+
+  List myList = ["Store", "Buyer"];
+  String dropdownValue = "Buyer";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,33 +67,28 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
             ),
-            DropdownButtonFormField<int>(
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                fillColor: Colors.white12,
-                filled: true,
+            DropdownButton<String>(
+              value: dropdownValue,
+              icon: Icon(Icons.arrow_downward),
+              iconSize: 24,
+              elevation: 16,
+              style: TextStyle(color: Colors.deepPurple),
+              underline: Container(
+                height: 2,
+                color: Colors.deepPurpleAccent,
               ),
-              items: const [
-                DropdownMenuItem(
-                  value: 0,
-                  child: Text('Store'),
-                ),
-                DropdownMenuItem(
-                  value: 1,
-                  child: Text('Buyer'),
-                ),
-              ],
-              onChanged: (int? value) {},
-              validator: (int? value) {
-                if (value == null) {
-                  return 'Please choose your role';
-                }
-                return null;
+              onChanged: (newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
               },
-              onSaved: (int? value) {
-                // userData['role'] = value;
-                SelectedController = value as TextEditingController;
-              },
+              items: <String>['Store', 'Buyer']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -106,12 +102,11 @@ class _SignUpState extends State<SignUp> {
                     email: Email.text,
                     password: Password.text,
                   );
-                  // String id = user.user!.uid;
                   final userRef =
                       FirebaseFirestore.instance.collection("users").doc();
                   userRef.set({
                     'name': userName.text,
-                    'role': SelectedController.text,
+                    "role": dropdownValue,
                   });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Your email is add successfully")));
