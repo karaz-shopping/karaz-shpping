@@ -1,14 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:karaz_shopping_organization/firebase_options.dart';
+import 'pages/auth/signup.dart';
 import 'pages/home/home_page.dart';
 
-void main() {
-  runApp(
-    const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Karaz',
-      home: MyApp(),
-    ),
-  );
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+// Ideal time to initialize
+//...
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: 'Karaz',
+    home: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,6 +23,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HomePage();
+    return const SignUp();
   }
 }
