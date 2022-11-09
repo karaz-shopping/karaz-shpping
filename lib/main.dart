@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/firebase_options.dart';
-import 'pages/auth/signup.dart';
-import 'pages/home/home_page.dart';
+import 'pages/auth/log_in.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +21,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SignUp();
+    return Log_in();
   }
 }
