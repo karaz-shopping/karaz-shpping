@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/firebase_options.dart';
+import 'package:karaz_shopping_organization/pages/home/home_page.dart';
 import 'pages/auth/log_in.dart';
 
 Future<void> main() async {
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Log_in();
+    //return Log_in();
+    return HomePage();
   }
 }

@@ -9,11 +9,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: AppColors.somo3,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(25),
-          bottomLeft: Radius.circular(25),
-        ),
-      ),
+          borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(25),
+              bottomLeft: Radius.circular(25))),
       iconTheme: IconThemeData(color: AppColors.blueGrey3),
       title: Text(
         'Home Page',
@@ -23,9 +21,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           color: AppColors.blueGrey3,
-          icon: const Icon(Icons.shopping_cart_outlined),
+          icon: const Icon(Icons.chat_outlined),
           onPressed: () {},
         ),
+        // IconButton(
+        //   color: AppColors.blueGrey3,
+        //   icon: const Icon(Icons.shopping_cart_outlined),
+        //   onPressed: () {},
+        // ),
       ],
     );
   }

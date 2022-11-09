@@ -1,9 +1,8 @@
-// ignore_for_file: use_build_context_synchronously, unused_local_variable
+// ignore_for_file: unused_local_variable
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import '../home/home_page.dart';
 
 class GoogleLogin extends StatefulWidget {
@@ -42,6 +41,7 @@ class _GoogleLoginState extends State<GoogleLogin> {
         onTap: () async {
           try {
             UserCredential googleCred = await signInWithGoogle();
+            // ignore: use_build_context_synchronously
             Navigator.push(
                 context,
                 MaterialPageRoute(

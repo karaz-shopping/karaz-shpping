@@ -1,8 +1,9 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'components/Drawer/custom_drawer.dart';
-import 'components/appBar/custom_app_bar.dart';
-import 'components/home_page/custom_circle_avatar.dart';
-import 'components/home_page/slider.dart';
+import 'package:karaz_shopping_organization/Themes/app_colors.dart';
+import 'package:karaz_shopping_organization/pages/cart/cart.dart';
+import 'package:karaz_shopping_organization/pages/home/home_page/custom_home.dart';
+import 'package:karaz_shopping_organization/pages/user_profile/user_profile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,67 +13,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _indexPage = 0;
+  final List _pages = const [
+    CustomHome(),
+    Cart(),
+    UserProfile(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
-      drawer: const CustomDrawer(),
-      body: Container(
-        color: Colors.white10,
-        // decoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topRight,
-        //     end: Alignment.bottomLeft,
-        //     colors: AppColors.mixList,
-        //   ),
-        // ),
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 40,
-                height: 46,
-                child: const TextField(
-                  decoration: InputDecoration(
-                    label: Text('Search'),
-                    icon: Icon(
-                      Icons.search_rounded,
-                    ),
-
-                    // suffixIcon: Visibility(
-                    //   visible: change,
-                    //   child: IconButton(
-                    //     icon: Icon(Icons.highlight_off_rounded),
-                    //     onPressed: () {
-                    //       setState(() {
-                    //         searchController.clear();
-                    //         change = false;
-                    //       });
-                    //     },
-                    //   ),
-                    // ),
-                  ),
-                  // controller: searchController,
-                  // onChanged: (value) {
-                  //   setState(() {
-                  //     if (value == '') {
-                  //       change = false;
-                  //     } else {
-                  //       change = true;
-                  //     }
-                  //     search = value;
-                  //   });
-                  // },
-                ),
-              ),
-              const CustomCircleAvatar(),
-              const CustomSlider(),
-            ],
-          ),
-        ),
+      bottomNavigationBar: CurvedNavigationBar(
+        height: 47,
+        color: AppColors.somo3,
+        buttonBackgroundColor: AppColors.blueGrey3,
+        backgroundColor: Colors.transparent,
+        items: [
+          Icon(Icons.home,
+              color: _indexPage == 0 ? AppColors.somo3 : Colors.black),
+          Icon(Icons.shopping_cart_outlined,
+              color: _indexPage == 1 ? AppColors.somo3 : Colors.black),
+          Icon(Icons.person_outline,
+              color: _indexPage == 2 ? AppColors.somo3 : Colors.black),
+        ],
+        onTap: (value) {
+          setState(() {
+            _indexPage = value;
+          });
+        },
       ),
+      body: _pages[_indexPage],
     );
   }
 }

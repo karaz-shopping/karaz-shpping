@@ -32,7 +32,7 @@ class _CustomSliderState extends State<CustomSlider> {
       width: MediaQuery.of(context).size.width,
       height: 170,
       child: Padding(
-        padding: const EdgeInsets.only(left: 15),
+        padding: const EdgeInsets.only(left: 20),
         child: Swiper(
           autoplay: true,
           duration: 4,
