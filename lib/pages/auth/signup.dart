@@ -1,6 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
+import 'package:karaz_shopping_organization/pages/home/home_page.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -110,9 +114,14 @@ class _SignUpState extends State<SignUp> {
                   });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Your email is add successfully")));
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Sorry the email is already exist")));
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const HomePage();
+                    },
+                  ));
+                } on FirebaseAuthException catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(e.message.toString())));
                 }
                 ;
               }),
@@ -122,6 +131,15 @@ class _SignUpState extends State<SignUp> {
                     fontSize: 30, color: Color.fromARGB(255, 61, 22, 7)),
               ),
             ),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return Log_in();
+                    },
+                  ));
+                },
+                child: Text("Allready have Email!"))
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
+import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -20,6 +21,11 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return Log_in();
+                      },
+                    ));
                     // Navigator.pushNamedAndRemoveUntil(
                     //     context, PageLogin.id, (_) => false);
                     // FirebaseAuth.instance.signOut();
