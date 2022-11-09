@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
+import 'package:karaz_shopping_organization/pages/chat/chat.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -22,7 +23,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           color: AppColors.blueGrey3,
           icon: const Icon(Icons.chat_outlined),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return const ChatPage();
+              },
+            ));
+          },
         ),
         // IconButton(
         //   color: AppColors.blueGrey3,

@@ -24,6 +24,10 @@ class _ViewProductState extends State<ViewProduct> {
             children: const [
               CustomAdsCard(),
               CustomAdsCard(),
+              CustomAdsCard(),
+              CustomAdsCard(),
+              CustomAdsCard(),
+              CustomAdsCard(),
             ],
           ),
         ),

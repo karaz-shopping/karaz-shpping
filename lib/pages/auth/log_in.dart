@@ -3,7 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:karaz_shopping_organization/pages/auth/ResetPassword.dart';
+import 'package:karaz_shopping_organization/pages/auth/reset_password.dart';
 import 'package:karaz_shopping_organization/pages/auth/signup.dart';
 import 'package:karaz_shopping_organization/pages/home/home_page.dart';
 import 'login_with_google.dart';

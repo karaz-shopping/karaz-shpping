@@ -74,7 +74,7 @@ class _CustomHomeState extends State<CustomHome> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return ViewProduct();
+                      return const ViewProduct();
                     },
                   ));
                 },

@@ -34,28 +34,31 @@ class _GoogleLoginState extends State<GoogleLogin> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        child: const CircleAvatar(
-          radius: 20,
-          backgroundImage: AssetImage('assets/images/Google-Logo.png'),
-        ),
-        onTap: () async {
-          try {
-            UserCredential googleCred = await signInWithGoogle();
-            // ignore: use_build_context_synchronously
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                ));
-          } on FirebaseAuthException catch (e) {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    content: Text(e.message.toString()),
-                  );
-                });
-          }
-        });
+      child: const CircleAvatar(
+        radius: 20,
+        backgroundImage: AssetImage('assets/images/Google-Logo.png'),
+      ),
+      onTap: () async {
+        try {
+          UserCredential googleCred = await signInWithGoogle();
+          // ignore: use_build_context_synchronously
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+          );
+        } on FirebaseAuthException catch (e) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(e.message.toString()),
+              );
+            },
+          );
+        }
+      },
+    );
   }
 }
