@@ -1,9 +1,11 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
-import 'package:karaz_shopping_organization/pages/cart/cart.dart';
+// import 'package:karaz_shopping_organization/pages/cart/cart.dart';
 import 'package:karaz_shopping_organization/pages/home/home_page/custom_home.dart';
 import 'package:karaz_shopping_organization/pages/user_profile/user_profile.dart';
+
+import '../Cart/cart_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   int _indexPage = 0;
   final List _pages = const [
     CustomHome(),
-    Cart(),
+    Cart_View(),
     UserProfile(),
   ];
   @override
