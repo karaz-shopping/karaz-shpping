@@ -96,8 +96,8 @@ class _SignUpState extends State<SignUp> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                onPrimary: const Color.fromARGB(255, 99, 61, 5),
-                primary: const Color.fromARGB(255, 253, 191, 99)),
+                foregroundColor: const Color.fromARGB(255, 99, 61, 5),
+                backgroundColor: const Color.fromARGB(255, 253, 191, 99)),
             onPressed: (() async {
               try {
                 FirebaseAuth authObj = FirebaseAuth.instance;
@@ -112,6 +112,9 @@ class _SignUpState extends State<SignUp> {
                   'name': userName.text,
                   "role": dropdownValue,
                 });
+                email.clear();
+                password.clear();
+                userName.clear();
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("Your email is add successfully")));
                 Navigator.push(context, MaterialPageRoute(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AddProduct extends StatefulWidget {
@@ -178,7 +179,34 @@ class _AddProductState extends State<AddProduct> {
                       Icon(Icons.cloud_upload_outlined),
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    try {
+                      final AddProduct = FirebaseFirestore.instance
+                          .collection("products")
+                          .doc();
+                      AddProduct.set({
+                        "type": chosenType.toString(),
+                        "color": chosenColor.toString(),
+                        'name': nameController.text,
+                        "description": descriptionController.text,
+                        "id": codeController.text,
+                        "price": priceController.text,
+                      });
+                      nameController.clear();
+                      descriptionController.clear();
+                      codeController.clear();
+                      priceController.clear();
+
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Product is add successfully")));
+                    } on FirebaseException catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(e.message.toString())));
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Product add failed")));
+                    }
+                  },
                 ),
               ],
             ),

@@ -70,6 +70,7 @@ class _CustomHomeState extends State<CustomHome> {
               ),
               const CustomCircleAvatar(),
               const CustomSlider(),
+              const ViewProduct(),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(

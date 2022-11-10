@@ -19,17 +19,9 @@ class _ViewProductState extends State<ViewProduct> {
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
-        child: SingleChildScrollView(
-          child: Wrap(
-            children: const [
-              CustomAdsCard(),
-              CustomAdsCard(),
-              CustomAdsCard(),
-              CustomAdsCard(),
-              CustomAdsCard(),
-              CustomAdsCard(),
-            ],
-          ),
+        child: Container(
+          color: const Color.fromARGB(255, 244, 196, 179),
+          child: const CustomAdsCard(),
         ),
       ),
     );
