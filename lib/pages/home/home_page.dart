@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   int _indexPage = 0;
   final List _pages = const [
     CustomHome(),
-    Cart_View(),
+    CartView(),
     UserProfile(),
   ];
   @override

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 class SizeConfig {
@@ -17,6 +15,6 @@ class SizeConfig {
         ? screenHeight! * .024
         : screenWidth! * .024;
 
-    print('this is the default size $defaultSize');
+    //print('this is the default size $defaultSize');
   }
 }

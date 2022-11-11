@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 import 'component/on_bording_body.dart';
 
 class OnBordingView extends StatelessWidget {
@@ -8,6 +6,8 @@ class OnBordingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: OnBordaingBody(),);
+    return const Scaffold(
+      body: OnBordaingBody(),
+    );
   }
 }

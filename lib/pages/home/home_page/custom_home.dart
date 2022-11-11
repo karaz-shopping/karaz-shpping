@@ -3,6 +3,7 @@ import 'package:karaz_shopping_organization/pages/home/components/Drawer/custom_
 import 'package:karaz_shopping_organization/pages/home/components/appBar/custom_app_bar.dart';
 import 'package:karaz_shopping_organization/pages/home/home_page/custom_circle_avatar.dart';
 import 'package:karaz_shopping_organization/pages/home/home_page/slider.dart';
+import 'package:karaz_shopping_organization/pages/products/components/custom_add_card.dart';
 import 'package:karaz_shopping_organization/pages/products/view_product.dart';
 
 class CustomHome extends StatefulWidget {
@@ -70,7 +71,7 @@ class _CustomHomeState extends State<CustomHome> {
               ),
               const CustomCircleAvatar(),
               const CustomSlider(),
-              const ViewProduct(),
+              const CustomAdsCard(),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(

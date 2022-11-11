@@ -1,8 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
-import 'package:karaz_shopping_organization/pages/home/home_page.dart';
-
 import '../../splash/component/size_confige.dart';
 import 'custom_indicator_dots.dart';
 import 'custom_page_view.dart';
@@ -23,7 +20,6 @@ class _OnBordaingBodyState extends State<OnBordaingBody> {
       ..addListener(() {
         setState(() {});
       });
-    // TODO: implement initState
     super.initState();
   }
 
@@ -43,15 +39,17 @@ class _OnBordaingBodyState extends State<OnBordaingBody> {
             child: CustomIndicator(
                 dotIndex:
                     pageController!.hasClients ? pageController?.page : 0)),
-        
-        
-        // skip 
-        
-        Visibility(visible:pageController!.hasClients ? (pageController!.page == 2 ? false :true) :true,
+
+        // skip
+
+        Visibility(
+          visible: pageController!.hasClients
+              ? (pageController!.page == 2 ? false : true)
+              : true,
           child: Positioned(
             top: SizeConfig.defaultSize! * 10,
             right: 32,
-            child: Text("Skip",
+            child: const Text("Skip",
                 style: TextStyle(fontSize: 14, color: Color(0xff898989)),
                 textAlign: TextAlign.left),
           ),
@@ -65,23 +63,26 @@ class _OnBordaingBodyState extends State<OnBordaingBody> {
             child: CustomGeneralButton(
               // text: pageController!.hasClients ? (pageController!.page == 2 ? "Get Strated" :"Next") : "Next",
 
-                onTap: () {
+              onTap: () {
                 if (pageController!.page! < 2) {
                   pageController?.nextPage(
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       curve: Curves.easeIn);
                 } else {
                   setState(() {
-                    
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => Log_in(),)); duration: Duration(milliseconds: 500);
-                
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Log_in(),
+                        ));
+                    duration:
+                    const Duration(milliseconds: 500);
                   });
                 }
               },
               text: pageController!.hasClients
                   ? (pageController?.page == 2 ? 'Get started' : 'Next')
                   : 'Next',
-            
             )),
       ],
     );
@@ -102,15 +103,15 @@ class CustomGeneralButton extends StatelessWidget {
         height: 60,
         width: SizeConfig.screenWidth,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 134, 39, 162),
+          color: const Color.fromARGB(255, 134, 39, 162),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
           child: Text(
             text!,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
-              color: const Color(0xffffffff),
+              color: Color(0xffffffff),
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.left,

@@ -12,7 +12,7 @@ class CustomPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageView(
       controller:pageController ,
-      children: [
+      children:const [
         PageViewItem(
             image: "assets/images/ff.png",
             title: "Online Shoping",

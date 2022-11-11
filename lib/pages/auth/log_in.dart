@@ -21,178 +21,180 @@ class _Log_inState extends State<Log_in> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: const Color.fromARGB(221, 222, 212, 212),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                "Log_in",
-                style: TextStyle(fontSize: 25),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextField(
-                controller: Email,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      gapPadding: 20,
-                      borderSide: BorderSide(width: 20)),
-                  prefixIcon: Icon(Icons.email),
-                  label: Text("Email"),
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: const Color.fromARGB(221, 222, 212, 212),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextField(
-                controller: Password,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      gapPadding: 20,
-                      borderSide: BorderSide(width: 20)),
-                  prefixIcon: Icon(Icons.lock),
-                  label: Text("Password"),
+                const Text(
+                  "Log_in",
+                  style: TextStyle(fontSize: 25),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: const [
-                  SizedBox(
-                    width: 160,
+                const SizedBox(
+                  height: 20,
+                ),
+                TextField(
+                  controller: Email,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        gapPadding: 20,
+                        borderSide: BorderSide(width: 20)),
+                    prefixIcon: Icon(Icons.email),
+                    label: Text("Email"),
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: 320,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
-                    onPressed: () async {
-                      try {
-                        FirebaseAuth authObject = FirebaseAuth.instance;
-        
-                        UserCredential LoginMethod =
-                            await authObject.signInWithEmailAndPassword(
-                                email: Email.text, password: Password.text);
-                        String id = LoginMethod.user!.uid;
-                        final userRef = FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(id);
-                        final userData = await userRef.get();
-                        if (LoginMethod.user!.emailVerified == false) {
-                          User? verifyUser = FirebaseAuth.instance.currentUser;
-                          await verifyUser!.sendEmailVerification();
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextField(
+                  controller: Password,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        gapPadding: 20,
+                        borderSide: BorderSide(width: 20)),
+                    prefixIcon: Icon(Icons.lock),
+                    label: Text("Password"),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    SizedBox(
+                      width: 160,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: 320,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+                      onPressed: () async {
+                        try {
+                          FirebaseAuth authObject = FirebaseAuth.instance;
+          
+                          UserCredential LoginMethod =
+                              await authObject.signInWithEmailAndPassword(
+                                  email: Email.text, password: Password.text);
+                          String id = LoginMethod.user!.uid;
+                          final userRef = FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(id);
+                          final userData = await userRef.get();
+                          if (LoginMethod.user!.emailVerified == false) {
+                            User? verifyUser = FirebaseAuth.instance.currentUser;
+                            await verifyUser!.sendEmailVerification();
+                          }
+                          // print(LoginMethod.user!.emailVerified);
+          
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomePage(),
+                              ));
+                        } on FirebaseAuthException catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text(e.message.toString()),
+                                );
+                              });
+                        } on FirebaseAuthException catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(e.message.toString())));
                         }
-                        // print(LoginMethod.user!.emailVerified);
-        
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const HomePage(),
-                            ));
-                      } on FirebaseAuthException catch (e) {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Text(e.message.toString()),
-                              );
-                            });
-                      } on FirebaseAuthException catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(e.message.toString())));
-                      }
-                    },
-                    child: const Text(
-                      "Log in",
-                    )),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Do not have an account? ",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  InkWell(
-                    onTap: () {
+                      },
+                      child: const Text(
+                        "Log in",
+                      )),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Do not have an account? ",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const SignUp();
+                          },
+                        ));
+                      },
+                      child: const Text(
+                        "Sign up",
+                        style: TextStyle(color: Colors.black, fontSize: 17),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextButton(
+                    onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return const SignUp();
+                          return const ResetPassword();
                         },
                       ));
                     },
-                    child: const Text(
-                      "Sign up",
-                      style: TextStyle(color: Colors.black, fontSize: 17),
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const ResetPassword();
-                      },
-                    ));
-                  },
-                  child: const Text("Forget password")),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  Expanded(
-                    child: Divider(
-                      thickness: 4.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      'Or Login With',
-                      style: TextStyle(
+                    child: const Text("Forget password")),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Expanded(
+                      child: Divider(
+                        thickness: 4.0,
                         color: Colors.white,
-                        fontSize: 24.0,
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      thickness: 4.0,
-                      color: Colors.white,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        'Or Login With',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24.0,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const GoogleLogin(),
-            ],
+                    Expanded(
+                      child: Divider(
+                        thickness: 4.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const GoogleLogin(),
+              ],
+            ),
           ),
         ),
       ),

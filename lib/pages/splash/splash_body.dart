@@ -1,7 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:transition/transition.dart';
-
 import '../boarding/boarding_view.dart';
 import 'component/size_confige.dart';
 
@@ -19,10 +16,11 @@ class _SplashBodyState extends State<SplashBody>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 850));
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 850),
+    );
     fadingAnimation =
         Tween<double>(begin: 0.2, end: 1).animate(animationController!)
           ..addListener(() {
@@ -35,13 +33,13 @@ class _SplashBodyState extends State<SplashBody>
 
     animationController?.forward();
 // fuction to navigat next view automaticly
-    goToNextView();   //commet----------------------------
+    goToNextView(); //commet----------------------------
   }
 
   @override
   Widget build(BuildContext context) {
 // init for sizeConfig
-SizeConfig().init(context);
+    SizeConfig().init(context);
 
     return Center(
       child: Opacity(
@@ -50,13 +48,16 @@ SizeConfig().init(context);
     );
   }
 
-  
   void goToNextView() {
     Future.delayed(
-      Duration(seconds: 5),
+      const Duration(seconds: 5),
       () {
         setState(() {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => OnBordingView(),));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const OnBordingView(),
+              ));
         });
       },
     );

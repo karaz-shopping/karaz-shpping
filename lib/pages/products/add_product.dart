@@ -181,10 +181,10 @@ class _AddProductState extends State<AddProduct> {
                   ),
                   onPressed: () {
                     try {
-                      final AddProduct = FirebaseFirestore.instance
+                      final addProduct = FirebaseFirestore.instance
                           .collection("products")
                           .doc();
-                      AddProduct.set({
+                      addProduct.set({
                         "type": chosenType.toString(),
                         "color": chosenColor.toString(),
                         'name': nameController.text,
