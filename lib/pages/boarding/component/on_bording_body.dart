@@ -1,3 +1,5 @@
+// ignore_for_file: unused_label
+
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
 import '../../splash/component/size_confige.dart';
@@ -73,7 +75,7 @@ class _OnBordaingBodyState extends State<OnBordaingBody> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Log_in(),
+                          builder: (context) => const LogIn(),
                         ));
                     duration:
                     const Duration(milliseconds: 500);

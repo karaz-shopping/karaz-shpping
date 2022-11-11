@@ -37,17 +37,17 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
                   child: SizedBox(
                     //width: 150,
 
-                    child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Stack(
-                          children: [
-                            Column(
+                    child: Stack(
+                      children: [
+                        Card(
+                          clipBehavior: Clip.antiAlias,
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: InkWell(
+                            onTap: () {},
+                            child: Column(
                               children: [
                                 Container(
                                   clipBehavior: Clip.none,
@@ -100,6 +100,7 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
                                       Row(
                                         children: [
                                           Expanded(
+                                            flex: 3,
                                             child: Column(
                                               children: [
                                                 Text(
@@ -120,67 +121,43 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
                                               ],
                                             ),
                                           ),
-                                          const Expanded(
-                                            child: SizedBox(
-                                              height: 30,
-                                              child: VerticalDivider(
-                                                width: 5,
-                                                thickness: 1.5,
-                                                indent: 5,
-                                                //endIndent: 7,
-                                              ),
+                                          const SizedBox(
+                                            height: 30,
+                                            child: VerticalDivider(
+                                              width: 5,
+                                              thickness: 1.5,
+                                              indent: 5,
+                                              //endIndent: 7,
                                             ),
                                           ),
                                           Expanded(
-                                            child: IconButton(
-                                              padding: const EdgeInsets.all(1),
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                size: 20,
-                                                color: Colors.grey[700],
-                                                Icons.add_shopping_cart_rounded,
-                                              ),
-                                            ),
-                                          ),
-                                          const Expanded(
-                                            child: SizedBox(
-                                              height: 30,
-                                              child: VerticalDivider(
-                                                width: 5,
-                                                thickness: 1.5,
-                                                indent: 5,
-                                                //endIndent: 7,
-                                              ),
-                                            ),
-                                          ),
-                                          Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 15,
-                                                height: 30,
-                                                child: FavoriteButton(
-                                                  //isFavorite: widget._isFavorite,
-                                                  iconSize: 30,
-                                                  valueChanged: () {},
+                                            flex: 4,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                IconButton(
+                                                  padding:
+                                                      const EdgeInsets.all(1),
+                                                  icon: Icon(
+                                                    size: 20,
+                                                    color: Colors.grey[700],
+                                                    Icons
+                                                        .add_shopping_cart_rounded,
+                                                  ),
+                                                  onPressed: () {},
                                                 ),
-                                              ),
-                                              IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(1),
-                                                iconSize: 20,
-                                                onPressed: () {
-                                                  const urlPost = "url post";
-                                                  Share.share(
-                                                    'Karaz \n descreption \n\n $urlPost',
-                                                  );
-                                                },
-                                                icon: Icon(
-                                                  size: 20,
-                                                  Icons.share,
-                                                  color: Colors.grey[600],
+                                                SizedBox(
+                                                  width: 25,
+                                                  height: 30,
+                                                  child: FavoriteButton(
+                                                    //isFavorite: widget._isFavorite,
+                                                    iconSize: 35,
+                                                    valueChanged: () {},
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -189,9 +166,32 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                        Positioned(
+                          top: 8,
+                          right: 8,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 12,
+                            child: IconButton(
+                              padding: const EdgeInsets.fromLTRB(0, 1, 3, 1),
+                              iconSize: 35,
+                              onPressed: () {
+                                const urlPost = "url post";
+                                Share.share(
+                                  'Karaz \n${documentSnapshot['description']} \n\n $urlPost',
+                                );
+                              },
+                              icon: Icon(
+                                size: 20,
+                                Icons.share,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );

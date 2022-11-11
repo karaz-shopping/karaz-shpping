@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, camel_case_types, use_key_in_widget_constructors, unused_local_variable, use_build_context_synchronously, dead_code_on_catch_subtype
+// ignore_for_file: use_build_context_synchronously, unused_local_variable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,14 +8,18 @@ import 'package:karaz_shopping_organization/pages/auth/signup.dart';
 import 'package:karaz_shopping_organization/pages/home/home_page.dart';
 import 'login_with_google.dart';
 
-class Log_in extends StatefulWidget {
+class LogIn extends StatefulWidget {
+  static String id = "/LogIn";
+
+  const LogIn({super.key});
+
   @override
-  State<Log_in> createState() => _Log_inState();
+  State<LogIn> createState() => _LogInState();
 }
 
-class _Log_inState extends State<Log_in> {
-  TextEditingController Email = TextEditingController();
-  TextEditingController Password = TextEditingController();
+class _LogInState extends State<LogIn> {
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
   final myController = TextEditingController();
 
   @override
@@ -40,7 +44,7 @@ class _Log_inState extends State<Log_in> {
                   height: 20,
                 ),
                 TextField(
-                  controller: Email,
+                  controller: email,
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 10),
                     border: OutlineInputBorder(
@@ -55,7 +59,7 @@ class _Log_inState extends State<Log_in> {
                   height: 20,
                 ),
                 TextField(
-                  controller: Password,
+                  controller: password,
                   obscureText: true,
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 10),
@@ -83,25 +87,27 @@ class _Log_inState extends State<Log_in> {
                 SizedBox(
                   width: 320,
                   child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+                      style: ElevatedButton.styleFrom(
+                          shape: const StadiumBorder()),
                       onPressed: () async {
                         try {
                           FirebaseAuth authObject = FirebaseAuth.instance;
-          
-                          UserCredential LoginMethod =
+
+                          UserCredential loginMethod =
                               await authObject.signInWithEmailAndPassword(
-                                  email: Email.text, password: Password.text);
-                          String id = LoginMethod.user!.uid;
+                                  email: email.text, password: password.text);
+                          String id = loginMethod.user!.uid;
                           final userRef = FirebaseFirestore.instance
                               .collection('users')
                               .doc(id);
                           final userData = await userRef.get();
-                          if (LoginMethod.user!.emailVerified == false) {
-                            User? verifyUser = FirebaseAuth.instance.currentUser;
+                          if (loginMethod.user!.emailVerified == false) {
+                            User? verifyUser =
+                                FirebaseAuth.instance.currentUser;
                             await verifyUser!.sendEmailVerification();
                           }
                           // print(LoginMethod.user!.emailVerified);
-          
+
                           Navigator.push(
                               context,
                               MaterialPageRoute(

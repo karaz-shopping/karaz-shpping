@@ -4,7 +4,6 @@ import 'package:karaz_shopping_organization/pages/home/components/appBar/custom_
 import 'package:karaz_shopping_organization/pages/home/home_page/custom_circle_avatar.dart';
 import 'package:karaz_shopping_organization/pages/home/home_page/slider.dart';
 import 'package:karaz_shopping_organization/pages/products/components/custom_add_card.dart';
-import 'package:karaz_shopping_organization/pages/products/view_product.dart';
 
 class CustomHome extends StatefulWidget {
   const CustomHome({super.key});
@@ -14,13 +13,17 @@ class CustomHome extends StatefulWidget {
 }
 
 class _CustomHomeState extends State<CustomHome> {
+  var search = "";
+  var searchController = TextEditingController();
+  bool change = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //backgroundColor:AppColors.blueGreen3 ,
       appBar: const CustomAppBar(),
       drawer: const CustomDrawer(),
-      body: Container(
-        color: Colors.white10,
+      body: SizedBox(
+        // color: Colors.white10,
         // decoration: BoxDecoration(
         //   gradient: LinearGradient(
         //     begin: Alignment.topRight,
@@ -32,40 +35,41 @@ class _CustomHomeState extends State<CustomHome> {
         height: double.infinity,
         child: ListView(
           children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width - 40,
-              height: 46,
-              child: const TextField(
-                decoration: InputDecoration(
-                  label: Text('Search'),
-                  icon: Icon(
-                    Icons.search_rounded,
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 40),
+              child: SizedBox(
+                height: 46,
+                child: TextField(
+                  decoration: InputDecoration(
+                    label: const Text('Search'),
+                    icon: const Icon(
+                      Icons.search_rounded,
+                    ),
+                    suffixIcon: Visibility(
+                      visible: change,
+                      child: IconButton(
+                        icon: const Icon(Icons.highlight_off_rounded),
+                        onPressed: () {
+                          setState(() {
+                            searchController.clear();
+                            change = false;
+                          });
+                        },
+                      ),
+                    ),
                   ),
-
-                  // suffixIcon: Visibility(
-                  //   visible: change,
-                  //   child: IconButton(
-                  //     icon: Icon(Icons.highlight_off_rounded),
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         searchController.clear();
-                  //         change = false;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
+                  controller: searchController,
+                  onChanged: (value) {
+                    setState(() {
+                      if (value == '') {
+                        change = false;
+                      } else {
+                        change = true;
+                      }
+                      search = value;
+                    });
+                  },
                 ),
-                // controller: searchController,
-                // onChanged: (value) {
-                //   setState(() {
-                //     if (value == '') {
-                //       change = false;
-                //     } else {
-                //       change = true;
-                //     }
-                //     search = value;
-                //   });
-                // },
               ),
             ),
             const CustomCircleAvatar(),

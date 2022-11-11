@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
@@ -38,11 +39,22 @@ class _AddProductState extends State<AddProduct> {
   ];
   String chosenColor = "White";
   String chosenType = "Flower";
+  bool flagType = true;
+  bool flagColor = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Product'),
+        backgroundColor: AppColors.somo3,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(25),
+                bottomLeft: Radius.circular(25))),
+        iconTheme: IconThemeData(color: AppColors.blueGrey3),
+        title: Text(
+          'Add Product',
+          style: TextStyle(color: AppColors.blueGrey3),
+        ),
         centerTitle: true,
       ),
       body: SizedBox(
@@ -58,7 +70,9 @@ class _AddProductState extends State<AddProduct> {
                   children: [
                     DropdownButton(
                       menuMaxHeight: 150,
-                      hint: const Text('Choose the type'),
+                      hint: flagType
+                          ? const Text('Choose the type')
+                          : Text(chosenType),
                       items: typeOfProduct
                           .map(
                             (e) => DropdownMenuItem(
@@ -73,6 +87,7 @@ class _AddProductState extends State<AddProduct> {
                       onChanged: (value) {
                         setState(
                           () {
+                            flagType = false;
                             chosenType = value.toString();
                           },
                         );
@@ -80,7 +95,9 @@ class _AddProductState extends State<AddProduct> {
                     ),
                     DropdownButton(
                       menuMaxHeight: 150,
-                      hint: const Text('Choose the color'),
+                      hint: flagColor
+                          ? const Text('Choose the color')
+                          : Text(chosenColor),
                       items: colors
                           .map(
                             (e) => DropdownMenuItem(
@@ -95,6 +112,7 @@ class _AddProductState extends State<AddProduct> {
                       onChanged: (value) {
                         setState(
                           () {
+                            flagColor = false;
                             chosenColor = value.toString();
                           },
                         );
@@ -109,7 +127,7 @@ class _AddProductState extends State<AddProduct> {
                     hintStyle: const TextStyle(
                       color: Colors.black,
                     ),
-                    hintText: "Name of product",
+                    label: const Text('Product Name'),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -122,20 +140,7 @@ class _AddProductState extends State<AddProduct> {
                     hintStyle: const TextStyle(
                       color: Colors.black,
                     ),
-                    hintText: "Description",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: codeController,
-                  decoration: InputDecoration(
-                    hintStyle: const TextStyle(
-                      color: Colors.black,
-                    ),
-                    hintText: "Code",
+                    label: const Text('Description'),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -148,7 +153,7 @@ class _AddProductState extends State<AddProduct> {
                     hintStyle: const TextStyle(
                       color: Colors.black,
                     ),
-                    hintText: "Price",
+                    label: const Text('Price'),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -156,6 +161,10 @@ class _AddProductState extends State<AddProduct> {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(AppColors.blueGrey3),
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -169,6 +178,10 @@ class _AddProductState extends State<AddProduct> {
                   onPressed: () {},
                 ),
                 ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(AppColors.blueGrey3),
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
