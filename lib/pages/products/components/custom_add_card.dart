@@ -1,9 +1,13 @@
 // ignore_for_file: unused_local_variable, non_constant_identifier_names
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
+import 'package:karaz_shopping_organization/pages/Cart/services/add_to_cart_service.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:uuid/uuid.dart';
 
 class CustomAdsCard extends StatefulWidget {
   const CustomAdsCard({super.key});
@@ -13,6 +17,8 @@ class CustomAdsCard extends StatefulWidget {
 }
 
 class _CustomAdsCardState extends State<CustomAdsCard> {
+
+  final CartService cartservice = CartService();
   final CollectionReference Products =
       FirebaseFirestore.instance.collection('products');
   @override
@@ -40,7 +46,9 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+
+                          },
                           child: Stack(
                             children: [
                               Column(
@@ -101,7 +109,7 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
                                               child: Column(
                                                 children: [
                                                   Text(
-                                                    (documentSnapshot['price']),
+                                                    (documentSnapshot['price']), //**-*-*-*-*-** */*-*-*-*-*----*-*-//
                                                     style: const TextStyle(
                                                       fontSize: 12,
                                                       fontWeight:
@@ -134,7 +142,22 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
                                               child: IconButton(
                                                 padding:
                                                     const EdgeInsets.all(1),
-                                                onPressed: () {},
+                                                onPressed: () async{
+                                                var id =Uuid().v4();
+                                                var model =CartModel(
+                                                 id: id,
+                                                 description:documentSnapshot['description'],
+                                                 name: documentSnapshot['name'],
+                                                 color: documentSnapshot['color'],
+                                                 price:documentSnapshot['price'] , //***--*-*-**-*--*-*--* */
+                                                 type: documentSnapshot['type'] , 
+                                                );
+                                                await cartservice.addToCart(model).whenComplete((){
+                                                    log('added to cart successfully');
+                                                });
+                                                
+                                              
+                                                },
                                                 icon: Icon(
                                                   size: 20,
                                                   color: Colors.grey[700],
@@ -202,5 +225,8 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
             child: CircularProgressIndicator(),
           );
         });
+  }
+  addToCart(){
+
   }
 }

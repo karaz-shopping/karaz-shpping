@@ -190,7 +190,7 @@ class _AddProductState extends State<AddProduct> {
                         'name': nameController.text,
                         "description": descriptionController.text,
                         "id": codeController.text,
-                        "price": priceController.text,
+                        "price": priceController, // ".text"
                       });
                       nameController.clear();
                       descriptionController.clear();

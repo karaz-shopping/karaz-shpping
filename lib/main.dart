@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:karaz_shopping_organization/firebase_options.dart';
 import 'package:karaz_shopping_organization/pages/Cart/cart_view.dart';
 import 'package:karaz_shopping_organization/pages/splash/splach_view.dart';
+import 'package:karaz_shopping_organization/payment/pay_view.dart';
 
 // import 'package:karaz_shopping_organization/pages/splash/splach_view.dart';
 import 'pages/products/add_product.dart';

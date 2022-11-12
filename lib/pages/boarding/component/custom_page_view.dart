@@ -13,18 +13,24 @@ class CustomPageView extends StatelessWidget {
     return PageView(
       controller:pageController ,
       children: [
-        PageViewItem(
-            image: "assets/images/ff.png",
-            title: "Online Shoping",
-            subTitle: "Explore  top flowers & get them"),
-        PageViewItem(
-            image: "assets/images/onTheWay.png",
-            title: "Delivery on the way",
-            subTitle: "Get your order by speed delivery"),
-        PageViewItem(
-            image: "assets/images/arrived.png",
-            title: "Delivery Arrived",
-            subTitle: "Order is arrived at your Place")
+        Expanded(
+          child: PageViewItem(
+              image: "assets/images/ff.png",
+              title: "Online Shoping",
+              subTitle: "Explore  top flowers & get them"),
+        ),
+        Expanded(
+          child: PageViewItem(
+              image: "assets/images/onTheWay.png",
+              title: "Delivery on the way",
+              subTitle: "Get your order by speed delivery"),
+        ),
+        Expanded(
+          child: PageViewItem(
+              image: "assets/images/arrived.png",
+              title: "Delivery Arrived",
+              subTitle: "Order is arrived at your Place"),
+        )
       ],
     );
   }

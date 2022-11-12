@@ -15,13 +15,13 @@ class PageViewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-const VerticalSpace(15),
+const VerticalSpace(10),
 
 //  PageView Image
 
       SizedBox(height: SizeConfig.defaultSize!*30,
         child: Image.asset(image!)),
-      const VerticalSpace(5),
+      // const VerticalSpace(3),
 
       //  PageView Title
 
