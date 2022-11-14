@@ -111,6 +111,8 @@ class _SignUpState extends State<SignUp> {
                 userRef.set({
                   'name': userName.text,
                   "role": dropdownValue,
+                  'Email': email.text,
+                  'id': FirebaseAuth.instance.currentUser!.uid,
                 });
                 email.clear();
                 password.clear();
