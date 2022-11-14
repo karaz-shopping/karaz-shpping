@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 import 'package:karaz_shopping_organization/pages/products/add_product.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -21,9 +23,9 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    // Navigator.pushNamedAndRemoveUntil(
-                    //     context, LogIn.id, (route) => false);
-                    // FirebaseAuth.instance.signOut();
+                    FirebaseAuth.instance.signOut();
+                    Navigator.pushReplacement(
+                        context, MaterialPageRoute(builder: (_) => LogIn()));
                   },
                   child: const Text(
                     'Yes',
@@ -77,7 +79,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               accountName: Text(
-                'User Name',
+                'Name',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -85,7 +87,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               accountEmail: Text(
-                'user@exmple.com',
+                FirebaseAuth.instance.currentUser!.email.toString(),
                 style: TextStyle(
                   fontSize: 15,
                   color: AppColors.blueGrey3,

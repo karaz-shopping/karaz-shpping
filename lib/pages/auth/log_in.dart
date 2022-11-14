@@ -114,14 +114,6 @@ class _LogInState extends State<LogIn> {
                                 builder: (context) => const HomePage(),
                               ));
                         } on FirebaseAuthException catch (e) {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  content: Text(e.message.toString()),
-                                );
-                              });
-                        } on FirebaseAuthException catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(e.message.toString())));
                         }
@@ -137,7 +129,7 @@ class _LogInState extends State<LogIn> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Do not have an account? ",
+                      "Do not have account? ",
                       style: TextStyle(color: Colors.grey),
                     ),
                     InkWell(

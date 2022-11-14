@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 
@@ -204,6 +205,8 @@ class _AddProductState extends State<AddProduct> {
                         "description": descriptionController.text,
                         "id": codeController.text,
                         "price": priceController.text,
+                        "StoreID": FirebaseAuth.instance.currentUser!.uid,
+                        "StoreEmail": FirebaseAuth.instance.currentUser!.email,
                       });
                       nameController.clear();
                       descriptionController.clear();

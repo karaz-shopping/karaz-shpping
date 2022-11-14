@@ -1,7 +1,9 @@
-// ignore_for_file: unused_local_variable, non_constant_identifier_names
+// ignore_for_file: unused_local_variable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
+import 'package:karaz_shopping_organization/pages/products/components/Products_details.dart';
 import 'package:share_plus/share_plus.dart';
 
 class CustomAdsCard extends StatefulWidget {
@@ -12,12 +14,95 @@ class CustomAdsCard extends StatefulWidget {
 }
 
 class _CustomAdsCardState extends State<CustomAdsCard> {
-  final CollectionReference Products =
+  final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
+  //update function start-----------------------------------------------------------------------------------------
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+
+  Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
+    if (documentSnapshot != null) {
+      nameController.text = documentSnapshot['name'];
+      descriptionController.text = documentSnapshot['description'];
+      priceController.text = documentSnapshot['price'];
+    }
+
+    await showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext ctx) {
+          return Padding(
+            padding: const EdgeInsets.only(),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'name',
+                  ),
+                ),
+                TextField(
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  controller: descriptionController,
+                  decoration: const InputDecoration(
+                    labelText: 'description',
+                  ),
+                ),
+                TextField(
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  controller: priceController,
+                  decoration: const InputDecoration(
+                    labelText: 'price',
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    child: const Text(
+                      'Update',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                    onPressed: () async {
+                      final String name = nameController.text;
+                      final String decoration = descriptionController.text;
+                      final String price = priceController.text;
+
+                      await products.doc(documentSnapshot!.id).update({
+                        "name": name,
+                        "description": decoration,
+                        "price": price,
+                      });
+                      nameController.text = '';
+                      priceController.text = '';
+                      priceController.text = '';
+
+                      if (mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+  //update function end-----------------------------------------------------------------------------------------
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: Products.snapshots(),
+        stream: products.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return GridView.builder(
@@ -32,21 +117,38 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
                 final DocumentSnapshot documentSnapshot =
                     streamSnapshot.data!.docs[index];
                 final docId = streamSnapshot.data!.docs[index].id;
-                return Padding(
-                  padding: const EdgeInsets.all(3),
-                  child: SizedBox(
-                    //width: 150,
+                return InkWell(
+                  onTap: () {
+                    _update(documentSnapshot);
+                  },
+                  onDoubleTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProductsDetails(
+                          name: documentSnapshot['name'],
+                          description: documentSnapshot['description'],
+                          color: documentSnapshot['color'],
+                          price: documentSnapshot['price'],
+                          Email: documentSnapshot['StoreEmail'],
+                          Type: documentSnapshot['type'],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(3),
+                    child: SizedBox(
+                      //width: 150,
 
-                    child: Stack(
-                      children: [
-                        Card(
-                          clipBehavior: Clip.antiAlias,
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: InkWell(
-                            onTap: () {},
+                      child: Stack(
+                        children: [
+                          Card(
+                            clipBehavior: Clip.antiAlias,
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
                             child: Column(
                               children: [
                                 Container(
@@ -167,31 +269,31 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
                               ],
                             ),
                           ),
-                        ),
-                        Positioned(
-                          top: 8,
-                          right: 8,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 12,
-                            child: IconButton(
-                              padding: const EdgeInsets.fromLTRB(0, 1, 3, 1),
-                              iconSize: 35,
-                              onPressed: () {
-                                const urlPost = "url post";
-                                Share.share(
-                                  'Karaz \n${documentSnapshot['description']} \n\n $urlPost',
-                                );
-                              },
-                              icon: Icon(
-                                size: 20,
-                                Icons.share,
-                                color: Colors.grey[600],
+                          Positioned(
+                            top: 8,
+                            right: 8,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 12,
+                              child: IconButton(
+                                padding: const EdgeInsets.fromLTRB(0, 1, 3, 1),
+                                iconSize: 35,
+                                onPressed: () {
+                                  const urlPost = "url post";
+                                  Share.share(
+                                    'Karaz \n${documentSnapshot['description']} \n\n $urlPost',
+                                  );
+                                },
+                                icon: Icon(
+                                  size: 20,
+                                  Icons.share,
+                                  color: Colors.grey[600],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
