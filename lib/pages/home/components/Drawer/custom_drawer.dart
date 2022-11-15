@@ -1,3 +1,4 @@
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 import 'package:karaz_shopping_organization/pages/products/add_product.dart';
@@ -76,7 +77,7 @@ class CustomDrawer extends StatelessWidget {
               ),
               currentAccountPicture: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.blueGrey3,
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: const Padding(
@@ -131,12 +132,22 @@ class CustomDrawer extends StatelessWidget {
               ),
               onTap: () {},
             ),
+            // InkWell(
+            //   child: const ListTile(
+            //     title: Text('Terms and Conditions'),
+            //     leading: Icon(Icons.),
+            //   ),
+            //   onTap: () {},
+            // ),
             InkWell(
-              child: const ListTile(
-                title: Text('My Orders'),
-                leading: Icon(Icons.shopping_bag_outlined),
+              child: ListTile(
+                title: const Text('Themes'),
+                leading: const Icon(Icons.color_lens_outlined),
+                trailing: EasyDynamicThemeBtn(),
+                onTap: () {
+                  EasyDynamicTheme.of(context).changeTheme();
+                },
               ),
-              onTap: () {},
             ),
             InkWell(
               child: const ListTile(

@@ -24,6 +24,7 @@ dependencies:
   dots_indicator: ^2.1.0
   transition: ^2.0.2
   get: ^4.6.5
+  easy_dynamic_theme: ^2.2.0
 
 dev_dependencies:
   flutter_test:

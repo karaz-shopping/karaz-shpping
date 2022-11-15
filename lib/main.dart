@@ -1,3 +1,4 @@
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,10 +12,11 @@ Future<void> main() async {
   );
 
   runApp(
-    const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Karaz',
-      home: MyApp(),
+    EasyDynamicThemeWidget(
+      child: const MaterialApp(
+        title: 'Karaz',
+        home: MyApp(),
+      ),
     ),
   );
 }
@@ -24,10 +26,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: EasyDynamicTheme.of(context).themeMode!,
       //home: LogIn(),
-      home: SplashView(),
+      home: const SplashView(),
     );
     //return const HomePage();
   }

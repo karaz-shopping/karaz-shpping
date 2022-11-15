@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:karaz_shopping_organization/pages/home/components/Drawer/custom_drawer.dart';
-import 'package:karaz_shopping_organization/pages/home/components/appBar/custom_app_bar.dart';
-import 'package:karaz_shopping_organization/pages/home/home_page/custom_circle_avatar.dart';
-import 'package:karaz_shopping_organization/pages/home/home_page/slider.dart';
-import 'package:karaz_shopping_organization/pages/products/components/custom_add_card.dart';
+import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 
-class CustomHome extends StatefulWidget {
-  const CustomHome({super.key});
+class PartOfTheProduct extends StatefulWidget {
+  const PartOfTheProduct({super.key});
 
   @override
-  State<CustomHome> createState() => _CustomHomeState();
+  State<PartOfTheProduct> createState() => _PartOfTheProductState();
 }
 
-class _CustomHomeState extends State<CustomHome> {
-  var search = "";
-  var searchController = TextEditingController();
-  bool change = false;
+class _PartOfTheProductState extends State<PartOfTheProduct> {
   @override
   Widget build(BuildContext context) {
+    var search = "";
+    var searchController = TextEditingController();
+    bool change = false;
     return Scaffold(
-      //backgroundColor:AppColors.blueGreen3 ,
-      appBar: const CustomAppBar(),
-      drawer: const CustomDrawer(),
+      appBar: AppBar(
+        backgroundColor: AppColors.somo3,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(25),
+              bottomLeft: Radius.circular(25)),
+        ),
+        iconTheme: IconThemeData(color: AppColors.blueGrey3),
+        title: Text(
+          'data',
+          style: TextStyle(color: AppColors.blueGrey3),
+        ),
+        centerTitle: true,
+      ),
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
@@ -64,26 +71,7 @@ class _CustomHomeState extends State<CustomHome> {
                 ),
               ),
             ),
-            const CustomCircleAvatar(),
-            const CustomSlider(),
-            const CustomAdsCard(),
-            // Container(
-            //   width: double.infinity,
-            //   height: 500,
-            //   color: Colors.blueAccent,
-            //   child: const CustomAdsCard(),
-            // ),
-            //const CustomAdsCard(),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.push(context, MaterialPageRoute(
-            //       builder: (context) {
-            //         return const ViewProduct();
-            //       },
-            //     ));
-            //   },
-            //   child: const Text('view data'),
-            // ),
+            //* stream
           ],
         ),
       ),

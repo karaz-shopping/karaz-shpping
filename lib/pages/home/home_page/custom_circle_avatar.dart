@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
+import 'package:karaz_shopping_organization/pages/products/part_product.dart';
 
 class CustomCircleAvatar extends StatelessWidget {
   const CustomCircleAvatar({super.key});
@@ -27,7 +28,13 @@ class CustomCircleAvatar extends StatelessWidget {
                     ),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const PartOfTheProduct();
+                    },
+                  ));
+                },
               ),
               const SizedBox(width: 10),
               InkWell(
@@ -45,7 +52,13 @@ class CustomCircleAvatar extends StatelessWidget {
                     ),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const PartOfTheProduct();
+                    },
+                  ));
+                },
               ),
               const SizedBox(width: 10),
               InkWell(
@@ -62,7 +75,13 @@ class CustomCircleAvatar extends StatelessWidget {
                     ),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const PartOfTheProduct();
+                    },
+                  ));
+                },
               ),
               const SizedBox(width: 10),
               InkWell(
@@ -79,7 +98,13 @@ class CustomCircleAvatar extends StatelessWidget {
                     ),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const PartOfTheProduct();
+                    },
+                  ));
+                },
               ),
               const SizedBox(width: 10),
               InkWell(
@@ -97,7 +122,13 @@ class CustomCircleAvatar extends StatelessWidget {
                     ),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const PartOfTheProduct();
+                    },
+                  ));
+                },
               ),
               const SizedBox(width: 10),
               InkWell(
@@ -115,7 +146,13 @@ class CustomCircleAvatar extends StatelessWidget {
                     ),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const PartOfTheProduct();
+                    },
+                  ));
+                },
               ),
               const SizedBox(width: 10),
             ],
