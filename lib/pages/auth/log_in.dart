@@ -9,7 +9,7 @@ import 'package:karaz_shopping_organization/pages/home/home_page.dart';
 import 'login_with_google.dart';
 
 class LogIn extends StatefulWidget {
-  static String id = "/LogIn";
+  static String id = "LogIn";
 
   const LogIn({super.key});
 

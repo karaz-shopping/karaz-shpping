@@ -119,9 +119,6 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
                 final docId = streamSnapshot.data!.docs[index].id;
                 return InkWell(
                   onTap: () {
-                    _update(documentSnapshot);
-                  },
-                  onDoubleTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -270,26 +267,41 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
                             ),
                           ),
                           Positioned(
-                            top: 8,
-                            right: 8,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 12,
-                              child: IconButton(
-                                padding: const EdgeInsets.fromLTRB(0, 1, 3, 1),
-                                iconSize: 35,
-                                onPressed: () {
+                            top: 0,
+                            right: -10,
+                            child: PopupMenuButton(
+                              tooltip: 'Setting',
+                              elevation: 10,
+                              onSelected: (value) {
+                                if (value.toString() == '1') {
+                                  _update();
+                                } else if (value.toString() == '2') {
+                                  FirebaseFirestore.instance
+                                      .collection("products")
+                                      .doc(docId)
+                                      .delete();
+                                  //deletePost();
+                                } else if (value.toString() == '3') {
                                   const urlPost = "url post";
                                   Share.share(
                                     'Karaz \n${documentSnapshot['description']} \n\n $urlPost',
                                   );
-                                },
-                                icon: Icon(
-                                  size: 20,
-                                  Icons.share,
-                                  color: Colors.grey[600],
+                                } else {}
+                              },
+                              itemBuilder: (context) => const [
+                                PopupMenuItem(
+                                  value: 1,
+                                  child: Text('Edit'),
                                 ),
-                              ),
+                                PopupMenuItem(
+                                  value: 2,
+                                  child: Text('Delete'),
+                                ),
+                                PopupMenuItem(
+                                  value: 3,
+                                  child: Text('Share'),
+                                ),
+                              ],
                             ),
                           ),
                         ],

@@ -13,14 +13,18 @@ class _CartViewState extends State<CartView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: AppColors.somo3,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(25),
-              bottomLeft: Radius.circular(25),
-            ),
+        backgroundColor: AppColors.somo3,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(25),
+            bottomLeft: Radius.circular(25),
           ),
-          title: Text("Basket", style: TextStyle(color: AppColors.blueGrey3))),
+        ),
+        title: Text(
+          "Basket",
+          style: TextStyle(color: AppColors.blueGrey3),
+        ),
+      ),
       bottomNavigationBar: BottomAppBar(
         color: AppColors.somo4,
         child: SizedBox(

@@ -1,6 +1,7 @@
 // ignore_for_file: unused_label
 
 import 'package:flutter/material.dart';
+import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
 import '../../splash/component/size_confige.dart';
 import 'custom_indicator_dots.dart';
@@ -27,41 +28,56 @@ class _OnBordaingBodyState extends State<OnBordaingBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        CustomPageView(
-          pageController: pageController,
-        ),
+    return SafeArea(
+      child: Stack(
+        children: [
+          CustomPageView(
+            pageController: pageController,
+          ),
 
-        // dots
-        Positioned(
+          // dots
+          Positioned(
             bottom: SizeConfig.defaultSize! * 20,
             left: 0,
             right: 0,
             child: CustomIndicator(
-                dotIndex:
-                    pageController!.hasClients ? pageController?.page : 0)),
-
-        // skip
-
-        Visibility(
-          visible: pageController!.hasClients
-              ? (pageController!.page == 2 ? false : true)
-              : true,
-          child: Positioned(
-            top: SizeConfig.defaultSize! * 10,
-            right: 32,
-            child: const Text("Skip",
-                style: TextStyle(fontSize: 14, color: Color(0xff898989)),
-                textAlign: TextAlign.left),
+              dotIndex: pageController!.hasClients ? pageController?.page : 0,
+            ),
           ),
-        ),
 
-        // button
-        Positioned(
-            bottom: SizeConfig.defaultSize! * 10,
-            left: SizeConfig.defaultSize! * 10,
-            right: SizeConfig.defaultSize! * 10,
+          // skip
+
+          Visibility(
+            visible: pageController!.hasClients
+                ? (pageController!.page == 2 ? false : true)
+                : true,
+            child: Positioned(
+              top: 20,
+              right: 20,
+              child: TextButton(
+                child: const Text(
+                  "Skip",
+                  style: TextStyle(fontSize: 14, color: Color(0xff898989)),
+                  textAlign: TextAlign.left,
+                ),
+                onPressed: () {
+                  setState(() {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LogIn(),
+                        ));
+                  });
+                },
+              ),
+            ),
+          ),
+
+          // button
+          Positioned(
+            bottom: 20,
+            left: 100,
+            right: 100,
             child: CustomGeneralButton(
               // text: pageController!.hasClients ? (pageController!.page == 2 ? "Get Strated" :"Next") : "Next",
 
@@ -73,10 +89,11 @@ class _OnBordaingBodyState extends State<OnBordaingBody> {
                 } else {
                   setState(() {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LogIn(),
-                        ));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LogIn(),
+                      ),
+                    );
                     duration:
                     const Duration(milliseconds: 500);
                   });
@@ -85,8 +102,10 @@ class _OnBordaingBodyState extends State<OnBordaingBody> {
               text: pageController!.hasClients
                   ? (pageController?.page == 2 ? 'Get started' : 'Next')
                   : 'Next',
-            )),
-      ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -105,7 +124,7 @@ class CustomGeneralButton extends StatelessWidget {
         height: 60,
         width: SizeConfig.screenWidth,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 134, 39, 162),
+          color: AppColors.somo2,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
@@ -113,7 +132,7 @@ class CustomGeneralButton extends StatelessWidget {
             text!,
             style: const TextStyle(
               fontSize: 14,
-              color: Color(0xffffffff),
+              color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.left,
