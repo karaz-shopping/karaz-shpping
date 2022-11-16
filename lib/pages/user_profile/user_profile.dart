@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
@@ -13,6 +14,9 @@ String about = 'Not added yet';
 String phoneNumber = 'Not added yet';
 
 class _UserProfileState extends State<UserProfile> {
+  final CollectionReference users =
+      FirebaseFirestore.instance.collection('users');
+
   TextEditingController aboutController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   @override
@@ -46,15 +50,15 @@ class _UserProfileState extends State<UserProfile> {
                       children: [
                         TextField(
                           controller: aboutController,
-                          
                           decoration: const InputDecoration(
                             labelText: 'About',
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              about = value;
-                            });
-                          },
+                          // onChanged: (value) {
+                          //   setState(() {
+                          //     about = value;
+
+                          //   });
+                          // },
                         ),
                         TextField(
                           keyboardType: const TextInputType.numberWithOptions(
@@ -64,11 +68,11 @@ class _UserProfileState extends State<UserProfile> {
                           decoration: const InputDecoration(
                             labelText: 'Phone Number',
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              phoneNumber = value.toString();
-                            });
-                          },
+                          // onChanged: (value) {
+                          //   setState(() {
+                          //     phoneNumber = value.toString();
+                          //   });
+                          // },
                         ),
                         const SizedBox(
                           height: 20,
@@ -83,10 +87,19 @@ class _UserProfileState extends State<UserProfile> {
                               ),
                             ),
                             onPressed: () {
-                              setState(() {
-                                about = aboutController.toString();
-                                phoneNumber = phoneController.toString();
+                              final userInfo = FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc();
+                              userInfo.set({
+                                'about': aboutController.text,
+                                'phoneNum': phoneController.text,
                               });
+
+                              // setState(() {
+
+                              //   about = aboutController.toString();
+                              //   phoneNumber = phoneController.toString();
+                              // });
 
                               Navigator.of(context).pop();
                             },
@@ -102,77 +115,91 @@ class _UserProfileState extends State<UserProfile> {
           ),
         ],
       ),
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
+      body: StreamBuilder(
+        stream: users.snapshots(),
+        builder: (context, snapshot) {
+          final docId = FirebaseAuth.instance.currentUser!.uid;
+          final DocumentSnapshot documentSnapshot = snapshot.data!.docs[1];
+
+          if (snapshot.hasData) {
+            return SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 10),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.somo2,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(3),
-                          child: CircleAvatar(
-                            radius: 33,
-                            backgroundImage:
-                                AssetImage('assets/images/profile.png'),
-                          ),
+                      SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 10),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.somo2,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(3),
+                                child: CircleAvatar(
+                                  radius: 33,
+                                  backgroundImage:
+                                      AssetImage('assets/images/profile.png'),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(documentSnapshot['name']),
+                            const SizedBox(height: 10),
+                            Text(
+                              FirebaseAuth.instance.currentUser!.email
+                                  .toString(),
+                            ),
+                            const SizedBox(height: 20),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 30, right: 30),
+                              child: Divider(thickness: 3),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      Text('User Name'),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 30),
+                      const Text(
+                        'About',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 15),
                       Text(
-                        FirebaseAuth.instance.currentUser!.email.toString(),
+                        aboutController.text,
+                        style: const TextStyle(fontSize: 15, height: 1),
+                      ),
+                      const SizedBox(height: 10),
+                      const Divider(),
+                      const SizedBox(height: 5),
+                      const Text(
+                        'phone Number',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 20),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 30, right: 30),
-                        child: Divider(thickness: 3),
+                      Text(
+                        phoneController.text,
+                        style: const TextStyle(fontSize: 15, height: 1),
                       ),
+                      const SizedBox(height: 10),
+                      const Divider(),
+                      const SizedBox(height: 5),
                     ],
                   ),
                 ),
-                const SizedBox(height: 30),
-                const Text(
-                  'About',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 15),
-                Text(
-                  about,
-                  style: const TextStyle(fontSize: 15, height: 1),
-                ),
-                const SizedBox(height: 10),
-                const Divider(),
-                const SizedBox(height: 5),
-                const Text(
-                  'phone Number',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  phoneNumber,
-                  style: const TextStyle(fontSize: 15, height: 1),
-                ),
-                const SizedBox(height: 10),
-                const Divider(),
-                const SizedBox(height: 5),
-              ],
-            ),
-          ),
-        ),
+              ),
+            );
+          }
+          return CircularProgressIndicator();
+        },
       ),
     );
   }

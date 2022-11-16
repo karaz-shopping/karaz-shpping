@@ -25,18 +25,17 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
-                    Navigator.pushReplacement(
+                    // Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (_) => const LogIn(),
+                    //   ),
+                    // );
+                    Navigator.pushNamedAndRemoveUntil(
                       context,
-                      MaterialPageRoute(
-                        builder: (_) => const LogIn(),
-                      ),
+                      LogIn.id,
+                      (_) => false,
                     );
-                    // Navigator.pushAndRemoveUntil(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (_) => const LogIn(),
-                    //     ),
-                    //     (route) => false);
                   },
                   child: const Text(
                     'Yes',

@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
+import 'package:karaz_shopping_organization/pages/splash/splash_body.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../splash/component/size_confige.dart';
 import 'custom_indicator_dots.dart';
 import 'custom_page_view.dart';
@@ -19,6 +21,7 @@ class _OnBordaingBodyState extends State<OnBordaingBody> {
 
   @override
   void initState() {
+    checkUser(context);
     pageController = PageController(initialPage: 0)
       ..addListener(() {
         setState(() {});
@@ -81,12 +84,15 @@ class _OnBordaingBodyState extends State<OnBordaingBody> {
             child: CustomGeneralButton(
               // text: pageController!.hasClients ? (pageController!.page == 2 ? "Get Strated" :"Next") : "Next",
 
-              onTap: () {
+              onTap: () async {
                 if (pageController!.page! < 2) {
                   pageController?.nextPage(
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeIn);
                 } else {
+                  var sp = await SharedPreferences.getInstance();
+                  sp.setString('bording', '1');
+                  
                   setState(() {
                     Navigator.push(
                       context,

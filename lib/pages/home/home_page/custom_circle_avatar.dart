@@ -31,7 +31,9 @@ class CustomCircleAvatar extends StatelessWidget {
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return const PartOfTheProduct();
+                      return PartOfTheProduct(
+                        productType: "flower",
+                      );
                     },
                   ));
                 },
@@ -55,7 +57,9 @@ class CustomCircleAvatar extends StatelessWidget {
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return const PartOfTheProduct();
+                      return PartOfTheProduct(
+                        productType: "perfume",
+                      );
                     },
                   ));
                 },
@@ -78,7 +82,9 @@ class CustomCircleAvatar extends StatelessWidget {
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return const PartOfTheProduct();
+                      return PartOfTheProduct(
+                        productType: "watch",
+                      );
                     },
                   ));
                 },
@@ -101,7 +107,9 @@ class CustomCircleAvatar extends StatelessWidget {
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return const PartOfTheProduct();
+                      return PartOfTheProduct(
+                        productType: "Tie",
+                      );
                     },
                   ));
                 },
@@ -117,15 +125,16 @@ class CustomCircleAvatar extends StatelessWidget {
                     padding: EdgeInsets.all(3),
                     child: CircleAvatar(
                       radius: 33,
-                      backgroundImage:
-                          AssetImage('assets/images/womenPerfume.jpg'),
+                      backgroundImage: AssetImage('assets/images/cake3.png'),
                     ),
                   ),
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return const PartOfTheProduct();
+                      return PartOfTheProduct(
+                        productType: "sweets",
+                      );
                     },
                   ));
                 },
@@ -141,15 +150,16 @@ class CustomCircleAvatar extends StatelessWidget {
                     padding: EdgeInsets.all(3),
                     child: CircleAvatar(
                       radius: 33,
-                      backgroundImage:
-                          AssetImage('assets/images/sunglasses.jpg'),
+                      backgroundImage: AssetImage('assets/images/package2.jpg'),
                     ),
                   ),
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return const PartOfTheProduct();
+                      return PartOfTheProduct(
+                        productType: "package",
+                      );
                     },
                   ));
                 },

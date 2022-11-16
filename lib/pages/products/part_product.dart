@@ -1,14 +1,20 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 
 class PartOfTheProduct extends StatefulWidget {
-  const PartOfTheProduct({super.key});
-
+  PartOfTheProduct({super.key, required this.productType});
+  String productType;
   @override
   State<PartOfTheProduct> createState() => _PartOfTheProductState();
 }
 
 class _PartOfTheProductState extends State<PartOfTheProduct> {
+  final CollectionReference products =
+      FirebaseFirestore.instance.collection('products');
+
   @override
   Widget build(BuildContext context) {
     var search = "";
@@ -29,52 +35,71 @@ class _PartOfTheProductState extends State<PartOfTheProduct> {
         ),
         centerTitle: true,
       ),
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 40),
-              child: SizedBox(
-                height: 46,
-                child: TextField(
-                  decoration: InputDecoration(
-                    label: const Text('Search'),
-                    icon: const Icon(
-                      Icons.search_rounded,
-                    ),
-                    suffixIcon: Visibility(
-                      visible: change,
-                      child: IconButton(
-                        icon: const Icon(Icons.highlight_off_rounded),
-                        onPressed: () {
-                          setState(() {
-                            searchController.clear();
-                            change = false;
-                          });
-                        },
+      body: StreamBuilder(
+          stream: products.where("type", isEqualTo: "Perfume").snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+            if (streamSnapshot.hasData) {
+              // void getData() async {}
+              for (var i in streamSnapshot.data!.docs) {
+                print(i.id);
+              }
+              return SizedBox(
+                width: double.infinity,
+                height: double.infinity,
+                child: ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 40),
+                      child: SizedBox(
+                        height: 46,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            label: const Text('Search'),
+                            icon: const Icon(
+                              Icons.search_rounded,
+                            ),
+                            suffixIcon: Visibility(
+                              visible: change,
+                              child: IconButton(
+                                icon: const Icon(Icons.highlight_off_rounded),
+                                onPressed: () {
+                                  setState(() {
+                                    searchController.clear();
+                                    change = false;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                          controller: searchController,
+                          onChanged: (value) {
+                            setState(() {
+                              if (value == '') {
+                                change = false;
+                              } else {
+                                change = true;
+                              }
+                              search = value;
+                            });
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  controller: searchController,
-                  onChanged: (value) {
-                    setState(() {
-                      if (value == '') {
-                        change = false;
-                      } else {
-                        change = true;
-                      }
-                      search = value;
-                    });
-                  },
+                    ElevatedButton(
+                        onPressed: () async {
+                          var result = await products
+                              .where("type", isEqualTo: widget.productType)
+                              .get();
+                          print(result.toString());
+                        },
+                        child: Text(".."))
+                    //* stream
+                  ],
                 ),
-              ),
-            ),
-            //* stream
-          ],
-        ),
-      ),
+              );
+            }
+            return const Center(child: CircularProgressIndicator());
+          }),
     );
   }
 }

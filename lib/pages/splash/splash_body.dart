@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
+import 'package:karaz_shopping_organization/pages/home/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../boarding/boarding_view.dart';
 import 'component/size_confige.dart';
 
@@ -7,6 +10,33 @@ class SplashBody extends StatefulWidget {
 
   @override
   State<SplashBody> createState() => _SplashBodyState();
+}
+
+void checkUser(context) async {
+  var sp = await SharedPreferences.getInstance();
+  String login = sp.getString('login') ?? '';
+  String bording = sp.getString('bording') ?? '';
+
+  if (bording == '1' || bording != '') {
+    if (login == '1' || login != '') {
+      // Navigator.pushNamedAndRemoveUntil(
+      //   context,
+      //   HomePage.id,
+      //   (route) => false,
+      // );
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        HomePage.id,
+        (_) => false,
+      );
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        LogIn.id,
+        (_) => false,
+      );
+    }
+  } else {}
 }
 
 class _SplashBodyState extends State<SplashBody>
@@ -54,10 +84,11 @@ class _SplashBodyState extends State<SplashBody>
       () {
         setState(() {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const OnBordingView(),
-              ));
+            context,
+            MaterialPageRoute(
+              builder: (context) => const OnBordingView(),
+            ),
+          );
         });
       },
     );

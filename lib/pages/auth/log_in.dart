@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/pages/auth/reset_password.dart';
 import 'package:karaz_shopping_organization/pages/auth/signup.dart';
 import 'package:karaz_shopping_organization/pages/home/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'login_with_google.dart';
 
 class LogIn extends StatefulWidget {
@@ -87,40 +88,42 @@ class _LogInState extends State<LogIn> {
                 SizedBox(
                   width: 320,
                   child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: const StadiumBorder()),
-                      onPressed: () async {
-                        try {
-                          FirebaseAuth authObject = FirebaseAuth.instance;
+                    style:
+                        ElevatedButton.styleFrom(shape: const StadiumBorder()),
+                    onPressed: () async {
+                      try {
+                        FirebaseAuth authObject = FirebaseAuth.instance;
 
-                          UserCredential loginMethod =
-                              await authObject.signInWithEmailAndPassword(
-                                  email: email.text, password: password.text);
-                          String id = loginMethod.user!.uid;
-                          final userRef = FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(id);
-                          final userData = await userRef.get();
-                          if (loginMethod.user!.emailVerified == false) {
-                            User? verifyUser =
-                                FirebaseAuth.instance.currentUser;
-                            await verifyUser!.sendEmailVerification();
-                          }
-                          // print(LoginMethod.user!.emailVerified);
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomePage(),
-                              ));
-                        } on FirebaseAuthException catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(e.message.toString())));
+                        UserCredential loginMethod =
+                            await authObject.signInWithEmailAndPassword(
+                                email: email.text, password: password.text);
+                        String id = loginMethod.user!.uid;
+                        final userRef = FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(id);
+                        final userData = await userRef.get();
+                        if (loginMethod.user!.emailVerified == false) {
+                          User? verifyUser = FirebaseAuth.instance.currentUser;
+                          await verifyUser!.sendEmailVerification();
                         }
-                      },
-                      child: const Text(
-                        "Log in",
-                      )),
+                        // print(LoginMethod.user!.emailVerified);
+                        var sp = await SharedPreferences.getInstance();
+                        sp.setString('login', '1');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
+                        );
+                      } on FirebaseAuthException catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(e.message.toString())));
+                      }
+                    },
+                    child: const Text(
+                      "Log in",
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 20,

@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:karaz_shopping_organization/firebase_options.dart';
+import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
+import 'package:karaz_shopping_organization/pages/home/home_page.dart';
 import 'package:karaz_shopping_organization/pages/splash/splach_view.dart';
 
 Future<void> main() async {
@@ -14,6 +16,7 @@ Future<void> main() async {
   runApp(
     EasyDynamicThemeWidget(
       child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Karaz',
         home: MyApp(),
       ),
@@ -31,8 +34,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: EasyDynamicTheme.of(context).themeMode!,
-      //home: LogIn(),
-      home: const SplashView(),
+      routes: {
+        HomePage.id: (context) => const HomePage(),
+        SplashView.id: (context) => const SplashView(),
+        LogIn.id:(context)=>const LogIn(),
+      },
+      initialRoute: SplashView.id,
+
     );
     //return const HomePage();
   }
