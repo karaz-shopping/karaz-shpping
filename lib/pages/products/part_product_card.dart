@@ -1,21 +1,23 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/pages/products/components/Products_details.dart';
 import 'package:share_plus/share_plus.dart';
 
-class ProductCard extends StatefulWidget {
-  ProductCard({super.key, required this.documentSnapshot});
+class PartProductCard extends StatefulWidget {
+  PartProductCard(this.documentSnapshot);
   DocumentSnapshot documentSnapshot;
+
   @override
-  State<ProductCard> createState() => _ProductCardState();
+  State<PartProductCard> createState() => _PartProductCardState();
 }
 
-class _ProductCardState extends State<ProductCard> {
+class _PartProductCardState extends State<PartProductCard> {
+  //update function start -----------------------------------------------------------------------------------------------------------
   final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
-  //*update function start -----------------------------------------------------------------------------------------------------------
-
   bool isFavorite = false;
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -77,7 +79,7 @@ class _ProductCardState extends State<ProductCard> {
                       final String decoration = descriptionController.text;
                       final String price = priceController.text;
 
-                      await products.doc(widget.documentSnapshot.id).update({
+                      await products.doc(documentSnapshot!.id).update({
                         "name": name,
                         "description": decoration,
                         "price": price,
@@ -98,7 +100,7 @@ class _ProductCardState extends State<ProductCard> {
         });
   }
 
-//*update function ends -----------------------------------------------------------------------------------------------------------
+//update function ends -----------------------------------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -222,31 +224,7 @@ class _ProductCardState extends State<ProductCard> {
                                         color: Colors.grey[700],
                                         Icons.add_shopping_cart_rounded,
                                       ),
-                                      onPressed: () async {
-                                        CollectionReference addProduct =
-                                            FirebaseFirestore.instance
-                                                .collection("basket");
-                                        addProduct.add({
-                                          "type":
-                                              widget.documentSnapshot['type'],
-                                          "color":
-                                              widget.documentSnapshot['color'],
-                                          'name':
-                                              widget.documentSnapshot['name'],
-                                          "description": widget
-                                              .documentSnapshot['description'],
-                                          "price":
-                                              widget.documentSnapshot['price'],
-                                          "StoreID": widget
-                                              .documentSnapshot['StoreID'],
-                                          "StoreEmail": widget
-                                              .documentSnapshot['StoreEmail'],
-                                          "BuyerID": FirebaseAuth
-                                              .instance.currentUser!.uid,
-                                          "BuyerEmail": FirebaseAuth
-                                              .instance.currentUser!.email,
-                                        });
-                                      },
+                                      onPressed: () {},
                                     ),
                                     SizedBox(
                                       width: 35,
@@ -380,5 +358,18 @@ class _ProductCardState extends State<ProductCard> {
         ),
       ),
     );
+    // return Padding(
+    //   padding: const EdgeInsets.all(15.0),
+    //   child: Column(
+    //     children: [
+    //       Text(documentSnapshot["type"]),
+    //       Text(documentSnapshot["StoreEmail"]),
+    //       Text(documentSnapshot["StoreID"]),
+    //       Text(documentSnapshot["color"]),
+    //       Text(documentSnapshot["name"]),
+    //       Text(documentSnapshot["price"]),
+    //     ],
+    //   ),
+    // );
   }
 }

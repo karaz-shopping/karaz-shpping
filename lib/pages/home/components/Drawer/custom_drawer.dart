@@ -1,6 +1,7 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
+import 'package:karaz_shopping_organization/pages/Cart/my_orders.dart';
 import 'package:karaz_shopping_organization/pages/products/add_product.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
@@ -120,6 +121,19 @@ class CustomDrawer extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
                     return const AddProduct();
+                  },
+                ));
+              },
+            ),
+            InkWell(
+              child: const ListTile(
+                title: Text('My orders'),
+                leading: Icon(Icons.cloud_upload_outlined),
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return const MyOrders();
                   },
                 ));
               },

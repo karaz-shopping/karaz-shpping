@@ -106,13 +106,14 @@ class _SignUpState extends State<SignUp> {
                   email: email.text,
                   password: password.text,
                 );
-                final userRef =
-                    FirebaseFirestore.instance.collection("users").doc();
+                String ID = FirebaseAuth.instance.currentUser!.uid;
+                DocumentReference<Map<String, dynamic>> userRef =
+                    FirebaseFirestore.instance.collection("users").doc(ID);
                 userRef.set({
                   'name': userName.text,
                   "role": dropdownValue,
                   'Email': email.text,
-                  'id': FirebaseAuth.instance.currentUser!.uid,
+                  'id': ID,
                 });
                 email.clear();
                 password.clear();
@@ -143,7 +144,7 @@ class _SignUpState extends State<SignUp> {
                 },
               ));
             },
-            child: const Text("Allready have Email!"),
+            child: const Text("Already have Email!"),
           ),
         ],
       ),
