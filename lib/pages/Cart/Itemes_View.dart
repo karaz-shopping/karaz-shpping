@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ItemesView extends StatefulWidget {
@@ -18,7 +19,10 @@ class _ItemesViewState extends State<ItemesView> {
         height: 650,
         color: Color.fromARGB(255, 208, 176, 122),
         child: StreamBuilder(
-            stream: Itemes.snapshots(),
+            stream: Itemes
+              .where("BuyerEmail",
+                  isEqualTo: FirebaseAuth.instance.currentUser!.email)
+              .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
               if (streamSnapshot.hasData) {
                 return ListView.builder(

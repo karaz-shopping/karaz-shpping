@@ -41,15 +41,14 @@ class _ProductCardState extends State<ProductCard> {
                 TextField(
                   controller: nameController,
                   decoration: const InputDecoration(
-                    labelText: 'name',
+                    labelText: 'Name',
                   ),
                 ),
                 TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: TextInputType.text,
                   controller: descriptionController,
                   decoration: const InputDecoration(
-                    labelText: 'description',
+                    labelText: 'Description',
                   ),
                 ),
                 TextField(
@@ -57,7 +56,7 @@ class _ProductCardState extends State<ProductCard> {
                       const TextInputType.numberWithOptions(decimal: true),
                   controller: priceController,
                   decoration: const InputDecoration(
-                    labelText: 'price',
+                    labelText: 'Price',
                   ),
                 ),
                 const SizedBox(

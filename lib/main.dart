@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
         SplashView.id: (context) => const SplashView(),
         LogIn.id: (context) => const LogIn(),
       },
-      initialRoute: SplashView.id,
+      //initialRoute: SplashView.id,
+      initialRoute: LogIn.id,
     );
   }
 }

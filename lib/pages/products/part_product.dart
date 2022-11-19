@@ -26,8 +26,9 @@ class _PartOfTheProductState extends State<PartOfTheProduct> {
           backgroundColor: AppColors.somo3,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(25),
-                bottomLeft: Radius.circular(25)),
+              bottomRight: Radius.circular(25),
+              bottomLeft: Radius.circular(25),
+            ),
           ),
           iconTheme: IconThemeData(color: AppColors.blueGrey3),
           title: Text(

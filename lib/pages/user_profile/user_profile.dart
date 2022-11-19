@@ -89,11 +89,14 @@ class _UserProfileState extends State<UserProfile> {
                             onPressed: () {
                               final userInfo = FirebaseFirestore.instance
                                   .collection('users')
-                                  .doc();
-                              userInfo.set({
-                                'about': aboutController.text,
-                                'phoneNum': phoneController.text,
-                              });
+                                  .doc(FirebaseAuth.instance.currentUser!.uid);
+                              userInfo.set(
+                                {
+                                  'about': aboutController.text,
+                                  'phoneNum': phoneController.text,
+                                },
+                                SetOptions(merge: true),
+                              );
 
                               // setState(() {
 
@@ -198,7 +201,7 @@ class _UserProfileState extends State<UserProfile> {
               ),
             );
           }
-          return CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

@@ -35,7 +35,7 @@ class CustomDrawer extends StatelessWidget {
                     Navigator.pushNamedAndRemoveUntil(
                       context,
                       LogIn.id,
-                      (_) => false,
+                      (route) => false,
                     );
                   },
                   child: const Text(
@@ -105,13 +105,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            InkWell(
-              child: const ListTile(
-                title: Text('Dashboard'),
-                leading: Icon(Icons.dashboard_rounded),
-              ),
-              onTap: () {},
-            ),
+
             InkWell(
               child: const ListTile(
                 title: Text('Add Product'),
@@ -128,7 +122,7 @@ class CustomDrawer extends StatelessWidget {
             InkWell(
               child: const ListTile(
                 title: Text('My orders'),
-                leading: Icon(Icons.cloud_upload_outlined),
+                leading: Icon(Icons.shopping_cart_outlined),
               ),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(
