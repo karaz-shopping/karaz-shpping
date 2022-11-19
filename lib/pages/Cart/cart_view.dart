@@ -1,51 +1,48 @@
+// import 'dart:math';
+// import 'dart:typed_data';
+// ignore_for_file: camel_case_types, must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:karaz_shopping_organization/pages/Cart/Itemes_View.dart';
+import 'package:karaz_shopping_organization/pages/products/components/product_card.dart';
+
 import '../../Themes/app_colors.dart';
 
-class CartView extends StatefulWidget {
-  const CartView({super.key});
+import '../home/components/appBar/custom_app_bar.dart';
+import 'payment/confirmSheet.dart';
+// import 'payment/pay.dart';
+
+class Cart_View extends StatefulWidget {
+  String name;
+  String price;
+  Cart_View({
+    super.key,
+    required this.name,
+    required this.price,
+  });
 
   @override
-  State<CartView> createState() => _CartViewState();
+  State<Cart_View> createState() => _Cart_ViewState();
 }
 
-class _CartViewState extends State<CartView> {
+class _Cart_ViewState extends State<Cart_View> {
+  // CartService cartSErvice = CartService();
+  // CartList? cartList;
+  List<ProductCard> cartItem = [];
+
+  // TextEditingController _quantity = TextEditingController();
+
+  String? quantity;
+
+  int sum = 0;
+  int counter = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.somo3,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(25),
-            bottomLeft: Radius.circular(25),
-          ),
-        ),
-        title: Text(
-          "Basket",
-          style: TextStyle(color: AppColors.blueGrey3),
-        ),
-      ),
+      appBar: const CustomAppBar(appbartitle: "Basket"),
       bottomNavigationBar: BottomAppBar(
         color: AppColors.somo4,
-        child: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.somo,
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    shape: const RoundedRectangleBorder(),
-                    //  primary: Theme.of(context).accentColor,
-                  ),
-                  onPressed: () {},
-                  child: Text("Inquier",
-                      style: TextStyle(color: AppColors.blueGrey3)))
-            ],
-          ),
-        ),
+        child: const ConfirmSheet(),
       ),
       body: SingleChildScrollView(
           child: Padding(
@@ -57,82 +54,40 @@ class _CartViewState extends State<CartView> {
             const SizedBox(
               height: 17,
             ),
-            Text("Save Basket",
+            Text("Receipt",
                 style: Theme.of(context)
                     .textTheme
                     .headline6!
                     .copyWith(color: AppColors.purple2)),
             Container(
-              width: double.infinity,
-              margin: const EdgeInsets.only(top: 10, bottom: 10),
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 172, 153, 153),
-                  borderRadius: BorderRadius.circular(5)),
-              child: Row(
-                children: [
-                  const Expanded(
-                    child: Text(
-                      "Do you want to save your basket?",
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 100,
-                    // swith-------------------------------------------
-                    child: SwitchListTile(
-                      dense: false,
-                      value: false,
-                      onChanged: (bool? newValue) {},
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Text("items",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5!
-                    .copyWith(color: AppColors.purple2)),
-            ListView.builder(
-              shrinkWrap: true, // بدونها ما راح يظهر اشي بالشاشة
-              itemCount: 4, // منحط demoCarts.length, حسب الطول بال DB
-              itemBuilder: (context, index) {
-                return
-                    //  copy the same container fog
-                    Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(top: 5),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  decoration: BoxDecoration(
+                height: 80,
+                width: double.infinity,
+                margin: const EdgeInsets.only(top: 10, bottom: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 172, 153, 153),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Row(
-                    children: const [
-                      Text(
-                        "1x",
+                    borderRadius: BorderRadius.circular(5)),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        "Total amount",
                         style: TextStyle(fontSize: 15),
                       ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: Text(
-                          "ROZE",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      Text(
-                        "4.99\$",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                    ),
+                    SizedBox(
+                      width: 100,
+                      // total card-------------------------------------------
+                      child: Card(
+                          elevation: 12,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Text("$sum"),
+                          )),
+                    )
+                  ],
+                )),
+            const ItemesView(),
           ],
         ),
       )),

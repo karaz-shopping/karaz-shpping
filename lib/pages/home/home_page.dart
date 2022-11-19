@@ -17,10 +17,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _indexPage = 0;
-  final List _pages = const [
-    CustomHome(),
-    CartView(),
-    UserProfile(),
+  final List _pages = [
+    const CustomHome(),
+    Cart_View(
+      name: '',
+      price: '',
+    ),
+    const UserProfile(),
   ];
   @override
   Widget build(BuildContext context) {

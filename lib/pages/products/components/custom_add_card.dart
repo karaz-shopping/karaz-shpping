@@ -14,9 +14,6 @@ class CustomAdsCard extends StatefulWidget {
 class _CustomAdsCardState extends State<CustomAdsCard> {
   final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
-  //update function start-----------------------------------------------------------------------------------------
-
-  //update function end-----------------------------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {

@@ -32,7 +32,7 @@ class CustomCircleAvatar extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
                       return PartOfTheProduct(
-                        productType: "flower",
+                        productType: "Flower",
                       );
                     },
                   ));
@@ -58,7 +58,7 @@ class CustomCircleAvatar extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
                       return PartOfTheProduct(
-                        productType: "perfume",
+                        productType: "Perfume",
                       );
                     },
                   ));
@@ -83,7 +83,7 @@ class CustomCircleAvatar extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
                       return PartOfTheProduct(
-                        productType: "watch",
+                        productType: "Watche",
                       );
                     },
                   ));
@@ -133,7 +133,7 @@ class CustomCircleAvatar extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
                       return PartOfTheProduct(
-                        productType: "sweets",
+                        productType: "Sweets",
                       );
                     },
                   ));
@@ -158,13 +158,37 @@ class CustomCircleAvatar extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
                       return PartOfTheProduct(
-                        productType: "package",
+                        productType: "Packages",
                       );
                     },
                   ));
                 },
               ),
               const SizedBox(width: 10),
+              InkWell(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.somo2,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(3),
+                    child: CircleAvatar(
+                      radius: 33,
+                      backgroundImage: AssetImage('assets/images/makeup2.jpg'),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return PartOfTheProduct(
+                        productType: "Makeup",
+                      );
+                    },
+                  ));
+                },
+              ),
             ],
           ),
         ),

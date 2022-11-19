@@ -20,7 +20,9 @@ class _CustomHomeState extends State<CustomHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       //backgroundColor:AppColors.blueGreen3 ,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(
+        appbartitle: 'Home',
+      ),
       drawer: const CustomDrawer(),
       body: SizedBox(
         width: double.infinity,
