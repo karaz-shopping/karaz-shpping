@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:karaz_shopping_organization/Themes/app_colors.dart';
+import 'package:karaz_shopping_organization/pages/chat/chat.dart';
 import 'package:karaz_shopping_organization/pages/home/components/Drawer/custom_drawer.dart';
 import 'package:karaz_shopping_organization/pages/home/components/appBar/custom_app_bar.dart';
 import 'package:karaz_shopping_organization/pages/home/home_page/custom_circle_avatar.dart';
@@ -20,8 +22,19 @@ class _CustomHomeState extends State<CustomHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       //backgroundColor:AppColors.blueGreen3 ,
-      appBar: const CustomAppBar(
-        appbartitle: 'Home',
+      appBar: CustomAppBar(
+        title: 'Home Page',
+        action: IconButton(
+          color: AppColors.blueGrey3,
+          icon: const Icon(Icons.chat_outlined),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return const ChatPage();
+              },
+            ));
+          },
+        ),
       ),
       drawer: const CustomDrawer(),
       body: SizedBox(

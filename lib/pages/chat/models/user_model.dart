@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/pages/chat/message.dart';
 
-class UserCard extends StatelessWidget {
+class UserCard extends StatefulWidget {
   String img;
   String name;
   String id;
@@ -22,28 +22,46 @@ class UserCard extends StatelessWidget {
   });
 
   @override
+  State<UserCard> createState() => _UserCardState();
+}
+
+class _UserCardState extends State<UserCard> {
+  chekmessage() {
+    if (widget.read == '1') {
+      return Colors.red;
+    } else {
+      return Colors.grey;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return const Message();
+            return Message(
+              name: widget.name,
+              img: "",
+              id: widget.uid,
+            );
           },
         ));
       },
       child: Card(
         child: ListTile(
-          title: Text(name),
-          subtitle: Text(lastMessage),
+          title: Text(widget.name),
+          subtitle: Text(widget.lastMessage),
           leading: const CircleAvatar(
             backgroundImage: AssetImage('assets/images/profile.png'),
           ),
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: const [
+            children: [
               Expanded(
                   child: Icon(
                 Icons.album_outlined,
+                color: chekmessage(),
                 size: 20,
               )),
               Text(

@@ -6,6 +6,8 @@ import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
 
+  static String userName = '';
+
   @override
   State<UserProfile> createState() => _UserProfileState();
 }
@@ -122,9 +124,20 @@ class _UserProfileState extends State<UserProfile> {
         stream: users.snapshots(),
         builder: (context, snapshot) {
           final docId = FirebaseAuth.instance.currentUser!.uid;
-          final DocumentSnapshot documentSnapshot = snapshot.data!.docs[1];
-
           if (snapshot.hasData) {
+            var name = '';
+            var about = '';
+            var phone = '';
+
+            for (var i in snapshot.data!.docs) {
+              if (i.id == docId) {
+                name = i['name'];
+                about = i['about'];
+                phone = i['phoneNum'];
+                UserProfile.userName = i['name'];
+              }
+            }
+            
             return SizedBox(
               width: double.infinity,
               height: double.infinity,
@@ -154,7 +167,7 @@ class _UserProfileState extends State<UserProfile> {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            Text(documentSnapshot['name']),
+                            Text(name),
                             const SizedBox(height: 10),
                             Text(
                               FirebaseAuth.instance.currentUser!.email
@@ -172,11 +185,11 @@ class _UserProfileState extends State<UserProfile> {
                       const Text(
                         'About',
                         style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
+                            fontSize: 22, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 15),
                       Text(
-                        aboutController.text,
+                        about,
                         style: const TextStyle(fontSize: 15, height: 1),
                       ),
                       const SizedBox(height: 10),
@@ -185,11 +198,13 @@ class _UserProfileState extends State<UserProfile> {
                       const Text(
                         'phone Number',
                         style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        phoneController.text,
+                        phone,
                         style: const TextStyle(fontSize: 15, height: 1),
                       ),
                       const SizedBox(height: 10),

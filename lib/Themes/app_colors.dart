@@ -9,6 +9,7 @@ class AppColors {
 
   static final Color somo = _colorFromHex('#FFB0B0');
   static final Color somo2 = _colorFromHex('#FFBFBF');
+  static final Color somo5 = _colorFromHex('#ffdfdf');
   static final Color somo3 = _colorFromHex('#ffcbcb');
   static final Color somo4 = _colorFromHex('#ffd2d2');
   static final Color watermelon = _colorFromHex('#FE7171');

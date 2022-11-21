@@ -23,8 +23,8 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        appbartitle: 'Reset password',
+      appBar: CustomAppBar(
+        title: 'Reset password',
       ),
       body: Center(
           child: Container(

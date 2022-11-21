@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 import '../home/home_page.dart';
 
 class GoogleLogin extends StatefulWidget {
@@ -34,9 +35,10 @@ class _GoogleLoginState extends State<GoogleLogin> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: const CircleAvatar(
+      child:  CircleAvatar(
         radius: 20,
-        backgroundImage: AssetImage('assets/images/Google-Logo.png'),
+        backgroundColor: AppColors.somo,
+        backgroundImage: AssetImage('assets/images/Google-Logo.png',),
       ),
       onTap: () async {
         try {

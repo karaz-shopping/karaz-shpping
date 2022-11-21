@@ -93,4 +93,9 @@ class _SplashBodyState extends State<SplashBody>
       },
     );
   }
+//   @override
+// dispose() {
+//   animationController.dispose(); // you need this
+//   super.dispose();
+// }
 }

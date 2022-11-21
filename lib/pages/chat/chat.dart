@@ -35,20 +35,23 @@ class _ChatPageState extends State<ChatPage> {
               stream: FirebaseFirestore.instance
                   .collection("users")
                   .doc(FirebaseAuth.instance.currentUser!.uid)
-                  .collection("contacts")
+                  .collection("contact")
+                  .orderBy("time", descending: false)
                   .snapshots(),
               builder: (context, snapshot) {
                 List<UserCard> user = [];
                 if (snapshot.hasData) {
                   for (var i in snapshot.data!.docs) {
-                    user.add(UserCard(
-                      id: i.id,
-                      img: "",
-                      lastMessage: i["name"],
-                      name: i["name"],
-                      read: "",
-                      uid: "",
-                    ));
+                    user.add(
+                      UserCard(
+                        id: i.id,
+                        img: "",
+                        lastMessage: i["lastMessage"],
+                        name: i["Name"],
+                        read: i["read"],
+                        uid: i["id"],
+                      ),
+                    );
                   }
                 }
                 return Column(

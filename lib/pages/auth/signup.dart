@@ -1,5 +1,13 @@
 // ignore_for_file: use_build_context_synchronously, unused_local_variable
 
+import 'dart:convert';
+import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:karaz_shopping_organization/Themes/app_colors.dart';
+import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,135 +26,310 @@ class _SignUpState extends State<SignUp> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
+  XFile? image;
+  File? imageFile;
+  final ImagePicker picker = ImagePicker();
+  var imgeURL = "";
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    setState(() {
+      image = img;
+    });
+  }
+
+  uploadPhoto(context) async {
+    var data = {};
+    File file = File(image!.path);
+    String base64 = base64Encode(file.readAsBytesSync());
+    String imageName = image!.path.split("/").last;
+    data["imagename"] = imageName;
+    data["image64"] = base64;
+    var response = await post(
+        Uri.parse("http://aqarakdns.com/karaz/uploadphoto.php"),
+        body: data);
+    if (response.statusCode == 200) {
+      var result = jsonDecode(response.body);
+      setState(() {
+        imgeURL = result["path"];
+      });
+      String ID = FirebaseAuth.instance.currentUser!.uid;
+      DocumentReference<Map<String, dynamic>> userRef =
+          FirebaseFirestore.instance.collection("users").doc(ID);
+      userRef.set({
+        'name': userName.text,
+        "role": dropdownValue,
+        'Email': email.text,
+        'id': ID,
+        'image': result["path"],
+      });
+      email.clear();
+      password.clear();
+      userName.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Your email is add successfully")));
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) {
+          return const HomePage();
+        },
+      ));
+    }
+  }
+
   List myList = ["Store", "Buyer"];
   String dropdownValue = "Buyer";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: TextField(
-              controller: userName,
-              decoration: InputDecoration(
-                hintStyle:
-                    const TextStyle(color: Color.fromARGB(255, 253, 191, 99)),
-                hintText: "Enter your user name",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+      backgroundColor: AppColors.somo5,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 10, 10, 10),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 75,
+                      height: 75,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage('assets/images/k.png'),
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    Container(
+                      width: 111,
+                      height: 50,
+                      alignment: AlignmentDirectional.center,
+                      decoration: BoxDecoration(
+                          color: AppColors.blueGrey3,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            bottomRight: Radius.circular(25),
+                          )),
+                      child: Text(
+                        "Sign up",
+                        style: TextStyle(
+                          color: AppColors.somo2,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: TextField(
-              controller: email,
-              decoration: InputDecoration(
-                label: const Text("Example@example.com"),
-                hintStyle:
-                    const TextStyle(color: Color.fromARGB(255, 253, 191, 99)),
-                hintText: "Enter your Email",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.somo2,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(50),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text('Select your photo :'),
+                        Stack(
+                          children: [
+                            InkWell(
+                              child: CircleAvatar(
+                                radius: 33,
+                                child: image == null
+                                    ? Image.asset("assets/images/profile.png")
+                                    : Image.file(imageFile!),
+                              ),
+                              onTap: () {
+                                getImage(ImageSource.gallery);
+                              },
+                            ),
+                            const Positioned(
+                              bottom: -1,
+                              right: -1,
+                              child: Icon(
+                                Icons.add_a_photo_outlined,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextField(
+                        controller: userName,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            gapPadding: 20,
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: AppColors.blueGrey4,
+                            ),
+                          ),
+                          label: const Text("Enter your user name"),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextField(
+                        controller: email,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            gapPadding: 20,
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: AppColors.blueGrey4,
+                            ),
+                          ),
+                          label: const Text("Example@example.com"),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextField(
+                        controller: password,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          label: const Text("Enter your user name"),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            gapPadding: 20,
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: AppColors.blueGrey4,
+                            ),
+                          ),
+                          hintText: "Enter your Password",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text('Select your role :'),
+                        DropdownButton<String>(
+                          value: dropdownValue,
+                          icon: Icon(
+                            Icons.arrow_drop_down_circle_outlined,
+                            color: AppColors.blueGrey4,
+                          ),
+                          iconSize: 30,
+                          elevation: 10,
+                          style: TextStyle(color: AppColors.blueGrey4),
+                          underline: Container(
+                            height: 2,
+                            color: AppColors.blueGrey4,
+                          ),
+                          onChanged: (newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                          items: <String>['Store', 'Buyer']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.blueGrey4,
+                      ),
+                      onPressed: (() async {
+                        try {
+                          FirebaseAuth authObj = FirebaseAuth.instance;
+                          UserCredential myUser =
+                              await authObj.createUserWithEmailAndPassword(
+                            email: email.text,
+                            password: password.text,
+                          );
+                        } on FirebaseAuthException catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(e.message.toString())));
+                        }
+                      }),
+                      child: Text(
+                        "sign up",
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: AppColors.somo2,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                  ],
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: TextField(
-              controller: password,
-              obscureText: true,
-              decoration: InputDecoration(
-                label:
-                    const Text("the passowrd must be more than 8 charactars"),
-                hintStyle:
-                    const TextStyle(color: Color.fromARGB(255, 252, 186, 87)),
-                hintText: "Enter your Password",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return const LogIn();
+                        },
+                      ));
+                    },
+                    child: const Text(
+                      "Already have account!",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const LogIn();
+                          },
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Log in",
+                      style: TextStyle(
+                        color: AppColors.blueGrey4,
+                        fontSize: 17,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
+            ],
           ),
-          DropdownButton<String>(
-            value: dropdownValue,
-            icon: const Icon(Icons.arrow_downward),
-            iconSize: 24,
-            elevation: 16,
-            style: const TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
-            ),
-            onChanged: (newValue) {
-              setState(() {
-                dropdownValue = newValue!;
-              });
-            },
-            items: <String>['Store', 'Buyer']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                foregroundColor: const Color.fromARGB(255, 99, 61, 5),
-                backgroundColor: const Color.fromARGB(255, 253, 191, 99)),
-            onPressed: (() async {
-              try {
-                FirebaseAuth authObj = FirebaseAuth.instance;
-                UserCredential myUser =
-                    await authObj.createUserWithEmailAndPassword(
-                  email: email.text,
-                  password: password.text,
-                );
-                String ID = FirebaseAuth.instance.currentUser!.uid;
-                DocumentReference<Map<String, dynamic>> userRef =
-                    FirebaseFirestore.instance.collection("users").doc(ID);
-                userRef.set({
-                  'name': userName.text,
-                  "role": dropdownValue,
-                  'Email': email.text,
-                  'id': ID,
-                });
-                email.clear();
-                password.clear();
-                userName.clear();
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Your email is add successfully")));
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return const HomePage();
-                  },
-                ));
-              } on FirebaseAuthException catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(e.message.toString())));
-              }
-            }),
-            child: const Text(
-              "sign up",
-              style: TextStyle(
-                  fontSize: 30, color: Color.fromARGB(255, 61, 22, 7)),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return const LogIn();
-                },
-              ));
-            },
-            child: const Text("Already have Email!"),
-          ),
-        ],
+        ),
       ),
     );
   }

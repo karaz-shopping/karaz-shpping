@@ -115,6 +115,7 @@ class _PartProductCardState extends State<PartProductCard> {
               price: widget.documentSnapshot['price'],
               Email: widget.documentSnapshot['StoreEmail'],
               Type: widget.documentSnapshot['type'],
+              StoreID: widget.documentSnapshot['StoreID'],
             ),
           ),
         );
@@ -137,7 +138,7 @@ class _PartProductCardState extends State<PartProductCard> {
                     Container(
                       clipBehavior: Clip.none,
                       width: double.infinity,
-                      height: 90,
+                      height: 130,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/images/manPerfume.jpg'),
@@ -166,7 +167,7 @@ class _PartProductCardState extends State<PartProductCard> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 15),
                           Text(
                             (widget.documentSnapshot['description']),
                             maxLines: 1,
@@ -175,7 +176,7 @@ class _PartProductCardState extends State<PartProductCard> {
                           ),
                           //const SizedBox(height: 10),
                           const Divider(
-                            height: 15,
+                            height: 25,
                             thickness: 2,
                           ),
                           Row(
@@ -224,7 +225,31 @@ class _PartProductCardState extends State<PartProductCard> {
                                         color: Colors.grey[700],
                                         Icons.add_shopping_cart_rounded,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        CollectionReference addProduct =
+                                            FirebaseFirestore.instance
+                                                .collection("basket");
+                                        addProduct.add({
+                                          "type":
+                                              widget.documentSnapshot['type'],
+                                          "color":
+                                              widget.documentSnapshot['color'],
+                                          'name':
+                                              widget.documentSnapshot['name'],
+                                          "description": widget
+                                              .documentSnapshot['description'],
+                                          "price":
+                                              widget.documentSnapshot['price'],
+                                          "StoreID": widget
+                                              .documentSnapshot['StoreID'],
+                                          "StoreEmail": widget
+                                              .documentSnapshot['StoreEmail'],
+                                          "BuyerID": FirebaseAuth
+                                              .instance.currentUser!.uid,
+                                          "BuyerEmail": FirebaseAuth
+                                              .instance.currentUser!.email,
+                                        });
+                                      },
                                     ),
                                     SizedBox(
                                       width: 35,
@@ -264,45 +289,6 @@ class _PartProductCardState extends State<PartProductCard> {
                                           });
                                         },
                                       ),
-                                      // child: FavoriteButton(
-                                      //   isFavorite: isFavorite,
-                                      //   iconSize: 35,
-                                      //   valueChanged: () {
-                                      //     setState(() {
-                                      //       isFavorite = !isFavorite;
-                                      //     });
-                                      //     print(widget.documentSnapshot.id);
-                                      //     // await FirebaseFirestore.instance
-                                      //     //     .collection(
-                                      //     //         'favorite')
-                                      //     //     .add({
-                                      //     //   'name':
-                                      //     //       documentSnapshot[
-                                      //     //           'name'],
-                                      //     //   'description':
-                                      //     //       documentSnapshot[
-                                      //     //           'description'],
-                                      //     //   'color':
-                                      //     //       documentSnapshot[
-                                      //     //           'color'],
-                                      //     //   'price':
-                                      //     //       documentSnapshot[
-                                      //     //           'price'],
-                                      //     //   'Email':
-                                      //     //       documentSnapshot[
-                                      //     //           'StoreEmail'],
-                                      //     //   'Type':
-                                      //     //       documentSnapshot[
-                                      //     //           'type'],
-                                      //     //   'productid':
-                                      //     //       documentSnapshot.id,
-                                      //     //   'userid': FirebaseAuth
-                                      //     //       .instance
-                                      //     //       .currentUser!
-                                      //     //       .uid,
-                                      //     // });
-                                      //   },
-                                      // ),
                                     ),
                                   ],
                                 ),

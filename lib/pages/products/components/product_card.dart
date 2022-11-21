@@ -17,15 +17,20 @@ class _ProductCardState extends State<ProductCard> {
   //*update function start -----------------------------------------------------------------------------------------------------------
 
   bool isFavorite = false;
-  TextEditingController nameController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
 
   Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
+    TextEditingController nameController =
+        TextEditingController(text: widget.documentSnapshot['name']);
+    TextEditingController descriptionController =
+        TextEditingController(text: widget.documentSnapshot['description']);
+    TextEditingController priceController =
+        TextEditingController(text: widget.documentSnapshot['price']);
     if (documentSnapshot != null) {
-      nameController.text = widget.documentSnapshot['name'];
-      descriptionController.text = widget.documentSnapshot['description'];
-      priceController.text = widget.documentSnapshot['price'];
+      setState(() {
+        nameController.text = widget.documentSnapshot['name'];
+        descriptionController.text = widget.documentSnapshot['description'];
+        priceController.text = widget.documentSnapshot['price'];
+      });
     }
 
     await showModalBottomSheet(
@@ -112,6 +117,7 @@ class _ProductCardState extends State<ProductCard> {
               price: widget.documentSnapshot['price'],
               Email: widget.documentSnapshot['StoreEmail'],
               Type: widget.documentSnapshot['type'],
+              StoreID: widget.documentSnapshot['StoreID'],
             ),
           ),
         );
@@ -336,42 +342,64 @@ class _ProductCardState extends State<ProductCard> {
                   ],
                 ),
               ),
-              Positioned(
-                top: 0,
-                right: -10,
-                child: PopupMenuButton(
-                  tooltip: 'Setting',
-                  elevation: 10,
-                  onSelected: (value) {
-                    if (value.toString() == '1') {
-                      _update();
-                    } else if (value.toString() == '2') {
-                      FirebaseFirestore.instance
-                          .collection("products")
-                          .doc(widget.documentSnapshot.id)
-                          .delete();
-                      //deletePost();
-                    } else if (value.toString() == '3') {
+              Visibility(
+                visible: FirebaseAuth.instance.currentUser!.uid !=
+                    widget.documentSnapshot['StoreID'],
+                child: Positioned(
+                  top: 0,
+                  right: 0,
+                  child: IconButton(
+                    iconSize: 18,
+                    onPressed: () {
                       const urlPost = "url post";
                       Share.share(
                         'Karaz \n${widget.documentSnapshot['description']} \n\n $urlPost',
                       );
-                    } else {}
-                  },
-                  itemBuilder: (context) => const [
-                    PopupMenuItem(
-                      value: 1,
-                      child: Text('Edit'),
-                    ),
-                    PopupMenuItem(
-                      value: 2,
-                      child: Text('Delete'),
-                    ),
-                    PopupMenuItem(
-                      value: 3,
-                      child: Text('Share'),
-                    ),
-                  ],
+                    },
+                    icon:const Icon(Icons.share),
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: FirebaseAuth.instance.currentUser!.uid ==
+                    widget.documentSnapshot['StoreID'],
+                child: Positioned(
+                  top: 0,
+                  right: -10,
+                  child: PopupMenuButton(
+                    tooltip: 'Setting',
+                    elevation: 10,
+                    onSelected: (value) {
+                      if (value.toString() == '1') {
+                        _update();
+                      } else if (value.toString() == '2') {
+                        FirebaseFirestore.instance
+                            .collection("products")
+                            .doc(widget.documentSnapshot.id)
+                            .delete();
+                        //deletePost();
+                      } else if (value.toString() == '3') {
+                        const urlPost = "url post";
+                        Share.share(
+                          'Karaz \n${widget.documentSnapshot['description']} \n\n $urlPost',
+                        );
+                      } else {}
+                    },
+                    itemBuilder: (context) => const [
+                      PopupMenuItem(
+                        value: 1,
+                        child: Text('Edit'),
+                      ),
+                      PopupMenuItem(
+                        value: 2,
+                        child: Text('Delete'),
+                      ),
+                      PopupMenuItem(
+                        value: 3,
+                        child: Text('Share'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

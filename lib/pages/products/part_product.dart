@@ -23,6 +23,7 @@ class _PartOfTheProductState extends State<PartOfTheProduct> {
     // bool change = false;
     return Scaffold(
         appBar: AppBar(
+          
           backgroundColor: AppColors.somo3,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -32,7 +33,7 @@ class _PartOfTheProductState extends State<PartOfTheProduct> {
           ),
           iconTheme: IconThemeData(color: AppColors.blueGrey3),
           title: Text(
-            'data',
+            widget.productType,
             style: TextStyle(color: AppColors.blueGrey3),
           ),
           centerTitle: true,

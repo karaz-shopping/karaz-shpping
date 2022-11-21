@@ -33,14 +33,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
+      // theme: CustomTheme.lightTheme(context),
+      // darkTheme: CustomTheme.darkTheme(context),
       themeMode: EasyDynamicTheme.of(context).themeMode!,
       routes: {
         HomePage.id: (context) => const HomePage(),
         SplashView.id: (context) => const SplashView(),
         LogIn.id: (context) => const LogIn(),
       },
-      //initialRoute: SplashView.id,
-      initialRoute: LogIn.id,
+      initialRoute: SplashView.id,
+      //initialRoute: LogIn.id,
     );
   }
 }
