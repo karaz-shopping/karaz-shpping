@@ -21,6 +21,7 @@ class _UserProfileState extends State<UserProfile> {
 
   TextEditingController aboutController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,8 +167,14 @@ class _UserProfileState extends State<UserProfile> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 20),
-                            Text(name),
+                            const SizedBox(height: 15),
+                            Text(
+                              name,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             const SizedBox(height: 10),
                             Text(
                               FirebaseAuth.instance.currentUser!.email

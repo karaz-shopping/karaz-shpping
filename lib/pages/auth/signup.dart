@@ -146,15 +146,21 @@ class _SignUpState extends State<SignUp> {
                                 width: 70,
                                 height: 70,
                                 decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius: BorderRadius.circular(100),
+                                  color: AppColors.blueGrey3,
+                                  //borderRadius: BorderRadius.circular(100),
                                 ),
-                                child: image == null
-                                    ? Image.asset("assets/images/profile.png")
-                                    : Image.file(
-                                        imageFile!,
-                                        fit: BoxFit.fill,
-                                      ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: image == null
+                                      ? Image.asset(
+                                          "assets/images/profile.png",
+                                          fit: BoxFit.fill,
+                                        )
+                                      : Image.file(
+                                          imageFile!,
+                                          fit: BoxFit.fill,
+                                        ),
+                                ),
                               ),
                               onTap: () {
                                 getImage(ImageSource.gallery);

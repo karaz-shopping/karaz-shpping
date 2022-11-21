@@ -23,67 +23,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       FirebaseFirestore.instance.collection('users');
   Widget build(BuildContext context) {
     showMessage(msg) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(msg),
-            actions: [
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    AppColors.blueGreen3,
-                  ),
-                ),
-                onPressed: () async {
-                  FirebaseAuth.instance.signOut();
-                  var sp = await SharedPreferences.getInstance();
-                  sp.remove('login');
-                  // Navigator.pushReplacement(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (_) => const LogIn(),
-                  //   ),
-                  // );
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    LogIn.id,
-                    (_) => false,
-                  );
-                },
-                child: const Text(
-                  'Yes',
-                  style: TextStyle(color: Colors.black87),
-                ),
-              ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    AppColors.blueGreen2,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text(
-                  'No',
-                  style: TextStyle(color: Colors.black87),
-                ),
-              ),
-              InkWell(
-                  onTap: () async {
-                    FirebaseAuth.instance.signOut();
-                    var sp = await SharedPreferences.getInstance();
-                    sp.remove('login');
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, LogIn.id, (route) => false);
-                    //Navigator.pop(context);
-                  },
-                  child: Icon(Icons.logout)),
-            ],
-          );
-        },
-      );
+      ;
     }
 
     return StreamBuilder(
@@ -93,18 +33,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
         if (snapshot.hasData) {
           var name = '';
           var image = '';
+          var role = '';
 
           for (var i in snapshot.data!.docs) {
             if (i.id == docId) {
               name = i['name'];
               image = i["image"];
-
-              //UserProfile.userName = name;
+              role = i['role'];
             }
           }
           return Drawer(
             //backgroundColor: AppColors.somo3,
-            elevation: 0,
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -123,9 +62,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       child: Padding(
                         padding: const EdgeInsets.all(3),
                         child: CircleAvatar(
-                          child: Image.network(
-                            image,
-                          ),
+                          backgroundImage: NetworkImage(image),
+                          // child: Image.network(
+                          //   image,
+                          // ),
                           // child: Image(
                           //   image: NetworkImage(
                           //     image,
@@ -150,19 +90,21 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ),
                     ),
                   ),
-
-                  InkWell(
-                    child: const ListTile(
-                      title: Text('Add Product'),
-                      leading: Icon(Icons.cloud_upload_outlined),
+                  Visibility(
+                    visible: role == 'Store',
+                    child: InkWell(
+                      child: const ListTile(
+                        title: Text('Add Product'),
+                        leading: Icon(Icons.cloud_upload_outlined),
+                      ),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const AddProduct();
+                          },
+                        ));
+                      },
                     ),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return const AddProduct();
-                        },
-                      ));
-                    },
                   ),
                   InkWell(
                     child: const ListTile(
@@ -190,13 +132,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ));
                     },
                   ),
-                  // InkWell(
-                  //   child: const ListTile(
-                  //     title: Text('Terms and Conditions'),
-                  //     leading: Icon(Icons.),
-                  //   ),
-                  //   onTap: () {},
-                  // ),
                   InkWell(
                     child: ListTile(
                       title: const Text('Themes'),
@@ -207,31 +142,26 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       },
                     ),
                   ),
-                  // InkWell(
-                  //   child: const ListTile(
-                  //     title: Text('Log Out'),
-                  //     leading: Icon(Icons.logout),
-                  //   ),
-                  //   onTap: () {
-                  //     showMessage('Do you want log out ?');
-                  //   },
-                  // ),
                   InkWell(
-                      onTap: () async {
-                        FirebaseAuth.instance.signOut();
-                        var sp = await SharedPreferences.getInstance();
-                        sp.remove('login');
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, LogIn.id, (route) => false);
-                        //Navigator.pop(context);
-                      },
-                      child: Icon(Icons.logout)),
+                    child: const ListTile(
+                      title: Text('Log Out'),
+                      leading: Icon(Icons.logout),
+                    ),
+                    onTap: () async {
+                      //showMessage('Do you want log out ?');
+                      FirebaseAuth.instance.signOut();
+                      var sp = await SharedPreferences.getInstance();
+                      sp.remove('login');
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, LogIn.id, (route) => false);
+                    },
+                  ),
                 ],
               ),
             ),
           );
         }
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },
