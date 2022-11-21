@@ -18,6 +18,23 @@ class Message extends StatefulWidget {
 }
 
 class _MessageState extends State<Message> {
+  var myImage = '';
+  getMyImage() async {
+    var bayerInfo = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    setState(() {
+      myImage = bayerInfo['image'];
+    });
+  }
+
+  @override
+  void initState() {
+    getMyImage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,15 +50,13 @@ class _MessageState extends State<Message> {
           style: TextStyle(color: AppColors.blueGrey3),
         ),
         centerTitle: true,
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage('assets/images/profile.png'),
-            ),
+        leading: Padding(
+          padding: const EdgeInsets.all(10),
+          child: CircleAvatar(
+            radius: 20,
+            backgroundImage: NetworkImage(widget.img),
           ),
-        ],
+        ),
       ),
       body: Column(
         children: [
@@ -64,6 +79,8 @@ class _MessageState extends State<Message> {
                         message: i["message"],
                         messageId: i["senderID"],
                         kind: i["kind"],
+                        imgSender: myImage,
+                        imgResever: widget.img,
                       ),
                     );
                   }

@@ -45,7 +45,7 @@ class _ChatPageState extends State<ChatPage> {
                     user.add(
                       UserCard(
                         id: i.id,
-                        img: "",
+                        img: i['image'],
                         lastMessage: i["lastMessage"],
                         name: i["Name"],
                         read: i["read"],

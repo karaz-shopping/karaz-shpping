@@ -42,7 +42,7 @@ class _UserCardState extends State<UserCard> {
           builder: (context) {
             return Message(
               name: widget.name,
-              img: "",
+              img: widget.img,
               id: widget.uid,
             );
           },
@@ -52,8 +52,8 @@ class _UserCardState extends State<UserCard> {
         child: ListTile(
           title: Text(widget.name),
           subtitle: Text(widget.lastMessage),
-          leading: const CircleAvatar(
-            backgroundImage: AssetImage('assets/images/profile.png'),
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(widget.img),
           ),
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,

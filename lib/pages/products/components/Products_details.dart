@@ -198,15 +198,16 @@ class _ProductsDetailsState extends State<ProductsDetails> {
         .doc(widget.StoreID)
         .get();
     if (widget.StoreID == bayerid) {
+      print('can not Connect yore self');
     } else if (contact.exists) {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) {
             return Message(
-              name: "name",
-              img: "",
-              id: "id",
+              name: sellerName,
+              img: sellerImage,
+              id: sellerID,
             );
           },
         ),
@@ -226,6 +227,9 @@ class _ProductsDetailsState extends State<ProductsDetails> {
         "Email": sellerEmail,
         "PhoneNumber": sellerPhoneNumber,
         "Role": sellerRole,
+        "time": '',
+        "read": '0',
+        "lastMessage": ''
       });
       FirebaseFirestore.instance
           .collection("users")
@@ -240,6 +244,9 @@ class _ProductsDetailsState extends State<ProductsDetails> {
         "Email": bayerEmail,
         "PhoneNumber": bayerPhoneNumber,
         "Role": bayerRole,
+        "time": '',
+        "read": '0',
+        "lastMessage": ''
       });
     }
   }

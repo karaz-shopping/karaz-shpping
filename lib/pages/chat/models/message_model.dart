@@ -6,11 +6,16 @@ class MessageCard extends StatelessWidget {
   String message;
   String messageId;
   String kind;
-  MessageCard(
-      {super.key,
-      required this.message,
-      required this.messageId,
-      required this.kind});
+  String imgSender;
+  String imgResever;
+  MessageCard({
+    super.key,
+    required this.message,
+    required this.messageId,
+    required this.kind,
+    required this.imgSender,
+    required this.imgResever,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +52,11 @@ class MessageCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.all(10),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
                       child: CircleAvatar(
                         radius: 20,
-                        backgroundImage:
-                            AssetImage('assets/images/profile.png'),
+                        backgroundImage: NetworkImage(imgSender),
                       ),
                     ),
                   ],
@@ -64,12 +68,11 @@ class MessageCard extends StatelessWidget {
                   //         ? MainAxisAlignment.end
                   //         : MainAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(10),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
                       child: CircleAvatar(
                         radius: 20,
-                        backgroundImage:
-                            AssetImage('assets/images/profile.png'),
+                        backgroundImage: NetworkImage(imgResever),
                       ),
                     ),
                     SizedBox(
