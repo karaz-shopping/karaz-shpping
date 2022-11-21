@@ -180,11 +180,10 @@ class _LogInState extends State<LogIn> {
                                     var sp =
                                         await SharedPreferences.getInstance();
                                     sp.setString('login', '1');
-                                    Navigator.push(
+                                    Navigator.pushNamedAndRemoveUntil(
                                       context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const HomePage(),
-                                      ),
+                                      HomePage.id,
+                                      (route) => false,
                                     );
                                   } on FirebaseAuthException catch (e) {
                                     ScaffoldMessenger.of(context).showSnackBar(

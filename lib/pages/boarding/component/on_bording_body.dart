@@ -63,7 +63,9 @@ class _OnBordaingBodyState extends State<OnBordaingBody> {
                   style: TextStyle(fontSize: 14, color: Color(0xff898989)),
                   textAlign: TextAlign.left,
                 ),
-                onPressed: () {
+                onPressed: () async {
+                  var sp = await SharedPreferences.getInstance();
+                  sp.setString('bording', '1');
                   setState(() {
                     Navigator.push(
                         context,
@@ -92,7 +94,7 @@ class _OnBordaingBodyState extends State<OnBordaingBody> {
                 } else {
                   var sp = await SharedPreferences.getInstance();
                   sp.setString('bording', '1');
-                  
+
                   setState(() {
                     Navigator.push(
                       context,

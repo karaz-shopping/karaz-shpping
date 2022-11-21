@@ -12,6 +12,12 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
+  @override
+  void initState() {
+    super.initState();
+    print(widget.documentSnapshot['image']);
+  }
+
   final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
   //*update function start -----------------------------------------------------------------------------------------------------------
@@ -118,6 +124,7 @@ class _ProductCardState extends State<ProductCard> {
               Email: widget.documentSnapshot['StoreEmail'],
               Type: widget.documentSnapshot['type'],
               StoreID: widget.documentSnapshot['StoreID'],
+              image: widget.documentSnapshot['image'],
             ),
           ),
         );
@@ -141,9 +148,15 @@ class _ProductCardState extends State<ProductCard> {
                       clipBehavior: Clip.none,
                       width: double.infinity,
                       height: 90,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('assets/images/manPerfume.jpg'),
+                          image: NetworkImage(
+                            widget.documentSnapshot['image'],
+                          ),
+                          onError: (exception, stackTrace) {
+                            const AssetImage(
+                                'assets/images/image-not-found.png');
+                          },
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -356,7 +369,7 @@ class _ProductCardState extends State<ProductCard> {
                         'Karaz \n${widget.documentSnapshot['description']} \n\n $urlPost',
                       );
                     },
-                    icon:const Icon(Icons.share),
+                    icon: const Icon(Icons.share),
                   ),
                 ),
               ),

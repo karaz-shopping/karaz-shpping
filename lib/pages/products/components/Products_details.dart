@@ -1,11 +1,8 @@
 // ignore_for_file: file_names, non_constant_identifier_names, must_be_immutable
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 import 'package:karaz_shopping_organization/pages/chat/message.dart';
 
@@ -18,6 +15,7 @@ class ProductsDetails extends StatefulWidget {
   String price;
 
   String Email;
+  String image;
 
   String Type;
   String StoreID;
@@ -30,6 +28,7 @@ class ProductsDetails extends StatefulWidget {
     required this.Email,
     required this.Type,
     required this.StoreID,
+    required this.image,
   });
 
   @override
@@ -43,6 +42,7 @@ class _ProductsDetailsState extends State<ProductsDetails> {
   var bayerID = "";
   var bayerPhoneNumber = "";
   var bayerRole = "";
+  var bayerImage = '';
 
   var sellerName = "";
   var sellerEmail = "";
@@ -50,6 +50,7 @@ class _ProductsDetailsState extends State<ProductsDetails> {
   var sellerID = "";
   var sellerPhoneNumber = "";
   var sellerRole = "";
+  var sellerImage = '';
 
   @override
   void initState() {
@@ -116,9 +117,9 @@ class _ProductsDetailsState extends State<ProductsDetails> {
                     child: Container(
                       //width: double.infinity,
                       height: 150,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('assets/images/manPerfume.jpg'),
+                          image: NetworkImage(widget.image),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -220,6 +221,7 @@ class _ProductsDetailsState extends State<ProductsDetails> {
           .set({
         "Name": sellerName,
         "id": sellerID,
+        "image": sellerImage,
         "About": sellerAbout,
         "Email": sellerEmail,
         "PhoneNumber": sellerPhoneNumber,
@@ -233,6 +235,7 @@ class _ProductsDetailsState extends State<ProductsDetails> {
           .set({
         "Name": bayerName,
         "id": bayerID,
+        "image": bayerImage,
         "About": bayerAbout,
         "Email": bayerEmail,
         "PhoneNumber": bayerPhoneNumber,
@@ -254,6 +257,7 @@ class _ProductsDetailsState extends State<ProductsDetails> {
       bayerName = bayerInfo["name"];
       bayerEmail = bayerInfo["Email"];
       bayerAbout = bayerInfo["about"];
+      bayerImage = bayerInfo["image"];
       bayerID = bayerInfo["id"];
       bayerPhoneNumber = bayerInfo["phoneNum"];
       bayerRole = bayerInfo["role"];
@@ -261,6 +265,7 @@ class _ProductsDetailsState extends State<ProductsDetails> {
       sellerName = SellerInfo["name"];
       sellerEmail = SellerInfo["Email"];
       sellerAbout = SellerInfo["about"];
+      sellerImage = SellerInfo["image"];
       sellerID = SellerInfo["id"];
       sellerPhoneNumber = SellerInfo["phoneNum"];
       sellerRole = SellerInfo["role"];

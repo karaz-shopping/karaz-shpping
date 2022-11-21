@@ -69,7 +69,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   'No',
                   style: TextStyle(color: Colors.black87),
                 ),
-              )
+              ),
+              InkWell(
+                  onTap: () async {
+                    FirebaseAuth.instance.signOut();
+                    var sp = await SharedPreferences.getInstance();
+                    sp.remove('login');
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, LogIn.id, (route) => false);
+                    //Navigator.pop(context);
+                  },
+                  child: Icon(Icons.logout)),
             ],
           );
         },
@@ -82,10 +92,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
         final docId = FirebaseAuth.instance.currentUser!.uid;
         if (snapshot.hasData) {
           var name = '';
+          var image = '';
 
           for (var i in snapshot.data!.docs) {
             if (i.id == docId) {
               name = i['name'];
+              image = i["image"];
+
               //UserProfile.userName = name;
             }
           }
@@ -107,12 +120,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         color: AppColors.blueGrey3,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(3),
+                      child: Padding(
+                        padding: const EdgeInsets.all(3),
                         child: CircleAvatar(
-                          child: Image(
-                            image: AssetImage('assets/images/profile.png'),
+                          child: Image.network(
+                            image,
                           ),
+                          // child: Image(
+                          //   image: NetworkImage(
+                          //     image,
+                          //   ),
+                          // ),
                         ),
                       ),
                     ),
@@ -189,15 +207,25 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       },
                     ),
                   ),
+                  // InkWell(
+                  //   child: const ListTile(
+                  //     title: Text('Log Out'),
+                  //     leading: Icon(Icons.logout),
+                  //   ),
+                  //   onTap: () {
+                  //     showMessage('Do you want log out ?');
+                  //   },
+                  // ),
                   InkWell(
-                    child: const ListTile(
-                      title: Text('Log Out'),
-                      leading: Icon(Icons.logout),
-                    ),
-                    onTap: () {
-                      showMessage('Do you want log out ?');
-                    },
-                  ),
+                      onTap: () async {
+                        FirebaseAuth.instance.signOut();
+                        var sp = await SharedPreferences.getInstance();
+                        sp.remove('login');
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, LogIn.id, (route) => false);
+                        //Navigator.pop(context);
+                      },
+                      child: Icon(Icons.logout)),
                 ],
               ),
             ),

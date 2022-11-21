@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
-import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
 import 'package:karaz_shopping_organization/pages/home/home_page.dart';
 
@@ -23,6 +20,8 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   TextEditingController userName = TextEditingController();
+  TextEditingController aboutU = TextEditingController();
+  TextEditingController phoneNum = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
@@ -35,6 +34,7 @@ class _SignUpState extends State<SignUp> {
 
     setState(() {
       image = img;
+      imageFile = File(image!.path);
     });
   }
 
@@ -58,6 +58,8 @@ class _SignUpState extends State<SignUp> {
           FirebaseFirestore.instance.collection("users").doc(ID);
       userRef.set({
         'name': userName.text,
+        'about': aboutU.text,
+        'phoneNum': phoneNum.text,
         "role": dropdownValue,
         'Email': email.text,
         'id': ID,
@@ -68,11 +70,11 @@ class _SignUpState extends State<SignUp> {
       userName.clear();
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Your email is add successfully")));
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) {
-          return const HomePage();
-        },
-      ));
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        HomePage.id,
+        (route) => false,
+      );
     }
   }
 
@@ -140,11 +142,19 @@ class _SignUpState extends State<SignUp> {
                         Stack(
                           children: [
                             InkWell(
-                              child: CircleAvatar(
-                                radius: 33,
+                              child: Container(
+                                width: 70,
+                                height: 70,
+                                decoration: BoxDecoration(
+                                  color: Colors.amber,
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
                                 child: image == null
                                     ? Image.asset("assets/images/profile.png")
-                                    : Image.file(imageFile!),
+                                    : Image.file(
+                                        imageFile!,
+                                        fit: BoxFit.fill,
+                                      ),
                               ),
                               onTap: () {
                                 getImage(ImageSource.gallery);
@@ -185,6 +195,49 @@ class _SignUpState extends State<SignUp> {
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: TextField(
+                        controller: aboutU,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            gapPadding: 20,
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: AppColors.blueGrey4,
+                            ),
+                          ),
+                          label: const Text("Enter about you"),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextField(
+                        keyboardType: TextInputType.phone,
+                        controller: phoneNum,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            gapPadding: 20,
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: AppColors.blueGrey4,
+                            ),
+                          ),
+                          label: const Text("Enter phone number"),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextField(
                         controller: email,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
@@ -209,7 +262,7 @@ class _SignUpState extends State<SignUp> {
                         controller: password,
                         obscureText: true,
                         decoration: InputDecoration(
-                          label: const Text("Enter your user name"),
+                          label: const Text("Enter your password"),
                           enabledBorder: OutlineInputBorder(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(20)),
@@ -219,7 +272,6 @@ class _SignUpState extends State<SignUp> {
                               color: AppColors.blueGrey4,
                             ),
                           ),
-                          hintText: "Enter your Password",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -273,6 +325,7 @@ class _SignUpState extends State<SignUp> {
                             email: email.text,
                             password: password.text,
                           );
+                          uploadPhoto(context);
                         } on FirebaseAuthException catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(e.message.toString())));

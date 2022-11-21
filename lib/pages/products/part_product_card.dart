@@ -116,6 +116,7 @@ class _PartProductCardState extends State<PartProductCard> {
               Email: widget.documentSnapshot['StoreEmail'],
               Type: widget.documentSnapshot['type'],
               StoreID: widget.documentSnapshot['StoreID'],
+              image: widget.documentSnapshot['image'],
             ),
           ),
         );

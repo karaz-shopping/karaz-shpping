@@ -1,6 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 
 class AddProduct extends StatefulWidget {
@@ -15,6 +19,59 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController codeController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  XFile? image;
+  File? imageFile;
+  final ImagePicker picker = ImagePicker();
+  var imgeURL = "";
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    setState(() {
+      image = img;
+      imageFile = File(image!.path);
+    });
+  }
+
+  uploadPhoto(context) async {
+    var data = {};
+    File file = File(image!.path);
+    String base64 = base64Encode(file.readAsBytesSync());
+    String imageName = image!.path.split("/").last;
+    data["imagename"] = imageName;
+    data["image64"] = base64;
+    var response = await post(
+        Uri.parse("http://aqarakdns.com/karaz/uploadphoto.php"),
+        body: data);
+    if (response.statusCode == 200) {
+      var result = jsonDecode(response.body);
+      setState(() {
+        imgeURL = result["path"];
+      });
+      final addProduct =
+          FirebaseFirestore.instance.collection("products").doc();
+      addProduct.set({
+        "type": chosenType.toString(),
+        'image': imgeURL,
+        "color": chosenColor.toString(),
+        'name': nameController.text,
+        "description": descriptionController.text,
+        "id": codeController.text,
+        "price": priceController.text,
+        "StoreID": FirebaseAuth.instance.currentUser!.uid,
+        "StoreEmail": FirebaseAuth.instance.currentUser!.email,
+      });
+      nameController.clear();
+      descriptionController.clear();
+      codeController.clear();
+      priceController.clear();
+      Navigator.pop(context);
+      Navigator.pop(context);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Product is add successfully")));
+    }
+  }
+
   List colors = [
     "White",
     "Black",
@@ -176,7 +233,9 @@ class _AddProductState extends State<AddProduct> {
                       Icon(Icons.image_search),
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    getImage(ImageSource.gallery);
+                  },
                 ),
                 ElevatedButton(
                   style: ButtonStyle(
@@ -195,26 +254,7 @@ class _AddProductState extends State<AddProduct> {
                   ),
                   onPressed: () {
                     try {
-                      final addProduct = FirebaseFirestore.instance
-                          .collection("products")
-                          .doc();
-                      addProduct.set({
-                        "type": chosenType.toString(),
-                        "color": chosenColor.toString(),
-                        'name': nameController.text,
-                        "description": descriptionController.text,
-                        "id": codeController.text,
-                        "price": priceController.text,
-                        "StoreID": FirebaseAuth.instance.currentUser!.uid,
-                        "StoreEmail": FirebaseAuth.instance.currentUser!.email,
-                      });
-                      nameController.clear();
-                      descriptionController.clear();
-                      codeController.clear();
-                      priceController.clear();
-
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Product is add successfully")));
+                      uploadPhoto(context);
                     } on FirebaseException catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(e.message.toString())));

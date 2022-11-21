@@ -128,16 +128,17 @@ class _UserProfileState extends State<UserProfile> {
             var name = '';
             var about = '';
             var phone = '';
+            var image = '';
 
             for (var i in snapshot.data!.docs) {
               if (i.id == docId) {
                 name = i['name'];
                 about = i['about'];
                 phone = i['phoneNum'];
-                UserProfile.userName = i['name'];
+                image = i['image'];
               }
             }
-            
+
             return SizedBox(
               width: double.infinity,
               height: double.infinity,
@@ -157,12 +158,11 @@ class _UserProfileState extends State<UserProfile> {
                                 color: AppColors.somo2,
                                 borderRadius: BorderRadius.circular(100),
                               ),
-                              child: const Padding(
-                                padding: EdgeInsets.all(3),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3),
                                 child: CircleAvatar(
                                   radius: 33,
-                                  backgroundImage:
-                                      AssetImage('assets/images/profile.png'),
+                                  backgroundImage: NetworkImage(image),
                                 ),
                               ),
                             ),
