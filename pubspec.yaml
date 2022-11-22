@@ -27,6 +27,7 @@ dependencies:
   shared_preferences: ^2.0.15
   image_picker: ^0.8.6
   http: ^0.13.5
+  awesome_card: ^1.1.7
 
 dev_dependencies:
   flutter_test:

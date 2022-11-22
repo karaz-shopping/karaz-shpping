@@ -129,10 +129,11 @@ class _ConfirmSheetState extends State<ConfirmSheet> {
                                       FirebaseAuth.instance.currentUser!.email,
                                 }).then((value) {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const Payment(),
-                                      ));
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const CustomCreditCard() //Payment(),
+                                    ),
+                                  );
                                 });
                               } on FirebaseException catch (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(

@@ -17,7 +17,6 @@ class AddProduct extends StatefulWidget {
 class _AddProductState extends State<AddProduct> {
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController codeController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   XFile? image;
   File? imageFile;
@@ -55,14 +54,12 @@ class _AddProductState extends State<AddProduct> {
         "color": chosenColor.toString(),
         'name': nameController.text,
         "description": descriptionController.text,
-        "id": codeController.text,
         "price": priceController.text,
         "StoreID": FirebaseAuth.instance.currentUser!.uid,
         "StoreEmail": FirebaseAuth.instance.currentUser!.email,
       });
       nameController.clear();
       descriptionController.clear();
-      codeController.clear();
       priceController.clear();
       Navigator.pop(context);
       Navigator.pop(context);

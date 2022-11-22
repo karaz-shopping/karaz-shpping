@@ -238,7 +238,7 @@ class _ProductCardState extends State<ProductCard> {
                                         CollectionReference addProduct =
                                             FirebaseFirestore.instance
                                                 .collection("basket");
-                                        
+
                                         addProduct.add({
                                           "type":
                                               widget.documentSnapshot['type'],
@@ -275,6 +275,12 @@ class _ProductCardState extends State<ProductCard> {
                                               : Colors.grey,
                                         ),
                                         onPressed: () async {
+                                          var chekProductId = FirebaseFirestore
+                                              .instance
+                                              .collection('favorite');
+                                            
+                                          
+
                                           await FirebaseFirestore.instance
                                               .collection('favorite')
                                               .add({
