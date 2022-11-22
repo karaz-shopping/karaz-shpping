@@ -8,25 +8,38 @@ class CustomCircleAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+      padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
       child: SizedBox(
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
               InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.somo2,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(3),
-                    child: CircleAvatar(
-                      radius: 33,
-                      backgroundImage: AssetImage('assets/images/flower1.jpg'),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.blueGrey3,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(3),
+                        child: CircleAvatar(
+                          radius: 33,
+                          backgroundImage:
+                              AssetImage('assets/images/flower3.png'),
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Flower',
+                      style: TextStyle(
+                        color: AppColors.blueGrey3,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
@@ -40,19 +53,31 @@ class CustomCircleAvatar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.somo2,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(3),
-                    child: CircleAvatar(
-                      radius: 33,
-                      backgroundImage:
-                          AssetImage('assets/images/manPerfume.jpg'),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.blueGrey3,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(3),
+                        child: CircleAvatar(
+                          radius: 33,
+                          backgroundImage:
+                              AssetImage('assets/images/manPerfume.jpg'),
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Perfume',
+                      style: TextStyle(
+                        color: AppColors.blueGrey3,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
@@ -66,18 +91,31 @@ class CustomCircleAvatar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.somo2,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(3),
-                    child: CircleAvatar(
-                      radius: 33,
-                      backgroundImage: AssetImage('assets/images/watch.jpg'),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.blueGrey3,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(3),
+                        child: CircleAvatar(
+                          radius: 33,
+                          backgroundImage:
+                              AssetImage('assets/images/watch.jpg'),
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Watche',
+                      style: TextStyle(
+                        color: AppColors.blueGrey3,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
@@ -91,18 +129,30 @@ class CustomCircleAvatar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.somo2,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(3),
-                    child: CircleAvatar(
-                      radius: 33,
-                      backgroundImage: AssetImage('assets/images/Tie.jpg'),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.blueGrey3,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(3),
+                        child: CircleAvatar(
+                          radius: 33,
+                          backgroundImage: AssetImage('assets/images/Tie.jpg'),
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Tie',
+                      style: TextStyle(
+                        color: AppColors.blueGrey3,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
@@ -116,18 +166,31 @@ class CustomCircleAvatar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.somo2,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(3),
-                    child: CircleAvatar(
-                      radius: 33,
-                      backgroundImage: AssetImage('assets/images/cake3.png'),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.blueGrey3,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(3),
+                        child: CircleAvatar(
+                          radius: 33,
+                          backgroundImage:
+                              AssetImage('assets/images/cake3.png'),
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Sweets',
+                      style: TextStyle(
+                        color: AppColors.blueGrey3,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
@@ -141,18 +204,31 @@ class CustomCircleAvatar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.somo2,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(3),
-                    child: CircleAvatar(
-                      radius: 33,
-                      backgroundImage: AssetImage('assets/images/package2.jpg'),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.blueGrey3,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(3),
+                        child: CircleAvatar(
+                          radius: 33,
+                          backgroundImage:
+                              AssetImage('assets/images/package2.jpg'),
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Packages',
+                      style: TextStyle(
+                        color: AppColors.blueGrey3,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
@@ -166,18 +242,31 @@ class CustomCircleAvatar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.somo2,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(3),
-                    child: CircleAvatar(
-                      radius: 33,
-                      backgroundImage: AssetImage('assets/images/makeup2.jpg'),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.blueGrey3,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(3),
+                        child: CircleAvatar(
+                          radius: 33,
+                          backgroundImage:
+                              AssetImage('assets/images/makeup2.jpg'),
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Makeup',
+                      style: TextStyle(
+                        color: AppColors.blueGrey3,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(

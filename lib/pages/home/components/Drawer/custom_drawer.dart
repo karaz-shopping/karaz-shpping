@@ -7,7 +7,7 @@ import 'package:karaz_shopping_organization/pages/home/favorite/favorite.dart';
 import 'package:karaz_shopping_organization/pages/products/add_product.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:karaz_shopping_organization/pages/auth/log_in.dart';
-import 'package:karaz_shopping_organization/pages/user_profile/user_profile.dart';
+import 'package:karaz_shopping_organization/pages/products/my_product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -101,6 +101,22 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
                             return const AddProduct();
+                          },
+                        ));
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: role == 'Store',
+                    child: InkWell(
+                      child: const ListTile(
+                        title: Text('My Product'),
+                        leading: Icon(Icons.shopping_bag_outlined),
+                      ),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const MyProduct();
                           },
                         ));
                       },

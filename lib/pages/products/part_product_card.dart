@@ -7,7 +7,7 @@ import 'package:karaz_shopping_organization/pages/products/components/Products_d
 import 'package:share_plus/share_plus.dart';
 
 class PartProductCard extends StatefulWidget {
-  PartProductCard(this.documentSnapshot);
+  PartProductCard(this.documentSnapshot, {super.key});
   DocumentSnapshot documentSnapshot;
 
   @override
@@ -19,11 +19,14 @@ class _PartProductCardState extends State<PartProductCard> {
   final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
   bool isFavorite = false;
-  TextEditingController nameController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
 
   Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
+    TextEditingController nameController =
+        TextEditingController(text: widget.documentSnapshot['name']);
+    TextEditingController descriptionController =
+        TextEditingController(text: widget.documentSnapshot['description']);
+    TextEditingController priceController =
+        TextEditingController(text: widget.documentSnapshot['price']);
     if (documentSnapshot != null) {
       nameController.text = widget.documentSnapshot['name'];
       descriptionController.text = widget.documentSnapshot['description'];
@@ -140,9 +143,9 @@ class _PartProductCardState extends State<PartProductCard> {
                       clipBehavior: Clip.none,
                       width: double.infinity,
                       height: 130,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('assets/images/manPerfume.jpg'),
+                          image: NetworkImage(widget.documentSnapshot['image']),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -249,6 +252,8 @@ class _PartProductCardState extends State<PartProductCard> {
                                               .instance.currentUser!.uid,
                                           "BuyerEmail": FirebaseAuth
                                               .instance.currentUser!.email,
+                                          'image':
+                                              widget.documentSnapshot['image'],
                                         });
                                       },
                                     ),
@@ -284,6 +289,8 @@ class _PartProductCardState extends State<PartProductCard> {
                                                 widget.documentSnapshot.id,
                                             'userid': FirebaseAuth
                                                 .instance.currentUser!.uid,
+                                            'image': widget
+                                                .documentSnapshot['image'],
                                           });
                                           setState(() {
                                             isFavorite = !isFavorite;
@@ -302,42 +309,64 @@ class _PartProductCardState extends State<PartProductCard> {
                   ],
                 ),
               ),
-              Positioned(
-                top: 0,
-                right: -10,
-                child: PopupMenuButton(
-                  tooltip: 'Setting',
-                  elevation: 10,
-                  onSelected: (value) {
-                    if (value.toString() == '1') {
-                      _update();
-                    } else if (value.toString() == '2') {
-                      FirebaseFirestore.instance
-                          .collection("products")
-                          .doc(widget.documentSnapshot.id)
-                          .delete();
-                      //deletePost();
-                    } else if (value.toString() == '3') {
+              Visibility(
+                visible: FirebaseAuth.instance.currentUser!.uid !=
+                    widget.documentSnapshot['StoreID'],
+                child: Positioned(
+                  top: 0,
+                  right: 0,
+                  child: IconButton(
+                    iconSize: 18,
+                    onPressed: () {
                       const urlPost = "url post";
                       Share.share(
                         'Karaz \n${widget.documentSnapshot['description']} \n\n $urlPost',
                       );
-                    } else {}
-                  },
-                  itemBuilder: (context) => const [
-                    PopupMenuItem(
-                      value: 1,
-                      child: Text('Edit'),
-                    ),
-                    PopupMenuItem(
-                      value: 2,
-                      child: Text('Delete'),
-                    ),
-                    PopupMenuItem(
-                      value: 3,
-                      child: Text('Share'),
-                    ),
-                  ],
+                    },
+                    icon: const Icon(Icons.share),
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: FirebaseAuth.instance.currentUser!.uid ==
+                    widget.documentSnapshot['StoreID'],
+                child: Positioned(
+                  top: 0,
+                  right: -10,
+                  child: PopupMenuButton(
+                    tooltip: 'Setting',
+                    elevation: 10,
+                    onSelected: (value) {
+                      if (value.toString() == '1') {
+                        _update();
+                      } else if (value.toString() == '2') {
+                        FirebaseFirestore.instance
+                            .collection("products")
+                            .doc(widget.documentSnapshot.id)
+                            .delete();
+                        //deletePost();
+                      } else if (value.toString() == '3') {
+                        const urlPost = "url post";
+                        Share.share(
+                          'Karaz \n${widget.documentSnapshot['description']} \n\n $urlPost',
+                        );
+                      } else {}
+                    },
+                    itemBuilder: (context) => const [
+                      PopupMenuItem(
+                        value: 1,
+                        child: Text('Edit'),
+                      ),
+                      PopupMenuItem(
+                        value: 2,
+                        child: Text('Delete'),
+                      ),
+                      PopupMenuItem(
+                        value: 3,
+                        child: Text('Share'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -345,18 +374,5 @@ class _PartProductCardState extends State<PartProductCard> {
         ),
       ),
     );
-    // return Padding(
-    //   padding: const EdgeInsets.all(15.0),
-    //   child: Column(
-    //     children: [
-    //       Text(documentSnapshot["type"]),
-    //       Text(documentSnapshot["StoreEmail"]),
-    //       Text(documentSnapshot["StoreID"]),
-    //       Text(documentSnapshot["color"]),
-    //       Text(documentSnapshot["name"]),
-    //       Text(documentSnapshot["price"]),
-    //     ],
-    //   ),
-    // );
   }
 }

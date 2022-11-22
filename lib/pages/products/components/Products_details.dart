@@ -8,17 +8,14 @@ import 'package:karaz_shopping_organization/pages/chat/message.dart';
 
 class ProductsDetails extends StatefulWidget {
   String name;
-
   String description;
   String color;
-
   String price;
-
   String Email;
   String image;
-
   String Type;
   String StoreID;
+
   ProductsDetails({
     super.key,
     required this.name,
@@ -51,7 +48,7 @@ class _ProductsDetailsState extends State<ProductsDetails> {
   var sellerPhoneNumber = "";
   var sellerRole = "";
   var sellerImage = '';
-
+  bool isFavorite = false;
   @override
   void initState() {
     getUsersInfo();
@@ -75,114 +72,253 @@ class _ProductsDetailsState extends State<ProductsDetails> {
             bottomLeft: Radius.circular(25),
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.favorite,
+              size: 30,
+              color: isFavorite ? Colors.red : Colors.grey,
+            ),
+            onPressed: () async {
+              await FirebaseFirestore.instance.collection('favorite').add({
+                'name': widget.name,
+                'description': widget.description,
+                'color': widget.color,
+                'price': widget.price,
+                'Email': widget.Email,
+                'Type': widget.Type,
+                'userid': FirebaseAuth.instance.currentUser!.uid,
+                'image': widget.image,
+              });
+              setState(() {
+                isFavorite = !isFavorite;
+              });
+            },
+          )
+        ],
+      ),
+      floatingActionButton: CircleAvatar(
+        backgroundColor: AppColors.somo3,
+        radius: 30,
+        child: IconButton(
+          padding: const EdgeInsets.all(1),
+          icon: Icon(
+            size: 25,
+            color: AppColors.blueGrey3,
+            Icons.add_shopping_cart_rounded,
+          ),
+          onPressed: () async {
+            CollectionReference addProduct =
+                FirebaseFirestore.instance.collection("basket");
+            addProduct.add({
+              "type": widget.Type,
+              "color": widget.color,
+              'name': widget.name,
+              "description": widget.description,
+              "price": widget.price,
+              "StoreID": widget.StoreID,
+              "StoreEmail": widget.Email,
+              "BuyerID": FirebaseAuth.instance.currentUser!.uid,
+              "BuyerEmail": FirebaseAuth.instance.currentUser!.email,
+              'image': widget.image,
+            });
+          },
+        ),
       ),
       body: SizedBox(
         height: double.infinity,
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 222,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(widget.image),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Divider(height: 3),
+                const SizedBox(height: 10),
+                SizedBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: const [
+                          SizedBox(width: 10),
+                          Text(
+                            'Product Name',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          const SizedBox(width: 17),
+                          Text(widget.name),
+                          const SizedBox(width: 30),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      const Divider(height: 3),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: const [
+                          SizedBox(width: 10),
+                          Text(
+                            'Product Description',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          const SizedBox(width: 17),
+                          Text(widget.description),
+                          const SizedBox(width: 30),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      const Divider(height: 3),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: const [
+                          SizedBox(width: 10),
+                          Text(
+                            'Product type',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          const SizedBox(width: 17),
+                          const Icon(Icons.space_dashboard_outlined),
+                          const SizedBox(width: 15),
+                          Text(widget.Type),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      const Divider(height: 3),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: const [
+                          SizedBox(width: 10),
+                          Text(
+                            'Color',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          const SizedBox(width: 17),
+                          const Icon(Icons.color_lens_outlined),
+                          const SizedBox(width: 15),
+                          Text(widget.color),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      const Divider(height: 3),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: const [
+                          SizedBox(width: 10),
+                          Text(
+                            'Price',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          const SizedBox(width: 17),
+                          const Icon(Icons.attach_money_rounded),
+                          const SizedBox(width: 15),
+                          Text(widget.price + ' JD'),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      const Divider(height: 3),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  child: SizedBox(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Card(
-                          elevation: 15,
-                          shadowColor: AppColors.somo2,
-                          color: AppColors.rose2,
-                          child: Text(
-                            widget.name,
-                            style: TextStyle(
-                                color: AppColors.blueGreen1, fontSize: 30),
-                          ),
+                        Row(
+                          children: const [
+                            SizedBox(width: 10),
+                            Text(
+                              'Contact With Us (Press here)',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 20),
-                        Card(
-                          elevation: 15,
-                          shadowColor: AppColors.somo2,
-                          color: AppColors.rose2,
-                          child: Text(
-                            widget.description,
-                            style: TextStyle(
-                                color: AppColors.blueGreen1, fontSize: 15),
-                          ),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            const SizedBox(width: 17),
+                            const Icon(Icons.connect_without_contact_rounded),
+                            const SizedBox(width: 15),
+                            Text(widget.Email),
+                          ],
                         ),
+                        const SizedBox(height: 10),
+                        const Divider(height: 3),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      //width: double.infinity,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(widget.image),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ListTile(
-                leading: const Icon(Icons.color_lens_outlined),
-                title: Text(
-                  widget.color,
-                  style: TextStyle(
-                    color: AppColors.blueGreen4,
-                    fontSize: 15,
-                  ),
-                ),
-                trailing: const Icon(Icons.circle),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Card(
-                elevation: 15,
-                shadowColor: AppColors.somo2,
-                color: AppColors.rose2,
-                child: Text(
-                  widget.price,
-                  style: TextStyle(color: AppColors.blueGreen1, fontSize: 15),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Card(
-                elevation: 15,
-                shadowColor: AppColors.somo2,
-                color: AppColors.rose2,
-                child: Text(
-                  widget.Type,
-                  style: TextStyle(color: AppColors.blueGreen1, fontSize: 15),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Card(
-                elevation: 15,
-                shadowColor: AppColors.somo2,
-                color: AppColors.rose2,
-                child: InkWell(
                   onTap: () {
                     getBayerData();
                   },
-                  child: Text(
-                    "contact with us ${widget.Email}",
-                    style: TextStyle(color: AppColors.blueGreen1, fontSize: 20),
-                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

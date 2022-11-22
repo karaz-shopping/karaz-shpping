@@ -12,12 +12,6 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  @override
-  void initState() {
-    super.initState();
-    print(widget.documentSnapshot['image']);
-  }
-
   final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
   //*update function start -----------------------------------------------------------------------------------------------------------
@@ -244,6 +238,7 @@ class _ProductCardState extends State<ProductCard> {
                                         CollectionReference addProduct =
                                             FirebaseFirestore.instance
                                                 .collection("basket");
+                                        
                                         addProduct.add({
                                           "type":
                                               widget.documentSnapshot['type'],
@@ -263,6 +258,8 @@ class _ProductCardState extends State<ProductCard> {
                                               .instance.currentUser!.uid,
                                           "BuyerEmail": FirebaseAuth
                                               .instance.currentUser!.email,
+                                          'image':
+                                              widget.documentSnapshot['image'],
                                         });
                                       },
                                     ),
@@ -298,6 +295,8 @@ class _ProductCardState extends State<ProductCard> {
                                                 widget.documentSnapshot.id,
                                             'userid': FirebaseAuth
                                                 .instance.currentUser!.uid,
+                                            'image': widget
+                                                .documentSnapshot['image'],
                                           });
                                           setState(() {
                                             isFavorite = !isFavorite;

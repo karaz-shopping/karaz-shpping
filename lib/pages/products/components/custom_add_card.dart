@@ -29,6 +29,7 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.85,
+                
               ),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

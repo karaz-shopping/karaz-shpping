@@ -29,6 +29,7 @@ class _MyOrdersState extends State<MyOrders> {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              
               return ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
@@ -96,7 +97,7 @@ class _MyOrdersState extends State<MyOrders> {
                                 leading:
                                     Text(documentSnapshot['color'] + '\ncolor'),
                                 trailing:
-                                    Image.asset('assets/images/manPerfume.jpg'),
+                                    Image.network(documentSnapshot['image']),
                               ),
                             )
                           ],
@@ -107,7 +108,7 @@ class _MyOrdersState extends State<MyOrders> {
                 },
               );
             } else {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
           }),
     );

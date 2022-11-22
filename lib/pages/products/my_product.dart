@@ -1,18 +1,21 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 import 'package:karaz_shopping_organization/pages/products/part_product_card.dart';
 
-class PartOfTheProduct extends StatefulWidget {
-  PartOfTheProduct({super.key, required this.productType});
-  String productType;
+class MyProduct extends StatefulWidget {
+  const MyProduct({
+    super.key,
+  });
   @override
-  State<PartOfTheProduct> createState() => _PartOfTheProductState();
+  State<MyProduct> createState() => _MyProductState();
 }
 
-class _PartOfTheProductState extends State<PartOfTheProduct> {
+class _MyProductState extends State<MyProduct> {
   final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
 
@@ -32,14 +35,17 @@ class _PartOfTheProductState extends State<PartOfTheProduct> {
           ),
           iconTheme: IconThemeData(color: AppColors.blueGrey3),
           title: Text(
-            widget.productType,
+            'My Product',
             style: TextStyle(color: AppColors.blueGrey3),
           ),
           centerTitle: true,
         ),
         body: StreamBuilder(
             stream: products
-                .where("type", isEqualTo: widget.productType)
+                .where(
+                  "StoreID",
+                  isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+                )
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
               List<PartProductCard> partProductCard = [];

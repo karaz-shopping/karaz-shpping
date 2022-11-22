@@ -88,6 +88,69 @@ class _ChatSendMessageState extends State<ChatSendMessage> {
             ),
           ),
         ),
+        // Material(
+        //   color: AppColors.blueGrey1,
+        //   elevation: 5,
+        //   borderRadius: BorderRadius.circular(30),
+        //   child: IconButton(
+        //     padding: EdgeInsets.zero,
+        //     alignment: Alignment.center,
+        //     onPressed: () {
+        //       showDialog(
+        //         barrierDismissible: false,
+        //         context: context,
+        //         builder: (context) => AlertDialog(
+        //           contentPadding: EdgeInsets.zero,
+        //           content: SizedBox(
+        //             width: 50,
+        //             height: 130,
+        //             child: Column(
+        //               children: [
+        //                 // * camera
+        //                 Expanded(
+        //                   child: ListTile(
+        //                     title: const Text('camera'),
+        //                     leading: const Icon(Icons.camera_enhance),
+        //                     onTap: () async {
+        //                       //pickCam();
+        //                       Navigator.pop(context);
+        //                     },
+        //                   ),
+        //                 ),
+        //                 // * gallery
+        //                 Expanded(
+        //                   child: ListTile(
+        //                     title: const Text('gallery'),
+        //                     leading: const Icon(Icons.image_rounded),
+        //                     onTap: () async {
+        //                       //pickImage();
+        //                       Navigator.pop(context);
+        //                     },
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //           actions: [
+        //             OutlinedButton(
+        //               onPressed: () => Navigator.pop(context),
+        //               style: OutlinedButton.styleFrom(
+        //                 // primary: AppTheme.getTheme(context: context)
+        //                 //     ? Colors.white
+        //                 //     : Colors.black,
+        //                 shape: RoundedRectangleBorder(
+        //                   borderRadius: BorderRadius.circular(10),
+        //                 ),
+        //               ),
+        //               child: const Text('cancel'),
+        //             )
+        //           ],
+        //         ),
+        //       );
+        //     },
+        //     icon: Icon(Icons.add, color: AppColors.blueGrey4),
+        //   ),
+        // ),
         Material(
           color: AppColors.blueGrey1,
           elevation: 5,
@@ -95,60 +158,8 @@ class _ChatSendMessageState extends State<ChatSendMessage> {
           child: IconButton(
             padding: EdgeInsets.zero,
             alignment: Alignment.center,
-            onPressed: () {
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) => AlertDialog(
-                  contentPadding: EdgeInsets.zero,
-                  content: SizedBox(
-                    width: 50,
-                    height: 130,
-                    child: Column(
-                      children: [
-                        // * camera
-                        Expanded(
-                          child: ListTile(
-                            title: const Text('camera'),
-                            leading: const Icon(Icons.camera_enhance),
-                            onTap: () async {
-                              //pickCam();
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
-                        // * gallery
-                        Expanded(
-                          child: ListTile(
-                            title: const Text('gallery'),
-                            leading: const Icon(Icons.image_rounded),
-                            onTap: () async {
-                              //pickImage();
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  actions: [
-                    OutlinedButton(
-                      onPressed: () => Navigator.pop(context),
-                      style: OutlinedButton.styleFrom(
-                        // primary: AppTheme.getTheme(context: context)
-                        //     ? Colors.white
-                        //     : Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: const Text('cancel'),
-                    )
-                  ],
-                ),
-              );
-            },
-            icon: Icon(Icons.add, color: AppColors.blueGrey4),
+            onPressed: () {},
+            icon: const Icon(Icons.image_rounded),
           ),
         ),
         InkWell(

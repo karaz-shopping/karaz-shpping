@@ -20,10 +20,9 @@ class _ItemesViewState extends State<ItemesView> {
         color: AppColors.blueGrey3,
         child: SingleChildScrollView(
           child: StreamBuilder(
-              stream: Itemes
-                .where("BuyerEmail",
-                    isEqualTo: FirebaseAuth.instance.currentUser!.email)
-                .snapshots(),
+              stream: Itemes.where("BuyerEmail",
+                      isEqualTo: FirebaseAuth.instance.currentUser!.email)
+                  .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                 if (streamSnapshot.hasData) {
                   return ListView.builder(
@@ -51,6 +50,7 @@ class _ItemesViewState extends State<ItemesView> {
                               trailing: Text(
                                 "${documentSnapshot['price']} JD",
                               ),
+                              leading: Image.network(documentSnapshot['image']),
                             ),
                           ),
                         );

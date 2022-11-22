@@ -72,8 +72,7 @@ class _FavoriteState extends State<Favorite> {
                             subtitle: Text(documentSnapshot['description']),
                             leading:
                                 Text(documentSnapshot['color'] + '\ncolor'),
-                            trailing:
-                                Image.asset('assets/images/manPerfume.jpg'),
+                            trailing: Image.network(documentSnapshot['image']),
                           ),
                         )
                       ],

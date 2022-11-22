@@ -26,14 +26,6 @@ class UserCard extends StatefulWidget {
 }
 
 class _UserCardState extends State<UserCard> {
-  chekmessage() {
-    if (widget.read == '1') {
-      return Colors.red;
-    } else {
-      return Colors.grey;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -57,11 +49,10 @@ class _UserCardState extends State<UserCard> {
           ),
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
+            children: const [
               Expanded(
                   child: Icon(
-                Icons.album_outlined,
-                color: chekmessage(),
+                Icons.arrow_forward_ios_rounded,
                 size: 20,
               )),
               Text(
