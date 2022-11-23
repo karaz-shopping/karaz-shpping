@@ -51,7 +51,10 @@ class _MyProductState extends State<MyProduct> {
               List<PartProductCard> partProductCard = [];
               if (streamSnapshot.hasData) {
                 for (var i in streamSnapshot.data!.docs) {
-                  partProductCard.add(PartProductCard(i));
+                  partProductCard.add(PartProductCard(
+                    documentSnapshot: i,
+                    isFavorite: false,
+                  ));
                 }
                 return ListView(children: partProductCard);
               } else {

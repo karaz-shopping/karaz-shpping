@@ -1,12 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 import 'package:karaz_shopping_organization/pages/products/components/Products_details.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ProductCard extends StatefulWidget {
-  ProductCard({super.key, required this.documentSnapshot});
+  ProductCard({
+    super.key,
+    required this.documentSnapshot,
+    required this.isFavorite,
+  });
   DocumentSnapshot documentSnapshot;
+  bool isFavorite;
+
   @override
   State<ProductCard> createState() => _ProductCardState();
 }
@@ -15,8 +22,6 @@ class _ProductCardState extends State<ProductCard> {
   final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
   //*update function start -----------------------------------------------------------------------------------------------------------
-
-  bool isFavorite = false;
 
   Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
     TextEditingController nameController =
@@ -38,65 +43,93 @@ class _ProductCardState extends State<ProductCard> {
         context: context,
         builder: (BuildContext ctx) {
           return Padding(
-            padding: const EdgeInsets.only(),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 10,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 15),
+                  TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      labelText: 'Name',
+                    ),
                   ),
-                ),
-                TextField(
-                  keyboardType: TextInputType.text,
-                  controller: descriptionController,
-                  decoration: const InputDecoration(
-                    labelText: 'Description',
+                  const SizedBox(height: 15),
+                  TextField(
+                    keyboardType: TextInputType.text,
+                    controller: descriptionController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      labelText: 'Description',
+                    ),
                   ),
-                ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: priceController,
-                  decoration: const InputDecoration(
-                    labelText: 'Price',
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    child: const Text(
-                      'Update',
-                      style: TextStyle(
-                        fontSize: 25,
+                  const SizedBox(height: 15),
+                  TextField(
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    controller: priceController,
+                    decoration: InputDecoration(
+                      labelText: 'Price',
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    onPressed: () async {
-                      final String name = nameController.text;
-                      final String decoration = descriptionController.text;
-                      final String price = priceController.text;
-
-                      await products.doc(widget.documentSnapshot.id).update({
-                        "name": name,
-                        "description": decoration,
-                        "price": price,
-                      });
-                      nameController.text = '';
-                      priceController.text = '';
-                      priceController.text = '';
-
-                      if (mounted) {
-                        Navigator.of(context).pop();
-                      }
-                    },
                   ),
-                )
-              ],
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.somo2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                      child: Text(
+                        'Update',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.blueGrey4,
+                        ),
+                      ),
+                      onPressed: () async {
+                        final String name = nameController.text;
+                        final String decoration = descriptionController.text;
+                        final String price = priceController.text;
+
+                        await products.doc(widget.documentSnapshot.id).update({
+                          "name": name,
+                          "description": decoration,
+                          "price": price,
+                        });
+                        nameController.text = '';
+                        priceController.text = '';
+                        priceController.text = '';
+
+                        if (mounted) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         });
@@ -229,9 +262,8 @@ class _ProductCardState extends State<ProductCard> {
                                   children: [
                                     IconButton(
                                       padding: const EdgeInsets.all(1),
-                                      icon: Icon(
+                                      icon: const Icon(
                                         size: 20,
-                                        color: Colors.grey[700],
                                         Icons.add_shopping_cart_rounded,
                                       ),
                                       onPressed: () async {
@@ -261,6 +293,14 @@ class _ProductCardState extends State<ProductCard> {
                                           'image':
                                               widget.documentSnapshot['image'],
                                         });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Successfuly added to cart',
+                                            ),
+                                          ),
+                                        );
                                       },
                                     ),
                                     SizedBox(
@@ -270,7 +310,7 @@ class _ProductCardState extends State<ProductCard> {
                                         icon: Icon(
                                           Icons.favorite,
                                           size: 30,
-                                          color: isFavorite
+                                          color: widget.isFavorite
                                               ? Colors.red
                                               : Colors.grey,
                                         ),
@@ -278,8 +318,6 @@ class _ProductCardState extends State<ProductCard> {
                                           var chekProductId = FirebaseFirestore
                                               .instance
                                               .collection('favorite');
-                                            
-                                          
 
                                           await FirebaseFirestore.instance
                                               .collection('favorite')
@@ -305,7 +343,8 @@ class _ProductCardState extends State<ProductCard> {
                                                 .documentSnapshot['image'],
                                           });
                                           setState(() {
-                                            isFavorite = !isFavorite;
+                                            widget.isFavorite =
+                                                !widget.isFavorite;
                                           });
                                         },
                                       ),

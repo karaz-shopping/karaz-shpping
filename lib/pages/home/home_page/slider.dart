@@ -14,15 +14,17 @@ final imageList = [
   'assets/images/makeupBox.jpg',
   'assets/images/gifts.jpg',
   'assets/images/flower2.jpg',
-  'assets/images/phoneAccessories.jpeg',
+  'assets/images/chocolate.jpg',
+  'assets/images/watches.png',
 ];
 
 final textList = [
-  'باقات الورد',
-  'بكجات المكياجات والعطور',
-  'الافراح والمناسبات',
-  'عروض مسكات العرايس',
-  'اكسسوارات الهواتف والتصوير',
+  'Flower bouquet',
+  'The best maekup',
+  'Gift box',
+  'Bouquet bride',
+  'Delicious chocolate',
+  'Brand watches',
 ];
 
 class _CustomSliderState extends State<CustomSlider> {
@@ -42,57 +44,45 @@ class _CustomSliderState extends State<CustomSlider> {
           itemWidth: MediaQuery.of(context).size.width,
           itemHeight: 200.0,
           itemBuilder: (context, index) {
-            return InkWell(
-              child: Stack(
-                children: [
-                  Container(
+            return Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      image: AssetImage(
+                        imageList[index],
+                      ),
+                      fit: BoxFit.fill,
+                      colorFilter: ColorFilter.mode(
+                        Colors.white.withOpacity(0.3),
+                        BlendMode.colorDodge,
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 10,
+                  left: 10,
+                  child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage(
-                          imageList[index],
-                        ),
-                        fit: BoxFit.fitWidth,
-                        colorFilter: ColorFilter.mode(
-                          Colors.white.withOpacity(0.3),
-                          BlendMode.colorDodge,
-                        ),
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(25),
+                        bottomLeft: Radius.circular(25),
+                      ),
+                      color: AppColors.somo2,
+                    ),
+                    child: Text(
+                      '  ${textList[index]}  ',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.blueGrey4,
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(25),
-                          bottomRight: Radius.circular(25),
-                        ),
-                        color: AppColors.somo2,
-                      ),
-                      child: Text(
-                        ' ${textList[index]} ',
-                        style: const TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                          //backgroundColor: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => PremiumPage(),
-                //     //! MyPosts()
-                //   ),
-                // );
-              },
+                ),
+              ],
             );
           },
           itemCount: imageList.length,

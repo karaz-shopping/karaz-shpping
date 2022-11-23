@@ -50,6 +50,7 @@ class _ChatPageState extends State<ChatPage> {
                         name: i["Name"],
                         read: i["read"],
                         uid: i["id"],
+                        time: i["time"],
                       ),
                     );
                   }

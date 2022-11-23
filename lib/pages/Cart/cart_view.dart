@@ -112,16 +112,27 @@ class _Cart_ViewState extends State<Cart_View> {
                           background: Container(
                             color: AppColors.blueGrey4,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(Icons.delete),
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: const [
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(Icons.delete),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: const [
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(Icons.delete),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
-                          
                           child: Card(
                             color: AppColors.somo5,
                             margin: const EdgeInsets.all(10),

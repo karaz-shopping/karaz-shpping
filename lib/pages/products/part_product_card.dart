@@ -3,12 +3,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 import 'package:karaz_shopping_organization/pages/products/components/Products_details.dart';
 import 'package:share_plus/share_plus.dart';
 
 class PartProductCard extends StatefulWidget {
-  PartProductCard(this.documentSnapshot, {super.key});
+  PartProductCard({
+    required this.documentSnapshot,
+    required this.isFavorite,
+  });
   DocumentSnapshot documentSnapshot;
+  bool isFavorite;
 
   @override
   State<PartProductCard> createState() => _PartProductCardState();
@@ -38,66 +43,90 @@ class _PartProductCardState extends State<PartProductCard> {
         context: context,
         builder: (BuildContext ctx) {
           return Padding(
-            padding: const EdgeInsets.only(),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'name',
-                  ),
-                ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: descriptionController,
-                  decoration: const InputDecoration(
-                    labelText: 'description',
-                  ),
-                ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: priceController,
-                  decoration: const InputDecoration(
-                    labelText: 'price',
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    child: const Text(
-                      'Update',
-                      style: TextStyle(
-                        fontSize: 25,
+            padding: const EdgeInsets.all(15),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
                       ),
+                      labelText: 'name',
                     ),
-                    onPressed: () async {
-                      final String name = nameController.text;
-                      final String decoration = descriptionController.text;
-                      final String price = priceController.text;
-
-                      await products.doc(documentSnapshot!.id).update({
-                        "name": name,
-                        "description": decoration,
-                        "price": price,
-                      });
-                      nameController.text = '';
-                      priceController.text = '';
-                      priceController.text = '';
-
-                      if (mounted) {
-                        Navigator.of(context).pop();
-                      }
-                    },
                   ),
-                )
-              ],
+                  const SizedBox(height: 15),
+                  TextField(
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    controller: descriptionController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      labelText: 'description',
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  TextField(
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    controller: priceController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      labelText: 'price',
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.somo2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                      child: Text(
+                        'Update',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.blueGrey4,
+                        ),
+                      ),
+                      onPressed: () async {
+                        final String name = nameController.text;
+                        final String decoration = descriptionController.text;
+                        final String price = priceController.text;
+
+                        await products.doc(documentSnapshot!.id).update({
+                          "name": name,
+                          "description": decoration,
+                          "price": price,
+                        });
+                        nameController.text = '';
+                        priceController.text = '';
+                        priceController.text = '';
+
+                        if (mounted) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         });
@@ -224,9 +253,8 @@ class _PartProductCardState extends State<PartProductCard> {
                                   children: [
                                     IconButton(
                                       padding: const EdgeInsets.all(1),
-                                      icon: Icon(
+                                      icon: const Icon(
                                         size: 20,
-                                        color: Colors.grey[700],
                                         Icons.add_shopping_cart_rounded,
                                       ),
                                       onPressed: () async {
@@ -255,6 +283,14 @@ class _PartProductCardState extends State<PartProductCard> {
                                           'image':
                                               widget.documentSnapshot['image'],
                                         });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Successfuly added to cart',
+                                            ),
+                                          ),
+                                        );
                                       },
                                     ),
                                     SizedBox(
@@ -269,32 +305,54 @@ class _PartProductCardState extends State<PartProductCard> {
                                               : Colors.grey,
                                         ),
                                         onPressed: () async {
-                                          await FirebaseFirestore.instance
-                                              .collection('favorite')
-                                              .add({
-                                            'name':
-                                                widget.documentSnapshot['name'],
-                                            'description':
-                                                widget.documentSnapshot[
-                                                    'description'],
-                                            'color': widget
-                                                .documentSnapshot['color'],
-                                            'price': widget
-                                                .documentSnapshot['price'],
-                                            'Email': widget
-                                                .documentSnapshot['StoreEmail'],
-                                            'Type':
-                                                widget.documentSnapshot['type'],
-                                            'productid':
-                                                widget.documentSnapshot.id,
-                                            'userid': FirebaseAuth
-                                                .instance.currentUser!.uid,
-                                            'image': widget
-                                                .documentSnapshot['image'],
-                                          });
-                                          setState(() {
-                                            isFavorite = !isFavorite;
-                                          });
+                                          var favorite = await FirebaseFirestore
+                                              .instance
+                                              .collection("users")
+                                              .doc(FirebaseAuth
+                                                  .instance.currentUser!.uid)
+                                              .collection("favorite")
+                                              .doc(widget.documentSnapshot.id)
+                                              .get();
+                                          if (favorite.exists) {
+                                            FirebaseFirestore.instance
+                                                .collection("users")
+                                                .doc(FirebaseAuth
+                                                    .instance.currentUser!.uid)
+                                                .collection("favorite")
+                                                .doc(widget.documentSnapshot.id)
+                                                .delete();
+                                          } else {
+                                            await FirebaseFirestore.instance
+                                                .collection('users')
+                                                .doc(FirebaseAuth
+                                                    .instance.currentUser!.uid)
+                                                .collection('favorite')
+                                                .doc(widget.documentSnapshot.id)
+                                                .set({
+                                              'name': widget
+                                                  .documentSnapshot['name'],
+                                              'description':
+                                                  widget.documentSnapshot[
+                                                      'description'],
+                                              'color': widget
+                                                  .documentSnapshot['color'],
+                                              'price': widget
+                                                  .documentSnapshot['price'],
+                                              'Email': widget.documentSnapshot[
+                                                  'StoreEmail'],
+                                              'Type': widget
+                                                  .documentSnapshot['type'],
+                                              'productid':
+                                                  widget.documentSnapshot.id,
+                                              'userid': FirebaseAuth
+                                                  .instance.currentUser!.uid,
+                                              'image': widget
+                                                  .documentSnapshot['image'],
+                                            });
+                                            setState(() {
+                                              isFavorite = !isFavorite;
+                                            });
+                                          }
                                         },
                                       ),
                                     ),

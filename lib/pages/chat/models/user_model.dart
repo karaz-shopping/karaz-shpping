@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/pages/chat/message.dart';
 
@@ -10,6 +10,7 @@ class UserCard extends StatefulWidget {
   String uid;
   String read;
   String lastMessage;
+  int time;
 
   UserCard({
     super.key,
@@ -19,6 +20,7 @@ class UserCard extends StatefulWidget {
     required this.uid,
     required this.read,
     required this.lastMessage,
+    required this.time,
   });
 
   @override
@@ -49,14 +51,14 @@ class _UserCardState extends State<UserCard> {
           ),
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: const [
-              Expanded(
+            children:  [
+              const Expanded(
                   child: Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 20,
               )),
               Text(
-                '02:33 AM',
+                DateFormat('hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(widget.time)).toString(),
                 style: TextStyle(color: Colors.grey),
               ),
             ],

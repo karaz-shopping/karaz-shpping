@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 import 'package:karaz_shopping_organization/pages/products/part_product_card.dart';
@@ -13,6 +14,28 @@ class PartOfTheProduct extends StatefulWidget {
 }
 
 class _PartOfTheProductState extends State<PartOfTheProduct> {
+  List<String> favList = [];
+  getFavorit() async {
+    var faveDocs = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("favorite")
+        .get();
+    for (var i in faveDocs.docs) {
+      favList.add(i.id);
+    }
+    setState(() {
+      favList = favList;
+    });
+    print(favList);
+  }
+
+  @override
+  void initState() {
+    getFavorit();
+    super.initState();
+  }
+
   final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
 
@@ -45,7 +68,17 @@ class _PartOfTheProductState extends State<PartOfTheProduct> {
               List<PartProductCard> partProductCard = [];
               if (streamSnapshot.hasData) {
                 for (var i in streamSnapshot.data!.docs) {
-                  partProductCard.add(PartProductCard(i));
+                  if (favList.contains(i.id)) {
+                    partProductCard.add(PartProductCard(
+                      documentSnapshot: i,
+                      isFavorite: true,
+                    ));
+                  } else {
+                    partProductCard.add(PartProductCard(
+                      documentSnapshot: i,
+                      isFavorite: false,
+                    ));
+                  }
                 }
                 return ListView(children: partProductCard);
               } else {

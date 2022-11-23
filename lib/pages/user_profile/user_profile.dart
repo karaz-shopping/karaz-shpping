@@ -40,78 +40,102 @@ class _UserProfileState extends State<UserProfile> {
         actions: [
           IconButton(
             onPressed: () {
-              showBottomSheet(
+              showModalBottomSheet(
+                isScrollControlled: true,
                 context: context,
                 elevation: 10,
                 enableDrag: true,
                 builder: (context) {
                   return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextField(
-                          controller: aboutController,
-                          decoration: const InputDecoration(
-                            labelText: 'About',
-                          ),
-                          // onChanged: (value) {
-                          //   setState(() {
-                          //     about = value;
-
-                          //   });
-                          // },
-                        ),
-                        TextField(
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          controller: phoneController,
-                          decoration: const InputDecoration(
-                            labelText: 'Phone Number',
-                          ),
-                          // onChanged: (value) {
-                          //   setState(() {
-                          //     phoneNumber = value.toString();
-                          //   });
-                          // },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            child: const Text(
-                              'Save',
-                              style: TextStyle(
-                                fontSize: 25,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 15,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextField(
+                            controller: aboutController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
                               ),
+                              labelText: 'About',
                             ),
-                            onPressed: () {
-                              final userInfo = FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(FirebaseAuth.instance.currentUser!.uid);
-                              userInfo.set(
-                                {
-                                  'about': aboutController.text,
-                                  'phoneNum': phoneController.text,
-                                },
-                                SetOptions(merge: true),
-                              );
+                            // onChanged: (value) {
+                            //   setState(() {
+                            //     about = value;
 
-                              // setState(() {
-
-                              //   about = aboutController.toString();
-                              //   phoneNumber = phoneController.toString();
-                              // });
-
-                              Navigator.of(context).pop();
-                            },
+                            //   });
+                            // },
                           ),
-                        )
-                      ],
+                          const SizedBox(height: 15),
+                          TextField(
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            controller: phoneController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              labelText: 'Phone Number',
+                            ),
+                            // onChanged: (value) {
+                            //   setState(() {
+                            //     phoneNumber = value.toString();
+                            //   });
+                            // },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.somo2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                              ),
+                              child: Text(
+                                'Save',
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.blueGrey4,
+                                ),
+                              ),
+                              onPressed: () {
+                                final userInfo = FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(
+                                        FirebaseAuth.instance.currentUser!.uid);
+                                userInfo.set(
+                                  {
+                                    'about': aboutController.text,
+                                    'phoneNum': phoneController.text,
+                                  },
+                                  SetOptions(merge: true),
+                                );
+
+                                // setState(() {
+
+                                //   about = aboutController.toString();
+                                //   phoneNumber = phoneController.toString();
+                                // });
+
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },

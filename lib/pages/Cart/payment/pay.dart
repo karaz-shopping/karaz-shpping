@@ -1,6 +1,11 @@
 import 'dart:math' as math;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_card/awesome_card.dart';
+import 'package:karaz_shopping_organization/Themes/app_colors.dart';
+import 'package:karaz_shopping_organization/pages/home/components/appBar/custom_app_bar.dart';
+import 'package:karaz_shopping_organization/pages/home/home_page.dart';
 
 class CustomCreditCard extends StatefulWidget {
   const CustomCreditCard({Key? key}) : super(key: key);
@@ -40,8 +45,9 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Credit Card'),
+      appBar: CustomAppBar(
+        title: 'Credit Card',
+        action: const SizedBox(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -54,7 +60,7 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
               cardExpiry: expiryDate,
               cardHolderName: cardHolderName,
               cvv: cvv,
-              bankName: 'Axis Bank',
+              bankName: 'Karaz Bank',
               showBackSide: showBack,
               frontBackground: CardBackgrounds.black,
               backBackground: CardBackgrounds.white,
@@ -62,12 +68,13 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
               //isContactless: true,
               // mask: getCardTypeMask(cardType: CardType.americanExpress),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 25),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Container(
+                  height: 50,
                   margin: const EdgeInsets.symmetric(horizontal: 15),
                   child: TextFormField(
                     controller: cardNumberCtrl,
@@ -91,6 +98,7 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
                   ),
                 ),
                 Container(
+                  height: 50,
                   margin: const EdgeInsets.symmetric(horizontal: 15),
                   child: TextFormField(
                     controller: expiryFieldCtrl,
@@ -119,6 +127,7 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
                   ),
                 ),
                 Container(
+                  height: 35,
                   margin: const EdgeInsets.symmetric(horizontal: 15),
                   child: TextFormField(
                     decoration:
@@ -131,6 +140,7 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
                   ),
                 ),
                 Container(
+                  height: 50,
                   margin:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                   child: TextFormField(
@@ -145,7 +155,44 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
                   ),
                 ),
               ],
-            )
+            ),
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 10,
+                  shadowColor: AppColors.somo2,
+                  backgroundColor: AppColors.somo2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () async {
+                  final CollectionReference<Map<String, dynamic>> basketColl =
+                      FirebaseFirestore.instance.collection('basket');
+                  final QuerySnapshot<Map<String, dynamic>> basket =
+                      await basketColl
+                          .where("BuyerEmail",
+                              isEqualTo:
+                                  FirebaseAuth.instance.currentUser!.email)
+                          .get();
+                  final CollectionReference<Map<String, dynamic>> orders =
+                      FirebaseFirestore.instance.collection('orders');
+                  for (int i = 0; i < basket.docs.length; i++) {
+                    await orders.add(basket.docs[i].data());
+                    await basketColl.doc(basket.docs[i].id).delete();
+                  }
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, HomePage.id, (route) => false);
+                },
+                child: Text(
+                  "PAY",
+                  style: TextStyle(
+                    color: AppColors.blueGrey4,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -320,3 +367,6 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
 //         selection: TextSelection.collapsed(offset: buffer.toString().length));
 //   }
 // }
+
+
+     

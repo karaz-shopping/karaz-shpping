@@ -72,30 +72,30 @@ class _ProductsDetailsState extends State<ProductsDetails> {
             bottomLeft: Radius.circular(25),
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.favorite,
-              size: 30,
-              color: isFavorite ? Colors.red : Colors.grey,
-            ),
-            onPressed: () async {
-              await FirebaseFirestore.instance.collection('favorite').add({
-                'name': widget.name,
-                'description': widget.description,
-                'color': widget.color,
-                'price': widget.price,
-                'Email': widget.Email,
-                'Type': widget.Type,
-                'userid': FirebaseAuth.instance.currentUser!.uid,
-                'image': widget.image,
-              });
-              setState(() {
-                isFavorite = !isFavorite;
-              });
-            },
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(
+        //       Icons.favorite,
+        //       size: 30,
+        //       color: isFavorite ? Colors.red : Colors.grey,
+        //     ),
+        //     onPressed: () async {
+        //       await FirebaseFirestore.instance.collection('favorite').add({
+        //         'name': widget.name,
+        //         'description': widget.description,
+        //         'color': widget.color,
+        //         'price': widget.price,
+        //         'Email': widget.Email,
+        //         'Type': widget.Type,
+        //         'userid': FirebaseAuth.instance.currentUser!.uid,
+        //         'image': widget.image,
+        //       });
+        //       setState(() {
+        //         isFavorite = !isFavorite;
+        //       });
+        //     },
+        //   )
+        // ],
       ),
       floatingActionButton: CircleAvatar(
         backgroundColor: AppColors.somo3,
@@ -122,6 +122,13 @@ class _ProductsDetailsState extends State<ProductsDetails> {
               "BuyerEmail": FirebaseAuth.instance.currentUser!.email,
               'image': widget.image,
             });
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'Successfuly added to cart',
+                ),
+              ),
+            );
           },
         ),
       ),
@@ -334,7 +341,13 @@ class _ProductsDetailsState extends State<ProductsDetails> {
         .doc(widget.StoreID)
         .get();
     if (widget.StoreID == bayerid) {
-      print('can not Connect yore self');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Can not Connect yore self',
+          ),
+        ),
+      );
     } else if (contact.exists) {
       Navigator.push(
         context,

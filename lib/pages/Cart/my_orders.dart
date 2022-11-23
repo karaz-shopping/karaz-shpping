@@ -29,7 +29,6 @@ class _MyOrdersState extends State<MyOrders> {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              
               return ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
@@ -92,12 +91,29 @@ class _MyOrdersState extends State<MyOrders> {
                               elevation: 5,
                               color: AppColors.somo5,
                               child: ListTile(
-                                title: Text(documentSnapshot['name']),
-                                subtitle: Text(documentSnapshot['description']),
-                                leading:
-                                    Text(documentSnapshot['color'] + '\ncolor'),
-                                trailing:
-                                    Image.network(documentSnapshot['image']),
+                                title: Text(
+                                  documentSnapshot['name'],
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                                subtitle: Text(
+                                  documentSnapshot['description'],
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                                leading: Text(
+                                  documentSnapshot['color'] + '\ncolor',
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                                trailing: Container(
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: NetworkImage(
+                                        documentSnapshot['image'],
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             )
                           ],

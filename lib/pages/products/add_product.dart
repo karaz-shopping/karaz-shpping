@@ -120,6 +120,12 @@ class _AddProductState extends State<AddProduct> {
             padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: Column(
               children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: 200,
+                  child: Image.asset('assets/images/addProduct.jpg'),
+                ),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [

@@ -28,6 +28,7 @@ dependencies:
   image_picker: ^0.8.6
   http: ^0.13.5
   awesome_card: ^1.1.7
+  awesome_dialog: ^3.0.2
 
 dev_dependencies:
   flutter_test:

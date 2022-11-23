@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 import 'package:karaz_shopping_organization/pages/chat/chat.dart';
@@ -10,11 +12,13 @@ import 'package:karaz_shopping_organization/pages/products/components/custom_add
 class CustomHome extends StatefulWidget {
   const CustomHome({super.key});
 
+
   @override
   State<CustomHome> createState() => _CustomHomeState();
 }
 
 class _CustomHomeState extends State<CustomHome> {
+  //final searchDB=FirebaseFirestore.instance.collection('products');
   var search = "";
   var searchController = TextEditingController();
   bool change = false;
@@ -37,70 +41,67 @@ class _CustomHomeState extends State<CustomHome> {
         ),
       ),
       drawer: const CustomDrawer(),
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 40),
-              child: SizedBox(
-                height: 46,
-                child: TextField(
-                  decoration: InputDecoration(
-                    label: const Text('Search'),
-                    icon: const Icon(
-                      Icons.search_rounded,
-                    ),
-                    suffixIcon: Visibility(
-                      visible: change,
-                      child: IconButton(
-                        icon: const Icon(Icons.highlight_off_rounded),
-                        onPressed: () {
-                          setState(() {
-                            searchController.clear();
-                            change = false;
-                          });
-                        },
-                      ),
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 40),
+            child: SizedBox(
+              height: 46,
+              child: TextField(
+                
+                decoration: InputDecoration(
+                  label: const Text('Search'),
+                  icon: const Icon(
+                    Icons.search_rounded,
+                  ),
+                  suffixIcon: Visibility(
+                    visible: change,
+                    child: IconButton(
+                      icon: const Icon(Icons.highlight_off_rounded),
+                      onPressed: () {
+                        setState(() {
+                          searchController.clear();
+                          change = false;
+                        });
+                      },
                     ),
                   ),
-                  controller: searchController,
-                  onChanged: (value) {
-                    setState(() {
-                      if (value == '') {
-                        change = false;
-                      } else {
-                        change = true;
-                      }
-                      search = value;
-                    });
-                  },
                 ),
+                controller: searchController,
+                onChanged: (value) {
+                  setState(() {
+                    if (value == '') {
+                      change = false;
+                    } else {
+                      change = true;
+                    }
+                    search = value;
+                  });
+                },
               ),
             ),
-            const CustomCircleAvatar(),
-            const CustomSlider(),
-            const CustomAdsCard(),
-            // Container(
-            //   width: double.infinity,
-            //   height: 500,
-            //   color: Colors.blueAccent,
-            //   child: const CustomAdsCard(),
-            // ),
-            //const CustomAdsCard(),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.push(context, MaterialPageRoute(
-            //       builder: (context) {
-            //         return const ViewProduct();
-            //       },
-            //     ));
-            //   },
-            //   child: const Text('view data'),
-            // ),
-          ],
-        ),
+          ),
+          const CustomCircleAvatar(),
+          const CustomSlider(),
+          const CustomAdsCard(),
+          // Container(
+          //   width: double.infinity,
+          //   height: 500,
+          //   color: Colors.blueAccent,
+          //   child: const CustomAdsCard(),
+          // ),
+          //const CustomAdsCard(),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     Navigator.push(context, MaterialPageRoute(
+          //       builder: (context) {
+          //         return const ViewProduct();
+          //       },
+          //     ));
+          //   },
+          //   child: const Text('view data'),
+          // ),
+        ],
       ),
     );
   }
