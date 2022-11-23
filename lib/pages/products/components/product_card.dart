@@ -315,37 +315,55 @@ class _ProductCardState extends State<ProductCard> {
                                               : Colors.grey,
                                         ),
                                         onPressed: () async {
-                                          var chekProductId = FirebaseFirestore
+                                          var favorite = await FirebaseFirestore
                                               .instance
-                                              .collection('favorite');
-
-                                          await FirebaseFirestore.instance
-                                              .collection('favorite')
-                                              .add({
-                                            'name':
-                                                widget.documentSnapshot['name'],
-                                            'description':
-                                                widget.documentSnapshot[
-                                                    'description'],
-                                            'color': widget
-                                                .documentSnapshot['color'],
-                                            'price': widget
-                                                .documentSnapshot['price'],
-                                            'Email': widget
-                                                .documentSnapshot['StoreEmail'],
-                                            'Type':
-                                                widget.documentSnapshot['type'],
-                                            'productid':
-                                                widget.documentSnapshot.id,
-                                            'userid': FirebaseAuth
-                                                .instance.currentUser!.uid,
-                                            'image': widget
-                                                .documentSnapshot['image'],
-                                          });
-                                          setState(() {
-                                            widget.isFavorite =
-                                                !widget.isFavorite;
-                                          });
+                                              .collection("users")
+                                              .doc(FirebaseAuth
+                                                  .instance.currentUser!.uid)
+                                              .collection("favorite")
+                                              .doc(widget.documentSnapshot.id)
+                                              .get();
+                                          if (favorite.exists) {
+                                            FirebaseFirestore.instance
+                                                .collection("users")
+                                                .doc(FirebaseAuth
+                                                    .instance.currentUser!.uid)
+                                                .collection("favorite")
+                                                .doc(widget.documentSnapshot.id)
+                                                .delete();
+                                          } else {
+                                            await FirebaseFirestore.instance
+                                                .collection('users')
+                                                .doc(FirebaseAuth
+                                                    .instance.currentUser!.uid)
+                                                .collection('favorite')
+                                                .doc(widget.documentSnapshot.id)
+                                                .set({
+                                              'name': widget
+                                                  .documentSnapshot['name'],
+                                              'description':
+                                                  widget.documentSnapshot[
+                                                      'description'],
+                                              'color': widget
+                                                  .documentSnapshot['color'],
+                                              'price': widget
+                                                  .documentSnapshot['price'],
+                                              'Email': widget.documentSnapshot[
+                                                  'StoreEmail'],
+                                              'Type': widget
+                                                  .documentSnapshot['type'],
+                                              'productid':
+                                                  widget.documentSnapshot.id,
+                                              'userid': FirebaseAuth
+                                                  .instance.currentUser!.uid,
+                                              'image': widget
+                                                  .documentSnapshot['image'],
+                                            });
+                                            setState(() {
+                                              widget.isFavorite =
+                                                  !widget.isFavorite;
+                                            });
+                                          }
                                         },
                                       ),
                                       // child: FavoriteButton(

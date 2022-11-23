@@ -31,7 +31,7 @@ class _SignUpState extends State<SignUp> {
   var imgeURL = "";
   Future getImage(ImageSource media) async {
     var img = await picker.pickImage(source: media);
-
+    if (img == null) return;
     setState(() {
       image = img;
       imageFile = File(image!.path);

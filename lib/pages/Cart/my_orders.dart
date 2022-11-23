@@ -45,13 +45,68 @@ class _MyOrdersState extends State<MyOrders> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text(documentSnapshot['name']),
+                              title: Text(
+                                documentSnapshot['name'],
+                                style: TextStyle(
+                                  color: AppColors.blueGrey4,
+                                ),
+                              ),
                               content: SingleChildScrollView(
                                   child: Column(
                                 children: [
-                                  Text(recipintInfo['recipientName']),
-                                  Text(recipintInfo['city']),
-                                  Text(recipintInfo['country']),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Recipient Nama:',
+                                        style: TextStyle(
+                                          color: AppColors.blueGrey3,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        recipintInfo['recipientName'],
+                                        style: TextStyle(
+                                          color: AppColors.blueGrey3,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Divider(thickness: 2),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Country:',
+                                        style: TextStyle(
+                                          color: AppColors.blueGrey3,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        recipintInfo['country'],
+                                        style: TextStyle(
+                                          color: AppColors.blueGrey3,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Divider(thickness: 2),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'City:',
+                                        style: TextStyle(
+                                          color: AppColors.blueGrey3,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        recipintInfo['city'],
+                                        style: TextStyle(
+                                          color: AppColors.blueGrey3,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               )),
                             );

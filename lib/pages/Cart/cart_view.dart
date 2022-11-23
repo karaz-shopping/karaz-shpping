@@ -38,7 +38,7 @@ class _Cart_ViewState extends State<Cart_View> {
       FirebaseFirestore.instance.collection('basket');
   @override
   Widget build(BuildContext context) {
-    int sum = 0;
+    double sum = 0;
     return Scaffold(
       appBar: CustomAppBar(
         title: "Basket",
@@ -72,7 +72,7 @@ class _Cart_ViewState extends State<Cart_View> {
           for (int i = 0; i < items.length; i++) {
             isVis = true;
             if (count >= 1) {}
-            sum = sum + int.parse(items[i]['price']);
+            sum = sum + double.parse(items[i]['price']);
             //number = number + int.parse(items[i]['price']);
 
           }

@@ -1,12 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:karaz_shopping_organization/Themes/app_colors.dart';
 
 class ChatSendMessage extends StatefulWidget {
   String id;
 
-  ChatSendMessage({required this.id});
+  ChatSendMessage({super.key, required this.id});
 
   @override
   State<ChatSendMessage> createState() => _ChatSendMessageState();
@@ -14,6 +19,83 @@ class ChatSendMessage extends StatefulWidget {
 
 class _ChatSendMessageState extends State<ChatSendMessage> {
   TextEditingController message = TextEditingController();
+  XFile? image;
+  File? imageFile;
+  final ImagePicker picker = ImagePicker();
+  var imgeURL = "";
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+    if (img == null) return;
+    setState(() {
+      image = img;
+      imageFile = File(image!.path);
+    });
+    uploadPhoto(context);
+  }
+
+  uploadPhoto(context) async {
+    var data = {};
+    File file = File(image!.path);
+    String base64 = base64Encode(file.readAsBytesSync());
+    String imageName = image!.path.split("/").last;
+    data["imagename"] = imageName;
+    data["image64"] = base64;
+    var response = await post(
+        Uri.parse("http://aqarakdns.com/karaz/uploadphoto.php"),
+        body: data);
+    if (response.statusCode == 200) {
+      var result = jsonDecode(response.body);
+      setState(() {
+        imgeURL = result["path"];
+      });
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("contact")
+          .doc(widget.id)
+          .collection("messages")
+          .add({
+        "senderID": FirebaseAuth.instance.currentUser!.uid,
+        "message": result["path"],
+        "kind": "2",
+        "time": DateTime.now().millisecondsSinceEpoch,
+      });
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.id)
+          .collection("contact")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("messages")
+          .add({
+        "senderID": FirebaseAuth.instance.currentUser!.uid,
+        "message": result["path"],
+        "kind": "2",
+        "time": DateTime.now().millisecondsSinceEpoch,
+      });
+
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("contact")
+          .doc(widget.id)
+          .set({
+        "lastMessage": 'photo',
+        "read": '1',
+        "time": DateTime.now().millisecondsSinceEpoch,
+      }, SetOptions(merge: true));
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.id)
+          .collection("contact")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        "lastMessage": 'photo',
+        "read": '1',
+        "time": DateTime.now().millisecondsSinceEpoch,
+      }, SetOptions(merge: true));
+    }
+  }
+
   sendMessage() async {
     //add the message to seller
     FirebaseFirestore.instance
@@ -158,8 +240,13 @@ class _ChatSendMessageState extends State<ChatSendMessage> {
           child: IconButton(
             padding: EdgeInsets.zero,
             alignment: Alignment.center,
-            onPressed: () {},
-            icon: const Icon(Icons.image_rounded),
+            onPressed: () {
+              getImage(ImageSource.gallery);
+            },
+            icon: Icon(
+              Icons.image_rounded,
+              color: AppColors.blueGrey4,
+            ),
           ),
         ),
         InkWell(

@@ -23,7 +23,6 @@ class _PartProductCardState extends State<PartProductCard> {
   //update function start -----------------------------------------------------------------------------------------------------------
   final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
-  bool isFavorite = false;
 
   Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
     TextEditingController nameController =
@@ -300,7 +299,7 @@ class _PartProductCardState extends State<PartProductCard> {
                                         icon: Icon(
                                           Icons.favorite,
                                           size: 30,
-                                          color: isFavorite
+                                          color: widget.isFavorite
                                               ? Colors.red
                                               : Colors.grey,
                                         ),
@@ -350,7 +349,8 @@ class _PartProductCardState extends State<PartProductCard> {
                                                   .documentSnapshot['image'],
                                             });
                                             setState(() {
-                                              isFavorite = !isFavorite;
+                                              widget.isFavorite =
+                                                  !widget.isFavorite;
                                             });
                                           }
                                         },

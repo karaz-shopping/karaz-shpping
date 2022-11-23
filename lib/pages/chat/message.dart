@@ -24,6 +24,7 @@ class _MessageState extends State<Message> {
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
+        
     setState(() {
       myImage = bayerInfo['image'];
     });

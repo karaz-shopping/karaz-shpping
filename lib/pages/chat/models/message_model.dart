@@ -19,87 +19,182 @@ class MessageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Column(
-        children: [
-          const SizedBox(height: 10),
-          messageId == FirebaseAuth.instance.currentUser!.uid
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  // mainAxisAlignment:
-                  //     messageId == FirebaseAuth.instance.currentUser!.uid
-                  //         ? MainAxisAlignment.end
-                  //         : MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      // width: MediaQuery.of(context).size.width / 1.5,
-                      // height: 40,
-                      child: Material(
-                        type: MaterialType.button,
-                        color: AppColors.blueGrey1,
-                        elevation: 5,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          bottomRight: Radius.circular(15),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Text(
-                            message,
-                            textAlign: TextAlign.justify,
-                            //style: TextStyle(color: textColor),
+    if (kind == '1') {
+      return SizedBox(
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            messageId == FirebaseAuth.instance.currentUser!.uid
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    // mainAxisAlignment:
+                    //     messageId == FirebaseAuth.instance.currentUser!.uid
+                    //         ? MainAxisAlignment.end
+                    //         : MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        // width: MediaQuery.of(context).size.width / 1.5,
+                        // height: 40,
+                        child: Material(
+                          type: MaterialType.button,
+                          color: AppColors.blueGrey1,
+                          elevation: 5,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(15),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              message,
+                              textAlign: TextAlign.justify,
+                              //style: TextStyle(color: textColor),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundImage: NetworkImage(imgSender),
-                      ),
-                    ),
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  // mainAxisAlignment:
-                  //     messageId == FirebaseAuth.instance.currentUser!.uid
-                  //         ? MainAxisAlignment.end
-                  //         : MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundImage: NetworkImage(imgResever),
-                      ),
-                    ),
-                    SizedBox(
-                      // width: MediaQuery.of(context).size.width / 1.5,
-                      // height: 40,
-                      child: Material(
-                        type: MaterialType.button,
-                        color: AppColors.somo4,
-                        elevation: 5,
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(15),
-                          bottomLeft: Radius.circular(15),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage: NetworkImage(imgSender),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Text(
-                            message,
-                            textAlign: TextAlign.justify,
-                            //style: TextStyle(color: textColor),
+                      ),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    // mainAxisAlignment:
+                    //     messageId == FirebaseAuth.instance.currentUser!.uid
+                    //         ? MainAxisAlignment.end
+                    //         : MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage: NetworkImage(imgResever),
+                        ),
+                      ),
+                      SizedBox(
+                        // width: MediaQuery.of(context).size.width / 1.5,
+                        // height: 40,
+                        child: Material(
+                          type: MaterialType.button,
+                          color: AppColors.somo4,
+                          elevation: 5,
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(15),
+                            bottomLeft: Radius.circular(15),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              message,
+                              textAlign: TextAlign.justify,
+                              //style: TextStyle(color: textColor),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                )
-        ],
-      ),
-    );
+                    ],
+                  )
+          ],
+        ),
+      );
+    } else {
+      return SizedBox(
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            messageId == FirebaseAuth.instance.currentUser!.uid
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    // mainAxisAlignment:
+                    //     messageId == FirebaseAuth.instance.currentUser!.uid
+                    //         ? MainAxisAlignment.end
+                    //         : MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        // width: MediaQuery.of(context).size.width / 1.5,
+                        // height: 40,
+                        child: Material(
+                          type: MaterialType.button,
+                          color: AppColors.blueGrey1,
+                          elevation: 5,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(15),
+                          ),
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              image: DecorationImage(
+                                image: NetworkImage(message),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage: NetworkImage(imgSender),
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    // mainAxisAlignment:
+                    //     messageId == FirebaseAuth.instance.currentUser!.uid
+                    //         ? MainAxisAlignment.end
+                    //         : MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage: NetworkImage(imgResever),
+                        ),
+                      ),
+                      SizedBox(
+                        // width: MediaQuery.of(context).size.width / 1.5,
+                        // height: 40,
+                        child: Material(
+                          type: MaterialType.button,
+                          color: AppColors.somo4,
+                          elevation: 5,
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(15),
+                            bottomLeft: Radius.circular(15),
+                          ),
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              image: DecorationImage(
+                                image: NetworkImage(message),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+          ],
+        ),
+      );
+    }
   }
 }
