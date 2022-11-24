@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:karaz_shopping_organization/pages/chat/message.dart';
@@ -51,15 +51,17 @@ class _UserCardState extends State<UserCard> {
           ),
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
-            children:  [
+            children: [
               const Expanded(
                   child: Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 20,
               )),
               Text(
-                DateFormat('hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(widget.time)).toString(),
-                style: TextStyle(color: Colors.grey),
+                DateFormat('hh:mm a')
+                    .format(DateTime.fromMillisecondsSinceEpoch(widget.time))
+                    .toString(),
+                style: const TextStyle(color: Colors.grey),
               ),
             ],
           ),

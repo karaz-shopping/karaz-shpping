@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_declarations
+
 import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +13,7 @@ class CustomCreditCard extends StatefulWidget {
   const CustomCreditCard({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _CustomCreditCardState createState() => _CustomCreditCardState();
 }
 
@@ -113,6 +116,7 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
                       if (newDateValue.length >= 2 &&
                           !containsSlash &&
                           !isPressingBackspace) {
+                        // ignore: prefer_interpolation_to_compose_strings
                         newDateValue = newDateValue.substring(0, 2) +
                             '/' +
                             newDateValue.substring(2);
@@ -181,6 +185,7 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
                     await orders.add(basket.docs[i].data());
                     await basketColl.doc(basket.docs[i].id).delete();
                   }
+                  // ignore: use_build_context_synchronously
                   Navigator.pushNamedAndRemoveUntil(
                       context, HomePage.id, (route) => false);
                 },

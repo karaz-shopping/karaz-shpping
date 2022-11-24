@@ -1,6 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers, file_names
-
-import 'dart:ui';
+// ignore_for_file: avoid_unnecessary_containers, file_names, unused_local_variable
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

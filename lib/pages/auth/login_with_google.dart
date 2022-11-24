@@ -38,7 +38,7 @@ class _GoogleLoginState extends State<GoogleLogin> {
       child:  CircleAvatar(
         radius: 20,
         backgroundColor: AppColors.somo,
-        backgroundImage: AssetImage('assets/images/Google-Logo.png',),
+        backgroundImage:const AssetImage('assets/images/Google-Logo.png',),
       ),
       onTap: () async {
         try {

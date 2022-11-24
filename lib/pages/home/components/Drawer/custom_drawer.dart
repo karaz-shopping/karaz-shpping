@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element, annotate_overrides, override_on_non_overriding_member
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +24,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   final CollectionReference users =
       FirebaseFirestore.instance.collection('users');
   Widget build(BuildContext context) {
-    showMessage(msg) {
-      ;
-    }
+    
 
     return StreamBuilder(
       stream: users.snapshots(),
@@ -168,6 +168,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       FirebaseAuth.instance.signOut();
                       var sp = await SharedPreferences.getInstance();
                       sp.remove('login');
+                      // ignore: use_build_context_synchronously
                       Navigator.pushNamedAndRemoveUntil(
                           context, LogIn.id, (route) => false);
                     },

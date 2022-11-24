@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, non_constant_identifier_names, must_be_immutable
+// ignore_for_file: file_names, non_constant_identifier_names, must_be_immutable, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -282,7 +282,7 @@ class _ProductsDetailsState extends State<ProductsDetails> {
                           const SizedBox(width: 17),
                           const Icon(Icons.attach_money_rounded),
                           const SizedBox(width: 15),
-                          Text(widget.price + ' JD'),
+                          Text('${widget.price} JD'),
                         ],
                       ),
                       const SizedBox(height: 10),

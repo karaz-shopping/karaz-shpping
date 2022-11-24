@@ -26,7 +26,6 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
     setState(() {
       favList = favList;
     });
-    print(favList);
   }
 
   @override
@@ -41,32 +40,33 @@ class _CustomAdsCardState extends State<CustomAdsCard> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: products.snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-          List<ProductCard> productCard = [];
-          if (streamSnapshot.hasData) {
-            for (var i in streamSnapshot.data!.docs) {
-              if (favList.contains(i.id)) {
-                productCard
-                    .add(ProductCard(documentSnapshot: i, isFavorite: true));
-              } else {
-                productCard
-                    .add(ProductCard(documentSnapshot: i, isFavorite: false));
-              }
+      stream: products.snapshots(),
+      builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+        List<ProductCard> productCard = [];
+        if (streamSnapshot.hasData) {
+          for (var i in streamSnapshot.data!.docs) {
+            if (favList.contains(i.id)) {
+              productCard
+                  .add(ProductCard(documentSnapshot: i, isFavorite: true));
+            } else {
+              productCard
+                  .add(ProductCard(documentSnapshot: i, isFavorite: false));
             }
-            return GridView(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.85,
-              ),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: productCard,
-            );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
+          return GridView(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.85,
+            ),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: productCard,
           );
-        });
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 }

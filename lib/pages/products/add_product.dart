@@ -57,6 +57,7 @@ class _AddProductState extends State<AddProduct> {
         "price": priceController.text,
         "StoreID": FirebaseAuth.instance.currentUser!.uid,
         "StoreEmail": FirebaseAuth.instance.currentUser!.email,
+        "time": DateTime.now().millisecondsSinceEpoch,
       });
       nameController.clear();
       descriptionController.clear();

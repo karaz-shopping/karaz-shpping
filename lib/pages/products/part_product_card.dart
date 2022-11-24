@@ -8,7 +8,7 @@ import 'package:karaz_shopping_organization/pages/products/components/Products_d
 import 'package:share_plus/share_plus.dart';
 
 class PartProductCard extends StatefulWidget {
-  PartProductCard({
+  PartProductCard({super.key, 
     required this.documentSnapshot,
     required this.isFavorite,
   });
@@ -32,9 +32,11 @@ class _PartProductCardState extends State<PartProductCard> {
     TextEditingController priceController =
         TextEditingController(text: widget.documentSnapshot['price']);
     if (documentSnapshot != null) {
-      nameController.text = widget.documentSnapshot['name'];
-      descriptionController.text = widget.documentSnapshot['description'];
-      priceController.text = widget.documentSnapshot['price'];
+      setState(() {
+        nameController.text = widget.documentSnapshot['name'];
+        descriptionController.text = widget.documentSnapshot['description'];
+        priceController.text = widget.documentSnapshot['price'];
+      });
     }
 
     await showModalBottomSheet(
@@ -109,7 +111,7 @@ class _PartProductCardState extends State<PartProductCard> {
                         final String decoration = descriptionController.text;
                         final String price = priceController.text;
 
-                        await products.doc(documentSnapshot!.id).update({
+                        await products.doc(widget.documentSnapshot.id).update({
                           "name": name,
                           "description": decoration,
                           "price": price,

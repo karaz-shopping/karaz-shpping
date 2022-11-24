@@ -27,7 +27,6 @@ class _PartOfTheProductState extends State<PartOfTheProduct> {
     setState(() {
       favList = favList;
     });
-    print(favList);
   }
 
   @override

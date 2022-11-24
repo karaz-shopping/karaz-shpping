@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, unused_local_variable
+// ignore_for_file: use_build_context_synchronously, unused_local_variable, non_constant_identifier_names
 
 import 'dart:convert';
 import 'dart:io';

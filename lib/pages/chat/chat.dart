@@ -36,7 +36,7 @@ class _ChatPageState extends State<ChatPage> {
                   .collection("users")
                   .doc(FirebaseAuth.instance.currentUser!.uid)
                   .collection("contact")
-                  .orderBy("time", descending: true) //* sohib
+                  .orderBy("time", descending: true) 
                   .snapshots(),
               builder: (context, snapshot) {
                 List<UserCard> user = [];
