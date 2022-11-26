@@ -3,7 +3,7 @@ Mobile application development
 
 
 * Our team :
-1- Suhib Al-Bakri
+* 1- Suhib Al-Bakri
 Graduate from Al Albayt university in Computer Information Systems Interesting in mobile application development
 LinkedIn : Sohib Al-Bakri
 
